@@ -7,7 +7,7 @@ import useDeviceSize from "../../useDeviceSive.tsx";
 const Wrapper = styled.div<{ isSmall: boolean }>`
   background-color: white;
   width: ${(props) => (props.isSmall ? "100%" : "50%")};
-  height: 100%;
+  height: 100vh;
   margin: auto;
   position: relative;
 `;
