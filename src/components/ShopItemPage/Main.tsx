@@ -55,7 +55,7 @@ const User = styled.div`
   display: flex;
   justify-content: start;
   align-items: center;
-  width: 70%;
+  width: 50%;
   gap: 3%;
 `;
 const Profile = styled.img`
@@ -78,11 +78,25 @@ const JoinButton = styled.button`
   background-color: #5849d0;
   color: white;
   font-size: 16px;
+  line-height: 1;
+  gap: 2px;
 `;
 const GongguP = styled.div`
   font-size: 14px;
   font-weight: 700;
   color: #5849d0;
+`;
+const Participants = styled.div`
+  display: flex;
+  gap: 2px;
+`;
+const Participant = styled.img`
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: 50px;
+  background-color: #c7d2fe;
+  object-fit: cover;
 `;
 
 type Product = {
@@ -136,11 +150,13 @@ const gonggus: Gonggu[] = [
     participants: [
       {
         userId: 1,
-        profileUrl: "http:// ..",
+        profileUrl:
+          "https://shop-phinf.pstatic.net/20220610_16/1654835622697SY1vP_JPEG/55971402389646143_1225557300.jpg?type=m510",
       },
       {
         userId: 2,
-        profileUrl: "http:// ..",
+        profileUrl:
+          "https://shop-phinf.pstatic.net/20220610_16/1654835622697SY1vP_JPEG/55971402389646143_1225557300.jpg?type=m510",
       },
     ],
     deadline: "2025-06-01",
@@ -154,11 +170,13 @@ const gonggus: Gonggu[] = [
     participants: [
       {
         userId: 1,
-        profileUrl: "http:// ..",
+        profileUrl:
+          "https://shop-phinf.pstatic.net/20220610_16/1654835622697SY1vP_JPEG/55971402389646143_1225557300.jpg?type=m510",
       },
       {
         userId: 2,
-        profileUrl: "http:// ..",
+        profileUrl:
+          "https://shop-phinf.pstatic.net/20220610_16/1654835622697SY1vP_JPEG/55971402389646143_1225557300.jpg?type=m510",
       },
     ],
     deadline: "2025-06-01",
@@ -172,11 +190,13 @@ const gonggus: Gonggu[] = [
     participants: [
       {
         userId: 1,
-        profileUrl: "http:// ..",
+        profileUrl:
+          "https://shop-phinf.pstatic.net/20220610_16/1654835622697SY1vP_JPEG/55971402389646143_1225557300.jpg?type=m510",
       },
       {
         userId: 2,
-        profileUrl: "http:// ..",
+        profileUrl:
+          "https://shop-phinf.pstatic.net/20220610_16/1654835622697SY1vP_JPEG/55971402389646143_1225557300.jpg?type=m510",
       },
     ],
     deadline: "2025-06-01",
@@ -199,6 +219,16 @@ const Main = () => {
               <Profile src={gonggu.user.profileUrl}></Profile>
               <UserName>{gonggu.user.nickname}</UserName>
             </User>
+            <Participants>
+              <Participant
+                src={gonggu.participants[0].profileUrl}
+              ></Participant>
+              <Participant
+                src={gonggu.participants[1].profileUrl}
+              ></Participant>
+              <Participant></Participant>
+              <Participant></Participant>
+            </Participants>
             <JoinButton>
               <p>참여</p>
               <p style={{ fontSize: "10px", color: "pink" }}>
