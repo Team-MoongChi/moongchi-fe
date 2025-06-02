@@ -1,5 +1,6 @@
 import useDeviceSize from "../../useDeviceSize";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 import GongguSearchBar from "../../components/gongguPages/gongguMainPage/GongguSearchBar";
 import GongguMenu from "../../components/gongguPages/gongguMainPage/GongguMenu";
@@ -107,6 +108,13 @@ const dummyProducts: ProductList = [
 ];
 
 export default function GongguMainPage() {
+  const navigate = useNavigate();
+  const writeGonggu = () => {
+    navigate('/gonggu/write', { state: { message: "user" } });
+  };
+  const writeGonggu2 = () => {
+    navigate('/gonggu/write', { state: { message: "shop" } });
+  };
   const { small, large } = useDeviceSize();
 
   return (
@@ -121,9 +129,10 @@ export default function GongguMainPage() {
         })}
       </GongguList>
 
-      <WriteIcon />
+      <WriteIcon onClick={writeGonggu} />
       <NavBar>
-        <div>홈</div>
+        {/* 나중에 onclick 삭제하기 */}
+        <div onClick={writeGonggu2}>홈</div>
         <div>채팅</div>
         <div>쇼핑</div>
         <div>마이페이지</div>
