@@ -1,7 +1,13 @@
 import useDeviceSize from "../../useDeviceSize";
 import styled from "styled-components";
 
-import GongguListItem from "../../components/gongguPage/common/GongguListItem";
+import GongguSearchBar from "../../components/gongguPages/gongguMainPage/GongguSearchBar";
+import GongguMenu from "../../components/gongguPages/gongguMainPage/GongguMenu";
+import GongguRecommend from "../../components/gongguPages/gongguMainPage/GongguRecommend";
+import GongguListItem from "../../components/gongguPages/common/GongguListItem";
+import writeIcon from "../../assets/images/common/공구생성아이콘.png";
+
+import type { ProductList } from "../../components/gongguPages/common/GongguListItem";
 
 const Wrap = styled.div<{ isSmall: boolean }>`
   background-color: white;
@@ -12,69 +18,6 @@ const Wrap = styled.div<{ isSmall: boolean }>`
   display: flex;
   flex-direction: column;
   gap: 15px;
-`;
-
-// 헤더 - 검색바
-const Header = styled.div`
-  display: flex;
-  position: sticky;
-  top: 0;
-  flex-direction: column;
-  background-color: #5849d0;
-  border-radius: 0 0 15px 15px;
-  padding: 15px 15px 20px 15px;
-  gap: 10px;
-`;
-const HeaderTop = styled.div`
-  display: flex;
-  justify-content: space-between;
-  color: white;
-`;
-const HeaderSearch = styled.input`
-  border-radius: 25px;
-  border: none;
-  padding: 15px;
-  &:focus {
-    outline: none;
-  }
-`;
-
-// 메뉴
-const Menu = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding: 0 5%;
-`;
-const MenuItem = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 16%;
-  font-size: 12px;
-`;
-const MenuButton = styled.div`
-  background-color: #5849d0;
-  border-radius: 6px;
-  width: 100%;
-  aspect-ratio: 1/1;
-`;
-
-// 뭉치 추천 공구
-const Recommend = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 0 5%;
-  gap: 10px;
-`;
-const RecTitle = styled.div`
-  font-size: 20px;
-  font-weight: bold;
-`;
-const RecList = styled.div`
-  width: 100%;
-  height: 180px;
-  background-color: #e8edff;
-  border-radius: 6px;
 `;
 
 // 공구 리스트
@@ -100,55 +43,85 @@ const NavBar = styled.div`
   padding: 30px;
 `;
 
+// 글쓰기아이콘
+const WriteIcon = styled.img.attrs({
+  src: writeIcon,
+  alt: "글쓰기 아이콘",
+})`
+  position: fixed;
+  bottom: 6em;
+  right: 1em;
+  width: 80px;
+  height: 80px;
+  cursor: pointer;
+`
+
+// dummyData
+const dummyProducts: ProductList = [
+  {
+    imgUrl: "https://via.placeholder.com/150",
+    title: "제주 감귤",
+    totalPrice: 30000,
+    totalUsers: 6,
+    userCount: 3,
+    address: "서울시 강남구",
+    createAt: "2025-05-27T12:00:00",
+    productState: "모집중",
+    participants: [
+      { userId: 1, profilUrl: "https://via.placeholder.com/32" },
+      { userId: 2, profilUrl: "https://via.placeholder.com/32" },
+      { userId: 3, profilUrl: "https://via.placeholder.com/32" },
+    ],
+  },
+  {
+    imgUrl: "https://via.placeholder.com/150",
+    title: "강원도 찰옥수수",
+    totalPrice: 20000,
+    totalUsers: 4,
+    userCount: 2,
+    address: "서울시 마포구",
+    createAt: "2025-05-28T09:30:00",
+    productState: "마감임박",
+    participants: [
+      { userId: 4, profilUrl: "https://via.placeholder.com/32" },
+      { userId: 5, profilUrl: "https://via.placeholder.com/32" },
+    ],
+  },
+  {
+    imgUrl: "https://via.placeholder.com/150",
+    title: "청도 복숭아",
+    totalPrice: 25000,
+    totalUsers: 5,
+    userCount: 5,
+    address: "서울시 성동구",
+    createAt: "2025-05-29T15:00:00",
+    productState: "모집마감",
+    participants: [
+      { userId: 6, profilUrl: "https://via.placeholder.com/32" },
+      { userId: 7, profilUrl: "https://via.placeholder.com/32" },
+      { userId: 8, profilUrl: "https://via.placeholder.com/32" },
+      { userId: 9, profilUrl: "https://via.placeholder.com/32" },
+      { userId: 10, profilUrl: "https://via.placeholder.com/32" },
+    ],
+  },
+];
+
 export default function GongguMainPage() {
   const { small, large } = useDeviceSize();
 
   return (
     <Wrap isSmall={small}>
-      <Header>
-        <HeaderTop>
-          <div>☆ 사랑시 행복동</div>
-          <div>♤</div>
-        </HeaderTop>
-        <HeaderSearch></HeaderSearch>
-      </Header>
-
-      <Menu>
-        <MenuItem>
-          <MenuButton></MenuButton>
-          <div>전체</div>
-        </MenuItem>
-        <MenuItem>
-          <MenuButton></MenuButton>
-          <div>신선식품</div>
-        </MenuItem>
-        <MenuItem>
-          <MenuButton></MenuButton>
-          <div>가공식품</div>
-        </MenuItem>
-        <MenuItem>
-          <MenuButton></MenuButton>
-          <div>생활용품</div>
-        </MenuItem>
-        <MenuItem>
-          <MenuButton></MenuButton>
-          <div>주방용품</div>
-        </MenuItem>
-      </Menu>
-
-      <Recommend>
-        <RecTitle>뭉치's PICK</RecTitle>
-        <RecList></RecList>
-      </Recommend>
-
+      <GongguSearchBar />
+      <GongguMenu />
+      <GongguRecommend />
       <GongguList>
         <GongguTitle>근처에서 열린 공구</GongguTitle>
-        <GongguListItem></GongguListItem>
-        <GongguListItem></GongguListItem>
-        <GongguListItem></GongguListItem>
-        <GongguListItem></GongguListItem>
+        {dummyProducts.map((dummyProduct) => {
+          return (<GongguListItem {...dummyProduct}></GongguListItem>)
+        })}
       </GongguList>
 
+      <WriteIcon />
       <NavBar>
         <div>홈</div>
         <div>채팅</div>
