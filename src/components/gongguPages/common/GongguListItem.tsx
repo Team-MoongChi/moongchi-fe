@@ -1,9 +1,10 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
-import { useState } from "react";
 import red from "../../../assets/images/gonggu/마감임박.png";
 import blue from "../../../assets/images/gonggu/모집중.png";
 import gray from "../../../assets/images/gonggu/모집마감.png";
+import green from "../../../assets/images/gonggu/공구완료.png"
 
 const Wrap = styled.div`
   display: flex;
@@ -42,7 +43,7 @@ const Details = styled.div`
 `;
 
 // 타입 정의
-type ProductState = "모집중" | "마감임박" | "모집마감";
+type ProductState = "OPEN" | "CLOSING_SOON" | "CLOSED" | "COMPLETED";
 interface Participant {
   userId: number;
   profilUrl: string;
@@ -61,28 +62,31 @@ interface ProductItem {
 export type ProductList = ProductItem[];
 
 export default function GongguListItem(props: ProductItem) {
-  const [gongguState, setGongguState] = useState<number>(1);
-
   return (
-    <Wrap>
-      <Img>사진</Img>
-      <Content>
-              <Tag src={props.productState == "마감임박" ? red :
-              (props.productState == "모집중" ? blue: gray)}></Tag>
-              <div>{props.title}</div>
-              <div>{props.totalPrice}원</div>
-              {/* {product.participants.map((participants) => {
+    // 링크 수정 필요
+    <Link to="gonggu/list">
+      <Wrap>
+        <Img><img src={props.imgUrl} /></Img>
+        <Content>
+          <Tag src={props.productState == "CLOSING_SOON" ? red :
+            (props.productState == "OPEN" ? blue:
+            (props.productState == "CLOSED" ? gray: green)
+            )}></Tag>
+          <div>{props.title}</div>
+          <div>{props.totalPrice}원</div>
+          {/* {product.participants.map((participants) => {
 
-              })} */}
-              <People>
-                <div>사람사람사람</div>
-                <div>☆ 3/4</div>
-              </People>
-              <Details>
-                <div>{props.address}</div>
-                <div>1초 전</div>
-              </Details>
-      </Content>
-    </Wrap>
+          })} */}
+          <People>
+            <div>사람사람사람</div>
+            <div>☆ 3/4</div>
+          </People>
+          <Details>
+            <div>{props.address}</div>
+            <div>1초 전</div>
+          </Details>
+        </Content>
+      </Wrap>
+    </Link>
   );
 }
