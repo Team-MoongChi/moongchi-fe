@@ -1,5 +1,7 @@
 import styled from "styled-components";
 
+import { Link } from "react-router-dom";
+
 const Wrap = styled.div`
     display: flex;
     gap: 10px;
@@ -43,20 +45,26 @@ const Message = styled.div`
     color: gray;
 `
 
+const StyledLink = styled(Link)`
+    text-decoration: none;
+`
+
 export default function ChatListItem() {
     return (
-        <Wrap>
-            <Img />
-            <Content>
-                <ContentHeader>
-                    <TCWrap>
-                        <Title>방울토마토 공구방</Title>
-                        <PeopleCnt>4</PeopleCnt>
-                    </TCWrap> 
-                    <Time>오후 05:30</Time>
-                </ContentHeader>
-                <Message>하하웃자님이 입장하셨습니다.</Message>
-            </Content>
-        </Wrap>
+        <StyledLink to="/chat/pay">
+            <Wrap>
+                <Img />
+                <Content>
+                    <ContentHeader>
+                        <TCWrap>
+                            <Title>방울토마토 공구방</Title>
+                            <PeopleCnt>4</PeopleCnt>
+                        </TCWrap> 
+                        <Time>오후 05:30</Time>
+                    </ContentHeader>
+                    <Message>하하웃자님이 입장하셨습니다.</Message>
+                </Content>
+            </Wrap>
+        </StyledLink>
     );
 }
