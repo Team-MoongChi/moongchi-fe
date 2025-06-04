@@ -1,10 +1,11 @@
 import styled from "styled-components";
 
-// 헤더 - 검색바
+import placeMarker from "../../../assets/images/common/위치아이콘.png";
+
 const Header = styled.div`
-  display: flex;
   position: sticky;
   top: 0;
+  display: flex;
   flex-direction: column;
   background-color: #5849d0;
   border-radius: 0 0 15px 15px;
@@ -16,6 +17,22 @@ const HeaderTop = styled.div`
   justify-content: space-between;
   color: white;
 `;
+const PlaceWrap = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 5px;
+`;
+const Img = styled.img.attrs<{ src: string }>((props) => ({
+  src: props.src,
+}))`
+  width: clamp(15px, 2vw, 20px);
+  height: clamp(15px, 2vw, 20px);
+  object-fit: cover;
+`;
+const Place = styled.div`
+  font-size: clamp(15px, 2vw, 20px);
+  font-weight: bold;
+`;
 const HeaderSearch = styled.input`
   border-radius: 25px;
   border: none;
@@ -26,13 +43,16 @@ const HeaderSearch = styled.input`
 `;
 
 export default function GongguSearchBar() {
-    return (
-      <Header>
-        <HeaderTop>
-          <div>☆ 사랑시 행복동</div>
-          <div>♤</div>
-        </HeaderTop>
-        <HeaderSearch></HeaderSearch>
-      </Header>
-    );
+  return (
+    <Header>
+      <HeaderTop>
+        <PlaceWrap>
+          <Img src={placeMarker}></Img>
+          <Place>사랑시 행복동</Place>
+        </PlaceWrap>
+        <div>♤</div>
+      </HeaderTop>
+      <HeaderSearch></HeaderSearch>
+    </Header>
+  );
 }
