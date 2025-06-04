@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import banner1 from "../../assets/images/common/banner1.png";
-import bannerButtonLeft from "../../assets/images/common/배너버튼_왼.png";
-import bannerButtonRight from "../../assets/images/common/배너버튼_오.png";
+import banner1 from "../../../assets/images/common/banner1.png";
+import bannerButtonLeft from "../../../assets/images/common/배너버튼_왼.png";
+import bannerButtonRight from "../../../assets/images/common/배너버튼_오.png";
 
 const images = [banner1, banner1, banner1];
 

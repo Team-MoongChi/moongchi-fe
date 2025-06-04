@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import home from "../../assets/images/nav/홈아이콘.png";
-import chatting from "../../assets/images/nav/채팅아이콘.png";
-import shopping from "../../assets/images/nav/쇼핑아이콘_클릭.png";
-import mypage from "../../assets/images/nav/마이페이지아이콘.png";
+import home from "../../../assets/images/nav/홈아이콘.png";
+import chatting from "../../../assets/images/nav/채팅아이콘.png";
+import shopping from "../../../assets/images/nav/쇼핑아이콘_클릭.png";
+import mypage from "../../../assets/images/nav/마이페이지아이콘.png";
 
 const Wrapper = styled.div`
   display: flex;

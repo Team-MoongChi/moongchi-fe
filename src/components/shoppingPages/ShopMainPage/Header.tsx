@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import searchIcon from "../../assets/images/common/검색아이콘.png";
-import AiOn from "../../assets/images/moongchies/AI뭉치_ON.png";
-import AiOff from "../../assets/images/moongchies/AI뭉치_OFF.png";
+import searchIcon from "../../../assets/images/common/검색아이콘.png";
+import AiOn from "../../../assets/images/moongchies/AI뭉치_ON.png";
+import AiOff from "../../../assets/images/moongchies/AI뭉치_OFF.png";
 
 const Wrapper = styled.div`
   display: flex;
