@@ -153,13 +153,7 @@ export default function GongguMainPage() {
       <NavBar isSmall={small}>
         {/* 나중에 onclick 삭제하기 */}
         <div onClick={writeGonggu2}>홈</div>
-        <div
-          onClick={() => {
-            navigate("/chat/list");
-          }}
-        >
-          채팅
-        </div>
+        <div onClick={() => {navigate('/chat/list')}}>채팅</div>
         <div>쇼핑</div>
         <div>마이페이지</div>
       </NavBar>
