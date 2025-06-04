@@ -3,17 +3,17 @@ import home from "../../../assets/images/nav/홈아이콘.png";
 import chatting from "../../../assets/images/nav/채팅아이콘.png";
 import shopping from "../../../assets/images/nav/쇼핑아이콘_클릭.png";
 import mypage from "../../../assets/images/nav/마이페이지아이콘.png";
+import useDeviceSize from "../../../useDeviceSize";
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ $isSmall: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: #eff3ff;
-  position: sticky;
-  width: 100%;
-  height: 11%;
-  padding: 4%;
-  padding-bottom: 6%;
+  position: fixed;
+  width: ${(props) => (props.$isSmall ? "100%" : "50%")};
+  height: 90px;
+  padding: 10px 7px 15px 7px;
   gap: 15%;
   bottom: 0;
 `;
@@ -32,8 +32,10 @@ const Img = styled.img`
 `;
 
 const Nav = () => {
+  const { small } = useDeviceSize();
+
   return (
-    <Wrapper>
+    <Wrapper $isSmall={small}>
       <Button>
         <Img src={home} alt="" />홈
       </Button>

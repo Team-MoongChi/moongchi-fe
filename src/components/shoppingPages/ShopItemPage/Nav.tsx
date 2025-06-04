@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import heartOn from "../../../assets/images/common/누른하트.png";
 
 const Wrapper = styled.div`
   display: flex;
@@ -8,18 +9,20 @@ const Wrapper = styled.div`
   position: sticky;
   bottom: 0;
   width: 100%;
-  padding: 4%;
-  gap: 5%;
-  height: 11%;
+  height: 90px;
+  padding: 10px 10px 15px 10px;
+  gap: 4%;
+  bottom: 0;
 `;
 const LikeButton = styled.div`
-  width: 20%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  font-size: 13px;
+  color: #5849d0;
 `;
-const DetailButton = styled.button`
+const DetailButton = styled.a`
   width: 30%;
   height: 60px;
   border-radius: 15px;
@@ -29,7 +32,8 @@ const DetailButton = styled.button`
   align-items: center;
   background-color: #e8edff;
   color: #5849d0;
-  font-weight: 800;
+  font-size: 18px;
+  font-family: DunggeunmisoBold;
 `;
 const CreateButton = styled.button`
   width: 50%;
@@ -41,17 +45,21 @@ const CreateButton = styled.button`
   align-items: center;
   background-color: #5849d0;
   color: white;
-  font-weight: 800;
+  font-size: 18px;
+  font-family: DunggeunmisoBold;
+`;
+const HeartImg = styled.img`
+  width: 43px;
 `;
 
-const Nav = () => {
+const Nav = ({ link }) => {
   return (
     <Wrapper>
       <LikeButton>
-        <p>♥</p>
-        <p>15</p>
+        <HeartImg src={heartOn} alt="" />
+        <p style={{ fontFamily: "DunggeunmisoBold" }}>15</p>
       </LikeButton>
-      <DetailButton>제품 상세</DetailButton>
+      <DetailButton href={link}>제품 상세</DetailButton>
       <CreateButton>공구방 생성하기</CreateButton>
     </Wrapper>
   );

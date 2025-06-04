@@ -1,17 +1,18 @@
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: start;
   gap: 6%;
   flex-wrap: wrap;
-  padding: 3% 0% 3% 0%;
+  padding: 3% 0% 100px 0%;
   width: 100%;
   background-color: white;
   height: 100%;
 `;
-const Item = styled.div`
+const Item = styled.button`
   display: flex;
   justify-content: center;
   align-items: start;
@@ -27,11 +28,12 @@ const Img = styled.img`
   border: 2px solid #eff3ff;
 `;
 const ItemName = styled.div`
-  font-size: 16px;
+  font-size: 15px;
 `;
 const Price = styled.div`
-  font-size: 16px;
-  font-weight: 700;
+  font-size: 15px;
+  font-family: DunggeunmisoBold;
+  color: #5849d0;
 `;
 
 type Product = {
@@ -168,14 +170,20 @@ const products: Product[] = [
   },
 ];
 
-const Main = () => {
+const Main = ({ results }) => {
+  const navigate = useNavigate();
+
+  const itemInfo = (itemId: number) => {
+    navigate(`/shopping/item?itemId=${itemId}`);
+  };
+
   return (
     <Wrapper>
-      {products.map((product) => (
-        <Item key={product.id}>
-          <Img src={product.imgUrl}></Img>
-          <ItemName>{product.name}</ItemName>
-          <Price>{product.price.toLocaleString()}원</Price>
+      {results.map((result) => (
+        <Item key={result.id} onClick={() => itemInfo(result.id)}>
+          <Img src={result.imgUrl}></Img>
+          <ItemName>{result.name}</ItemName>
+          <Price>{result.price.toLocaleString()}원</Price>
         </Item>
       ))}
     </Wrapper>
