@@ -231,7 +231,7 @@ const Main = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       nextSlide();
-    }, 3000); // 3초마다 전환
+    }, 7000); // 3초마다 전환
 
     return () => clearInterval(interval);
   }, []);

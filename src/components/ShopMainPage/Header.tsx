@@ -15,6 +15,7 @@ const Wrapper = styled.div`
   position: sticky;
   top: 0;
   gap: 10px;
+  z-index: 100;
 `;
 const Title = styled.p`
   font-size: 22px;
