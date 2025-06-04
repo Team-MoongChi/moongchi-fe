@@ -20,7 +20,7 @@ const Title = styled.p`
 `;
 const Insert = styled.input`
   width: 90%;
-  padding: 2%;
+  padding: 15px;
   border: none;
   border-radius: 50px;
 `;

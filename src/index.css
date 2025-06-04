@@ -1,17 +1,32 @@
 /* src/global.css */
 
+@font-face {
+  font-family: "Dunggeunmiso";
+  src: url("./assets/fonts/Hakgyoansim Dunggeunmiso OTF R.otf")
+    format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "DunggeunmisoBold";
+  src: url("./assets/fonts/Hakgyoansim Dunggeunmiso OTF B.otf")
+    format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "Dunggeunmiso", -apple-system;
 }
 
 html,
 body,
 #root {
   height: 100%;
-  font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI",
-    Roboto, sans-serif;
   background-color: #f9f9f9;
   color: #333;
 }

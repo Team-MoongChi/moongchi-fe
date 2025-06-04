@@ -1,4 +1,10 @@
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import banner1 from "../../assets/images/common/banner1.png";
+import bannerButtonLeft from "../../assets/images/common/배너버튼_왼.png";
+import bannerButtonRight from "../../assets/images/common/배너버튼_오.png";
+
+const images = [banner1, banner1, banner1];
 
 const Wrapper = styled.div`
   padding-top: 4%;
@@ -6,15 +12,44 @@ const Wrapper = styled.div`
   padding-bottom: 0;
   background-color: white;
 `;
-const Banner = styled.div`
+
+const SliderWrapper = styled.div`
+  position: relative;
   width: 100%;
-  padding: 25%;
-  background-color: #eff3ff;
+  overflow: hidden;
+`;
+
+const Slide = styled.div`
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+  transform: translateX(${(props) => -props.index * 100}%);
+`;
+
+const SlideItem = styled.img`
+  min-width: 100%;
+  object-fit: cover;
+`;
+
+const NavButton = styled.button`
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  color: white;
+  border: none;
+  cursor: pointer;
+
+  ${(props) => (props.left ? "left: 10px;" : "right: 10px;")}
+`;
+const BannerButtonImg = styled.img`
+  width: 20px;
 `;
 const Title = styled.div`
-  font-size: 18px;
+  font-size: 20px;
   padding: 3%;
-  padding-bottom: 1%;
+  padding-bottom: 0%;
+  color: #5849d0;
+  font-family: DunggeunmisoBold;
 `;
 const Items = styled.div`
   display: flex;
@@ -39,11 +74,16 @@ const Img = styled.img`
   border: 2px solid #eff3ff;
 `;
 const ItemName = styled.div`
-  font-size: 16px;
+  font-size: 15px;
 `;
 const Price = styled.div`
-  font-size: 16px;
-  font-weight: 700;
+  font-size: 15px;
+  font-family: DunggeunmisoBold;
+  color: #5849d0;
+`;
+const B1 = styled.img`
+  object-fit: cover;
+  width: 100%;
 `;
 
 type Product = {
@@ -181,10 +221,37 @@ const products: Product[] = [
 ];
 
 const Main = () => {
+  const [index, setIndex] = useState(0);
+
+  const nextSlide = () => setIndex((prev) => (prev + 1) % images.length);
+  const prevSlide = () =>
+    setIndex((prev) => (prev - 1 + images.length) % images.length);
+
+  // 자동 슬라이드
+  useEffect(() => {
+    const interval = setInterval(() => {
+      nextSlide();
+    }, 3000); // 3초마다 전환
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <Wrapper>
-      <Banner></Banner>
-      <Title>뭉치's PICK</Title>
+      <SliderWrapper>
+        <Slide index={index}>
+          {images.map((src, i) => (
+            <SlideItem key={i} src={src} alt={`slide-${i}`} />
+          ))}
+        </Slide>
+        <NavButton left onClick={prevSlide}>
+          <BannerButtonImg src={bannerButtonLeft} alt="" />
+        </NavButton>
+        <NavButton onClick={nextSlide}>
+          <BannerButtonImg src={bannerButtonRight} alt="" />
+        </NavButton>
+      </SliderWrapper>
+      <Title>뭉치's PICK!</Title>
       <Items>
         {products.map((product) => (
           <Item key={product.id}>
