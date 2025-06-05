@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import type { ChatRoom } from "../../../types/chatListPage/chatRoom";
 
@@ -54,7 +55,7 @@ const StyledLink = styled(Link)`
 
 export default function ChatListItem(props: ChatRoom) {
   return (
-    <StyledLink to="/chat/pay">
+    <StyledLink to={`/chat/pay/${props.id}`}>
       <Wrap>
         <Img src={props.imgUrl} />
         <Content>
