@@ -1,12 +1,14 @@
 import styled from "styled-components";
 import useDeviceSize from "../../useDeviceSize";
+import { useEffect, useState } from "react";
 
 import Header from "../../components/gongguPages/gongguItemPage/Header";
 import ImageSlide from "../../components/gongguPages/gongguItemPage/ImageSlide";
 import Footer from "../../components/gongguPages/gongguItemPage/Footer";
 import Content from "../../components/gongguPages/gongguItemPage/Content";
 
-import type { ProductItem } from "../../components/gongguPages/gongguItemPage/Content";
+import type { GongguItem } from "../../types/gongguPage/gongguItem";
+import { useParams } from "react-router-dom";
 
 const Wrap = styled.div<{ isSmall: boolean }>`
   background-color: white;
@@ -19,37 +21,53 @@ const Wrap = styled.div<{ isSmall: boolean }>`
   gap: 15px;
 `;
 
-const dummyProduct: ProductItem = {
-  title: "공구 제목",
-  content: "같이 사주세요 제발",
-  author: "홍길동",
-  authorProfile: "https://example.com/profile/hong.jpg",
-  Price: 15000,
-  totalUsers: 4,
-  userCount: 3,
-  address: "서울특별시 마포구 어딘가 123",
-  deadline: "2025-06-01",
-  place: "홍대입구역 3번 출구 앞",
-  productState: "CLOSING_SOON",
-  participants: [
-    { userId: 1, profilUrl: "https://example.com/profile/user1.jpg" },
-    { userId: 2, profilUrl: "https://example.com/profile/user2.jpg" },
-    { userId: 3, profilUrl: "https://example.com/profile/user3.jpg" },
-    { userId: 4, profilUrl: "https://example.com/profile/user4.jpg" },
-    { userId: 5, profilUrl: "https://example.com/profile/user5.jpg" },
-    { userId: 6, profilUrl: "https://example.com/profile/user6.jpg" },
-  ],
-};
-
 export default function GongguItemPage() {
-    const { small, large } = useDeviceSize();
+  const { small } = useDeviceSize();
 
-    return (
-        <Wrap isSmall={small}>
-            <Header />
-            <ImageSlide />
-            <Content {...dummyProduct}></Content>
-            <Footer />
-        </Wrap>
-    );
+  const [gongguItem, setGongguItem] = useState<GongguItem>();
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const { gongguId } = useParams();
+
+  const fetchGongguItem = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:8080/api/group-boards/${gongguId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwiaWF0IjoxNzQ5MDQzNjI2LCJleHAiOjE3NDk2NDg0MjZ9.8EpX-Wg_rkeTzPCKgDclgHjommxD-z6Kxu8Y6etLKc8",
+          },
+        }
+      );
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data: GongguItem = await response.json();
+      console.log(data);
+      setGongguItem(data);
+      setLoading(false);
+    } catch (error) {
+      console.error("get failed: ", error);
+      throw error;
+    }
+  };
+
+  useEffect(() => {
+    fetchGongguItem();
+  }, []);
+
+  if (loading) return <div>loading...</div>;
+
+  return (
+    <Wrap isSmall={small}>
+      <Header />
+      <ImageSlide />
+      <Content {...gongguItem}></Content>
+      <Footer />
+    </Wrap>
+  );
 }
