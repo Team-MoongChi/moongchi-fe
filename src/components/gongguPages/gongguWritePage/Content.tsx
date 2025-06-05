@@ -117,11 +117,11 @@ export default function Content() {
   const submitHandler = async () => {
     try {
       const response = await fetch("http://localhost:8080/api/group-boards", {
-        method: "post",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzQ5MDAyMDE0LCJleHAiOjE3NDk2MDY4MTR9.8Dff0-4WRCqfCaI8uujghZRKbTKvMZNyKi8P1bYi3RI",
+            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwiaWF0IjoxNzQ5MDQzNjI2LCJleHAiOjE3NDk2NDg0MjZ9.8EpX-Wg_rkeTzPCKgDclgHjommxD-z6Kxu8Y6etLKc8",
         },
         body: JSON.stringify(formData),
       });

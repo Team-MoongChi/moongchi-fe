@@ -1,6 +1,7 @@
 import useDeviceSize from "../../useDeviceSize";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 import GongguSearchBar from "../../components/gongguPages/gongguMainPage/GongguSearchBar";
 import GongguMenu from "../../components/gongguPages/gongguMainPage/GongguMenu";
@@ -9,6 +10,7 @@ import GongguListItem from "../../components/gongguPages/common/GongguListItem";
 import writeIcon from "../../assets/images/common/공구생성아이콘.png";
 
 import type { ProductList } from "../../components/gongguPages/common/GongguListItem";
+import type { GongguItem } from "../../types/gongguPage/gongguItem";
 
 const Wrap = styled.div<{ isSmall: boolean }>`
   background-color: white;
@@ -30,7 +32,7 @@ const GongguList = styled.div`
   padding-bottom: 10vh;
 `;
 const GongguTitle = styled.div`
-  font-family: Hakgyoansim-Bold;
+  font-family: DunggeunmisoBold;
   font-size: 20px;
   color: #5849d0;
 `;
@@ -60,73 +62,6 @@ const WriteIcon = styled.img.attrs({
   cursor: pointer;
 `;
 
-// dummyData
-const dummyProducts: ProductList = [
-  {
-    imgUrl: "https://via.placeholder.com/150",
-    title: "제주 감귤",
-    totalPrice: 30000,
-    totalUsers: 6,
-    userCount: 3,
-    address: "서울시 강남구",
-    createAt: "2025-05-27T12:00:00",
-    productState: "OPEN",
-    participants: [
-      { userId: 1, profilUrl: "https://via.placeholder.com/32" },
-      { userId: 2, profilUrl: "https://via.placeholder.com/32" },
-      { userId: 3, profilUrl: "https://via.placeholder.com/32" },
-    ],
-  },
-  {
-    imgUrl: "https://via.placeholder.com/150",
-    title: "강원도 찰옥수수",
-    totalPrice: 20000,
-    totalUsers: 4,
-    userCount: 2,
-    address: "서울시 마포구",
-    createAt: "2025-05-28T09:30:00",
-    productState: "CLOSING_SOON",
-    participants: [
-      { userId: 4, profilUrl: "https://via.placeholder.com/32" },
-      { userId: 5, profilUrl: "https://via.placeholder.com/32" },
-    ],
-  },
-  {
-    imgUrl: "https://via.placeholder.com/150",
-    title: "청도 복숭아",
-    totalPrice: 25000,
-    totalUsers: 5,
-    userCount: 5,
-    address: "서울시 성동구",
-    createAt: "2025-05-29T15:00:00",
-    productState: "CLOSED",
-    participants: [
-      { userId: 6, profilUrl: "https://via.placeholder.com/32" },
-      { userId: 7, profilUrl: "https://via.placeholder.com/32" },
-      { userId: 8, profilUrl: "https://via.placeholder.com/32" },
-      { userId: 9, profilUrl: "https://via.placeholder.com/32" },
-      { userId: 10, profilUrl: "https://via.placeholder.com/32" },
-    ],
-  },
-  {
-    imgUrl: "https://via.placeholder.com/150",
-    title: "청도 복숭아",
-    totalPrice: 25000,
-    totalUsers: 5,
-    userCount: 5,
-    address: "서울시 성동구",
-    createAt: "2025-05-29T15:00:00",
-    productState: "COMPLETED",
-    participants: [
-      { userId: 6, profilUrl: "https://via.placeholder.com/32" },
-      { userId: 7, profilUrl: "https://via.placeholder.com/32" },
-      { userId: 8, profilUrl: "https://via.placeholder.com/32" },
-      { userId: 9, profilUrl: "https://via.placeholder.com/32" },
-      { userId: 10, profilUrl: "https://via.placeholder.com/32" },
-    ],
-  },
-];
-
 export default function GongguMainPage() {
   const navigate = useNavigate();
   const writeGonggu = () => {
@@ -135,7 +70,40 @@ export default function GongguMainPage() {
   const writeGonggu2 = () => {
     navigate("/gonggu/write", { state: { message: "shop" } });
   };
-  const { small, large } = useDeviceSize();
+  const { small } = useDeviceSize();
+
+  const [gongguList, setGongguList] = useState<GongguItem[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const fetchGongguItem = async () => {
+    try {
+      const response = await fetch("http://localhost:8080/api/group-boards", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization:
+            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwiaWF0IjoxNzQ5MDQzNjI2LCJleHAiOjE3NDk2NDg0MjZ9.8EpX-Wg_rkeTzPCKgDclgHjommxD-z6Kxu8Y6etLKc8",
+        },
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data: GongguItem[] = await response.json();
+      console.log(data);
+      setGongguList(data);
+      setLoading(false);
+    } catch (error) {
+      console.error("get failed: ", error);
+      throw error;
+    }
+  };
+
+  useEffect(() => {
+    fetchGongguItem();
+  }, []);
+
+  if (loading) return <div>loading 중...</div>;
 
   return (
     <Wrap isSmall={small}>
@@ -144,8 +112,8 @@ export default function GongguMainPage() {
       <GongguRecommend />
       <GongguList>
         <GongguTitle>근처에서 열린 공구</GongguTitle>
-        {dummyProducts.map((dummyProduct) => {
-          return <GongguListItem {...dummyProduct}></GongguListItem>;
+        {gongguList.map((gongguItem) => {
+          return <GongguListItem {...gongguItem}></GongguListItem>;
         })}
       </GongguList>
 
@@ -153,7 +121,13 @@ export default function GongguMainPage() {
       <NavBar isSmall={small}>
         {/* 나중에 onclick 삭제하기 */}
         <div onClick={writeGonggu2}>홈</div>
-        <div onClick={() => {navigate('/chat/list')}}>채팅</div>
+        <div
+          onClick={() => {
+            navigate("/chat/list");
+          }}
+        >
+          채팅
+        </div>
         <div>쇼핑</div>
         <div>마이페이지</div>
       </NavBar>

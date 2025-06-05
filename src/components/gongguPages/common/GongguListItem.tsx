@@ -1,10 +1,12 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
+import type { GongguItem } from "../../../types/gongguPage/gongguItem";
+
 import red from "../../../assets/images/gonggu/마감임박.png";
 import blue from "../../../assets/images/gonggu/모집중.png";
 import gray from "../../../assets/images/gonggu/모집마감.png";
-import green from "../../../assets/images/gonggu/공구완료.png"
+import green from "../../../assets/images/gonggu/공구완료.png";
 
 const Wrap = styled.div`
   display: flex;
@@ -13,11 +15,13 @@ const Wrap = styled.div`
   gap: 10px;
 `;
 
-const Img = styled.div`
+const Img = styled.img.attrs((props) => ({
+  src: props.src,
+}))`
   width: 140px;
-  background-color: aliceblue;
   border-radius: 6px;
   aspect-ratio: 1/1;
+  object-fit: cover;
 `;
 
 const Content = styled.div`
@@ -42,38 +46,28 @@ const Details = styled.div`
   justify-content: space-between;
 `;
 
-// 타입 정의
-type ProductState = "OPEN" | "CLOSING_SOON" | "CLOSED" | "COMPLETED";
-interface Participant {
-  userId: number;
-  profilUrl: string;
-}
-interface ProductItem {
-  imgUrl: string;
-  title: string;
-  totalPrice: number;
-  totalUsers: number;
-  userCount: number;
-  address: string;
-  createAt: string;
-  productState: ProductState;
-  participants: Participant[];
-}
-export type ProductList = ProductItem[];
+// /api/group-boards/{groupBoardId}
 
-export default function GongguListItem(props: ProductItem) {
+export default function GongguListItem(props: GongguItem) {
   return (
     // 링크 수정 필요
-    <Link to="gonggu/list">
+    <Link to={`/gonggu/list/${props.id}`}>
       <Wrap>
-        <Img><img src={props.imgUrl} /></Img>
+        <Img src={props.groupProduct.images[0]}></Img>
         <Content>
-          <Tag src={props.productState == "CLOSING_SOON" ? red :
-            (props.productState == "OPEN" ? blue:
-            (props.productState == "CLOSED" ? gray: green)
-            )}></Tag>
+          <Tag
+            src={
+              props.boardStatus == "CLOSING_SOON"
+                ? red
+                : props.boardStatus == "OPEN"
+                ? blue
+                : props.boardStatus == "CLOSED"
+                ? gray
+                : green
+            }
+          ></Tag>
           <div>{props.title}</div>
-          <div>{props.totalPrice}원</div>
+          <div>{props.groupProduct.price}원</div>
           {/* {product.participants.map((participants) => {
 
           })} */}
@@ -82,8 +76,7 @@ export default function GongguListItem(props: ProductItem) {
             <div>☆ 3/4</div>
           </People>
           <Details>
-            <div>{props.address}</div>
-            <div>1초 전</div>
+            <div>{props.location}</div>
           </Details>
         </Content>
       </Wrap>
