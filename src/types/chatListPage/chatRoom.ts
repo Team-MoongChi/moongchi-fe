@@ -1,5 +1,5 @@
 export interface ChatRoom {
-  chatRoomId: number;
+  id: number;
   title: string;
   status: string;
   participantCount: number;
