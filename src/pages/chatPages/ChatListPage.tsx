@@ -74,6 +74,8 @@ export default function ChatListPage() {
     fetchChatList();
   }, []);
 
+  if (loading) return <div>loading...</div>;
+
   return (
     <Wrap isSmall={small}>
       <Header />
