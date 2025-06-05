@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import backButton from "../../../assets/images/common/뒤로가기.png";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const Wrapper = styled.div`
   display: flex;
@@ -37,7 +38,7 @@ const Insert = styled.input`
     outline: none;
   }
 `;
-const Search = styled.div`
+const Search = styled.form`
   width: 100%;
   display: flex;
   justify-content: center;
@@ -53,19 +54,31 @@ const BackImg = styled.img`
 
 const Header = ({ keyword }: { keyword: string }) => {
   const navigate = useNavigate();
+  const [keyword2, setKeyword2] = useState<string>("");
 
   const handleBackButton = () => {
     navigate(-1);
   };
 
+  const onSubmit = (e) => {
+    e.preventDefault();
+    if (keyword2.trim() !== "") {
+      navigate(`/shopping/result?keyword=${encodeURIComponent(keyword2)}`);
+      window.location.reload();
+    }
+  };
+
   return (
     <Wrapper>
       <Title>검색</Title>
-      <Search>
-        <BackButton onClick={handleBackButton}>
+      <Search onSubmit={onSubmit}>
+        <BackButton onClick={handleBackButton} type="button">
           <BackImg src={backButton} />
         </BackButton>
-        <Insert type="text" placeholder={keyword} />
+        <Insert
+          placeholder={keyword}
+          onChange={(e) => setKeyword2(e.target.value)}
+        />
       </Search>
     </Wrapper>
   );

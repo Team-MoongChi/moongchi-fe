@@ -4,6 +4,7 @@ import chatting from "../../../assets/images/nav/채팅아이콘.png";
 import shopping from "../../../assets/images/nav/쇼핑아이콘_클릭.png";
 import mypage from "../../../assets/images/nav/마이페이지아이콘.png";
 import useDeviceSize from "../../../useDeviceSize";
+import { useNavigate } from "react-router-dom";
 
 const Wrapper = styled.div<{ $isSmall: boolean }>`
   display: flex;
@@ -33,6 +34,11 @@ const Img = styled.img`
 
 const Nav = () => {
   const { small } = useDeviceSize();
+  const navigate = useNavigate();
+
+  const handleHomeButton = () => {
+    navigate("/shopping");
+  };
 
   return (
     <Wrapper $isSmall={small}>
@@ -43,7 +49,7 @@ const Nav = () => {
         <Img src={chatting} alt="" />
         채팅
       </Button>
-      <Button style={{ color: "#5849D0" }}>
+      <Button style={{ color: "#5849D0" }} onClick={handleHomeButton}>
         <Img src={shopping} alt="" />
         쇼핑
       </Button>
