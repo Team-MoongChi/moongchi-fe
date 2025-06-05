@@ -20,7 +20,7 @@ const SliderWrapper = styled.div`
   overflow: hidden;
 `;
 
-const Slide = styled.div`
+const Slide = styled.div<{ index: number }>`
   display: flex;
   transition: transform 0.5s ease-in-out;
   transform: translateX(${(props) => -props.index * 100}%);

@@ -1,5 +1,8 @@
 import useDeviceSize from "../../useDeviceSive.tsx";
 import styled from "styled-components";
+import SlideInfo from "../../components/startPages/startPage/SlideInfo.tsx";
+import Button from "../../components/startPages/common/Button.tsx";
+import { useNavigate } from "react-router-dom";
 
 const Wrapper = styled.div<{ $isSmall: boolean }>`
   background-color: white;
@@ -7,17 +10,23 @@ const Wrapper = styled.div<{ $isSmall: boolean }>`
   height: 100vh;
   margin: auto;
   position: relative;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 `;
-const SliderWrapper = styled.div``;
-const Button = styled.div``;
 
 const StartPage = () => {
   const { small } = useDeviceSize();
+  const navigate = useNavigate();
+
+  const buttonHandle = () => {
+    navigate("/start/login");
+  };
 
   return (
     <Wrapper $isSmall={small}>
-      <SliderWrapper></SliderWrapper>
-      <Button></Button>
+      <SlideInfo />
+      <Button text="시작하기" onClick={() => buttonHandle()} />
     </Wrapper>
   );
 };
