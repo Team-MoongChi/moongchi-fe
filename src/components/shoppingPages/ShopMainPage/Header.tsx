@@ -1,7 +1,9 @@
 import styled from "styled-components";
-import searchIcon from "../../assets/images/common/검색아이콘.png";
-import AiOn from "../../assets/images/moongchies/AI뭉치_ON.png";
-import AiOff from "../../assets/images/moongchies/AI뭉치_OFF.png";
+import searchIcon from "../../../assets/images/common/검색아이콘.png";
+import AiOn from "../../../assets/images/moongchies/AI뭉치_ON.png";
+import AiOff from "../../../assets/images/moongchies/AI뭉치_OFF.png";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const Wrapper = styled.div`
   display: flex;
@@ -22,11 +24,12 @@ const Title = styled.p`
   color: white;
   font-family: DunggeunmisoBold;
 `;
-const Insert = styled.div`
+const Insert = styled.form`
   display: flex;
   justify-content: center;
   align-items: center;
   width: 90%;
+  height: 46px;
   padding: 0px 8px 0px 8px;
   border-radius: 50px;
   background-color: white;
@@ -57,12 +60,21 @@ const Ai = styled.img`
 `;
 
 const Header = () => {
+  const [keyword, setKeyword] = useState("");
+  const navigate = useNavigate();
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    if (keyword.trim() !== "") {
+      navigate(`/shopping/result?keyword=${encodeURIComponent(keyword)}`);
+    }
+  };
   return (
     <Wrapper>
       <Title>쇼핑</Title>
-      <Insert>
+      <Insert onSubmit={onSubmit}>
         <SearchIcon src={searchIcon} />
-        <Search></Search>
+        <Search onChange={(e) => setKeyword(e.target.value)}></Search>
         <AiButton>
           <Ai src={AiOn} />
         </AiButton>

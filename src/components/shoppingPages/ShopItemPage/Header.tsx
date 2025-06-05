@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import backButton from "../../../assets/images/common/뒤로가기.png";
+import { useNavigate } from "react-router-dom";
 
 const Wrapper = styled.div`
   display: flex;
@@ -12,18 +14,29 @@ const Wrapper = styled.div`
   border-radius: 0 0 15px 15px;
 `;
 const Title = styled.p`
-  font-size: 22px;
+  font-size: 28px;
   color: white;
   font-weight: 800;
 `;
 const BackButton = styled.button`
   color: white;
 `;
+const BackImg = styled.img`
+  width: 14px;
+`;
 
 const Header = () => {
+  const navigate = useNavigate();
+
+  const handleBackButton = () => {
+    navigate(-1);
+  };
+
   return (
     <Wrapper>
-      <BackButton>뒤로</BackButton>
+      <BackButton onClick={handleBackButton}>
+        <BackImg src={backButton} alt="" />
+      </BackButton>
       <Title>상품</Title>
       <BackButton style={{ color: "#5849D0" }}>우와</BackButton>
     </Wrapper>

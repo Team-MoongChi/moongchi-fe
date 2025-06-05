@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useEffect, useState } from "react";
 
 const Wrapper = styled.div`
   display: flex;
@@ -23,11 +24,12 @@ const Info = styled.div`
   padding: 10px 20px 10px 20px;
 `;
 const ItemName = styled.div`
-  font-size: 20px;
+  font-size: 24px;
 `;
 const Price = styled.div`
-  font-size: 20px;
-  font-weight: 800;
+  font-size: 24px;
+  font-family: DunggeunmisoBold;
+  color: #5849d0;
 `;
 const GongguList = styled.div`
   display: flex;
@@ -83,7 +85,6 @@ const JoinButton = styled.button`
 `;
 const GongguP = styled.div`
   font-size: 14px;
-  font-weight: 700;
   color: #5849d0;
 `;
 const Participants = styled.div`
@@ -98,31 +99,6 @@ const Participant = styled.img`
   background-color: #c7d2fe;
   object-fit: cover;
 `;
-
-type Product = {
-  id: number;
-  name: string;
-  price: number;
-  imgUrl: string;
-  productUrl: string;
-  rating: number;
-  largeCategory: string;
-  mediumCategory: string;
-  smallCategory: string | null;
-};
-
-const product: Product = {
-  id: 1,
-  name: "망고 1kg",
-  price: 12000,
-  imgUrl:
-    "https://shop-phinf.pstatic.net/20250514_70/1747218008296jBDI8_JPEG/1772088215457593_1264953615.jpg?type=m510",
-  productUrl: "https://example.com/mango",
-  rating: 4.8,
-  largeCategory: "식품",
-  mediumCategory: "과일",
-  smallCategory: "열대과일",
-};
 
 type Participant = {
   userId: number;
@@ -203,41 +179,45 @@ const gonggus: Gonggu[] = [
   },
 ];
 
-const Main = () => {
+const Main = ({ item }) => {
   return (
     <Wrapper>
-      <Img src={product.imgUrl}></Img>
-      <Info>
-        <ItemName>{product.name}</ItemName>
-        <Price>{product.price.toLocaleString()}원</Price>
-      </Info>
-      <GongguList>
-        <GongguP>공구 참여하러 가기</GongguP>
-        {gonggus.map((gonggu, index) => (
-          <Gonggu key={index}>
-            <User>
-              <Profile src={gonggu.user.profileUrl}></Profile>
-              <UserName>{gonggu.user.nickname}</UserName>
-            </User>
-            <Participants>
-              <Participant
-                src={gonggu.participants[0].profileUrl}
-              ></Participant>
-              <Participant
-                src={gonggu.participants[1].profileUrl}
-              ></Participant>
-              <Participant></Participant>
-              <Participant></Participant>
-            </Participants>
-            <JoinButton>
-              <p>참여</p>
-              <p style={{ fontSize: "10px", color: "pink" }}>
-                {gonggu.deadline}
-              </p>
-            </JoinButton>
-          </Gonggu>
-        ))}
-      </GongguList>
+      {item !== null && (
+        <>
+          <Img src={item.imgUrl}></Img>
+          <Info>
+            <ItemName>{item.name}</ItemName>
+            <Price>{item.price.toLocaleString()}원</Price>
+          </Info>
+          <GongguList>
+            <GongguP>공구 참여하러 가기</GongguP>
+            {gonggus.map((gonggu, index) => (
+              <Gonggu key={index}>
+                <User>
+                  <Profile src={gonggu.user.profileUrl}></Profile>
+                  <UserName>{gonggu.user.nickname}</UserName>
+                </User>
+                <Participants>
+                  <Participant
+                    src={gonggu.participants[0].profileUrl}
+                  ></Participant>
+                  <Participant
+                    src={gonggu.participants[1].profileUrl}
+                  ></Participant>
+                  <Participant></Participant>
+                  <Participant></Participant>
+                </Participants>
+                <JoinButton>
+                  <p style={{ fontFamily: "DunggeunmisoBold" }}>참여</p>
+                  <p style={{ fontSize: "10px", color: "pink" }}>
+                    {gonggu.deadline}
+                  </p>
+                </JoinButton>
+              </Gonggu>
+            ))}
+          </GongguList>
+        </>
+      )}
     </Wrapper>
   );
 };

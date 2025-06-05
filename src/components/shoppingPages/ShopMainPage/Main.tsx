@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import banner1 from "../../assets/images/common/banner1.png";
-import bannerButtonLeft from "../../assets/images/common/배너버튼_왼.png";
-import bannerButtonRight from "../../assets/images/common/배너버튼_오.png";
+import banner1 from "../../../assets/images/common/banner1.png";
+import bannerButtonLeft from "../../../assets/images/common/배너버튼_왼.png";
+import bannerButtonRight from "../../../assets/images/common/배너버튼_오.png";
+import { useNavigate } from "react-router-dom";
 
 const images = [banner1, banner1, banner1];
 
 const Wrapper = styled.div`
   padding-top: 4%;
   width: 100%;
-  padding-bottom: 0;
+  padding-bottom: 100px;
   background-color: white;
 `;
 
@@ -30,7 +31,7 @@ const SlideItem = styled.img`
   object-fit: cover;
 `;
 
-const NavButton = styled.button`
+const NavButton = styled.button<{ $left: boolean }>`
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -39,7 +40,7 @@ const NavButton = styled.button`
   border: none;
   cursor: pointer;
 
-  ${(props) => (props.left ? "left: 10px;" : "right: 10px;")}
+  ${(props) => (props.$left ? "left: 10px;" : "right: 10px;")}
 `;
 const BannerButtonImg = styled.img`
   width: 20px;
@@ -54,7 +55,7 @@ const Title = styled.div`
 const Items = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: start;
   flex-wrap: wrap;
 `;
 const Item = styled.div`
@@ -80,10 +81,6 @@ const Price = styled.div`
   font-size: 15px;
   font-family: DunggeunmisoBold;
   color: #5849d0;
-`;
-const B1 = styled.img`
-  object-fit: cover;
-  width: 100%;
 `;
 
 type Product = {
@@ -236,6 +233,17 @@ const Main = () => {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    fetch("http://localhost:8080/api/products")
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((error) => {
+        console.error("요청 실패:", error);
+      });
+  }, []);
+
   return (
     <Wrapper>
       <SliderWrapper>
@@ -244,7 +252,7 @@ const Main = () => {
             <SlideItem key={i} src={src} alt={`slide-${i}`} />
           ))}
         </Slide>
-        <NavButton left onClick={prevSlide}>
+        <NavButton $left onClick={prevSlide}>
           <BannerButtonImg src={bannerButtonLeft} alt="" />
         </NavButton>
         <NavButton onClick={nextSlide}>
