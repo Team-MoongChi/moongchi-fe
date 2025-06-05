@@ -3,6 +3,7 @@ import { BrowserRouter } from "react-router-dom";
 import GongguMainRoutes from "./gongguPage/GongguMainRoutes";
 import ChatMainRoutes from "./chatPage/ChatMainRoutes";
 import ShoppingMainRoutes from "./shoppingPage/ShoppngMainRoutes";
+import StartMainRoutes from "./startPage/StartMainRoutes";
 
 export default function TotalRoutes() {
   return (
@@ -10,6 +11,7 @@ export default function TotalRoutes() {
       <GongguMainRoutes />
       <ChatMainRoutes />
       <ShoppingMainRoutes />
+      <StartMainRoutes />
     </BrowserRouter>
   );
 }
