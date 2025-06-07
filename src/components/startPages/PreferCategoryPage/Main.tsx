@@ -8,10 +8,11 @@ import kitchenItem from "../../../assets/images/map/주방용품.png";
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   gap: 20px;
-  margin: 10px 0px 38px 0px;
+  margin: 4% 0px 0px 0px;
+  height: 57%;
 `;
 const WrapperSub = styled.div`
   display: flex;
@@ -25,8 +26,8 @@ const CustomRadio = styled.input`
 `;
 
 const RadioLabel = styled.label<{ checked: boolean }>`
-  width: 177px;
-  height: 181px;
+  width: 160px;
+  height: 170px;
   display: flex;
   align-items: center;
   justify-content: center;

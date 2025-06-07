@@ -14,7 +14,8 @@ const SliderWrapper = styled.div`
   flex-direction: column;
   gap: 40px;
   margin-top: 70px;
-  height: 76%;
+  margin-bottom: 6px;
+  height: 73%;
 `;
 
 const Slide = styled.div<{ index: number }>`
@@ -51,7 +52,7 @@ const SlideInfo = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       nextSlide();
-    }, 7000); // 3초마다 전환
+    }, 4000); // 3초마다 전환
 
     return () => clearInterval(interval);
   }, []);
