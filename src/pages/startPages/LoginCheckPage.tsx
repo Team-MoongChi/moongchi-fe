@@ -1,29 +1,8 @@
-import useDeviceSize from "../../useDeviceSize";
-import styled from "styled-components";
-import Step from "../../components/startPages/UserDataPage/Step";
-import Main from "../../components/startPages/UserDataPage/Main";
-import Button from "../../components/startPages/common/Button";
-import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-const Wrapper = styled.div<{ $isSmall: boolean }>`
-  background-color: white;
-  width: ${(props) => (props.$isSmall ? "100%" : "50%")};
-  height: 100vh;
-  margin: auto;
-  position: relative;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-`;
-
-const UserDataPage = () => {
-  const { small } = useDeviceSize();
+const LoginCheckPage = () => {
   const navigate = useNavigate();
-
-  const ButtonHandle = () => {
-    navigate("/start/location");
-  };
 
   useEffect(() => {
     // 1) /api/auth/users에서 사용자 정보 받아오기
@@ -33,7 +12,6 @@ const UserDataPage = () => {
     })
       .then((res) => {
         if (!res.ok) throw new Error("사용자 정보 요청 실패");
-        console.log(res);
         return res.json();
       })
       .then((data) => {
@@ -66,15 +44,9 @@ const UserDataPage = () => {
       .catch((err) => {
         console.error("회원가입 과정 중 오류 발생:", err);
       });
-  }, []);
+  }, [navigate]);
 
-  return (
-    <Wrapper $isSmall={small}>
-      <Step />
-      <Main />
-      <Button text="다음" onClick={ButtonHandle} />
-    </Wrapper>
-  );
+  return null; // 혹은 로딩 중 표시하는 컴포넌트 넣어도 됨
 };
 
-export default UserDataPage;
+export default LoginCheckPage;

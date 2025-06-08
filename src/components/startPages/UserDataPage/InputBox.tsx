@@ -8,9 +8,9 @@ const Wrapper = styled.div`
   width: 80%;
   max-width: 500px;
 `;
-const Title = styled.div<{ isFocused: boolean }>`
-  color: ${(props) => (props.isFocused ? "#5849d0" : "#afb1b6")};
-  ${(props) => props.isFocused && "font-family: DunggeunmisoBold"};
+const Title = styled.div<{ $isfocused: boolean }>`
+  color: ${(props) => (props.$isfocused ? "#5849d0" : "#afb1b6")};
+  ${(props) => props.$isfocused && "font-family: DunggeunmisoBold"};
   font-size: 14px;
   transition: 0.1s;
 `;
@@ -35,7 +35,7 @@ const InputBox = ({ title }: { title: string }) => {
 
   return (
     <Wrapper>
-      <Title isFocused={isFocused}>{title}</Title>
+      <Title $isfocused={isFocused}>{title}</Title>
       <Input
         type="text"
         onFocus={() => setIsFocused(true)}

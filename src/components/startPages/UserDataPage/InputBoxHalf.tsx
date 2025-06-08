@@ -13,9 +13,9 @@ const InputWrapper = styled.div`
   gap: 5px;
   width: 100%;
 `;
-const Title = styled.div<{ isFocused: boolean }>`
-  color: ${(props) => (props.isFocused ? "#5849d0" : "#afb1b6")};
-  ${(props) => props.isFocused && "font-family: DunggeunmisoBold"};
+const Title = styled.div<{ $isfocused: boolean }>`
+  color: ${(props) => (props.$isfocused ? "#5849d0" : "#afb1b6")};
+  ${(props) => props.$isfocused && "font-family: DunggeunmisoBold"};
   font-size: 14px;
 `;
 const Input = styled.input`
@@ -43,7 +43,7 @@ const InputBoxHalf = () => {
   return (
     <Wrapper>
       <InputWrapper>
-        <Title isFocused={isFocusedB}>생일</Title>
+        <Title $isfocused={isFocusedB}>생일</Title>
         <Input
           type="date"
           onFocus={() => setIsFocusedB(true)}
@@ -52,7 +52,7 @@ const InputBoxHalf = () => {
         />
       </InputWrapper>
       <InputWrapper>
-        <Title isFocused={isFocusedG}>성별</Title>
+        <Title $isfocused={isFocusedG}>성별</Title>
         <Input
           type="text"
           onFocus={() => setIsFocusedG(true)}
