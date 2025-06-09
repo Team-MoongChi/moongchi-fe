@@ -17,14 +17,14 @@ const Wrap = styled.div<{ isSmall: boolean }>`
 `;
 
 export default function GongguWritePage() {
-    const location = useLocation();
-    const message = location.state?.message;
-    const {small, large} = useDeviceSize();
+  const location = useLocation();
+  const message = location.state?.message;
+  const { small } = useDeviceSize();
 
-    return (
-        <Wrap isSmall={small}>
-          <Header />
-          <Content />
-        </Wrap>
-    );
+  return (
+    <Wrap isSmall={small}>
+      <Header />
+      <Content />
+    </Wrap>
+  );
 }

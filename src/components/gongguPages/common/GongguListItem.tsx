@@ -1,5 +1,8 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { Text } from "../../common/styled-component/Text";
+import { Img } from "../../common/styled-component/Img";
+import ParticipantsProfile from "../../common/ParticipantsProfile";
 
 import type { GongguItem } from "../../../types/gongguPage/gongguItem";
 
@@ -7,6 +10,7 @@ import red from "../../../assets/images/gonggu/마감임박.png";
 import blue from "../../../assets/images/gonggu/모집중.png";
 import gray from "../../../assets/images/gonggu/모집마감.png";
 import green from "../../../assets/images/gonggu/공구완료.png";
+import person from "../../../assets/images/gonggu/userIcon.png";
 
 const Wrap = styled.div`
   display: flex;
@@ -15,30 +19,22 @@ const Wrap = styled.div`
   gap: 10px;
 `;
 
-const Img = styled.img.attrs((props) => ({
-  src: props.src,
-}))`
-  width: 140px;
-  border-radius: 6px;
-  aspect-ratio: 1/1;
-  object-fit: cover;
-`;
-
 const Content = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
 `;
 
-const Tag = styled.img`
-  src: ${(props) => props.src};
-  width: 80px;
-`;
-
-const People = styled.div`
+const Participants = styled.div`
   display: flex;
-  gap: 20%;
+  align-items: center;
+  gap: 5%;
+`;
+const ParticipantsCnt = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 3px;
 `;
 
 const Details = styled.div`
@@ -50,12 +46,16 @@ const Details = styled.div`
 
 export default function GongguListItem(props: GongguItem) {
   return (
-    // 링크 수정 필요
     <Link to={`/gonggu/list/${props.id}`}>
       <Wrap>
-        <Img src={props.groupProduct.images[0]}></Img>
+        <Img
+          src={props.groupProduct.images[0]}
+          width="140px"
+          height="140px"
+          borderRadious="10px"
+        ></Img>
         <Content>
-          <Tag
+          <Img
             src={
               props.boardStatus == "CLOSING_SOON"
                 ? red
@@ -65,18 +65,28 @@ export default function GongguListItem(props: GongguItem) {
                 ? gray
                 : green
             }
-          ></Tag>
-          <div>{props.title}</div>
-          <div>{props.groupProduct.price}원</div>
-          {/* {product.participants.map((participants) => {
-
-          })} */}
-          <People>
-            <div>사람사람사람</div>
-            <div>☆ 3/4</div>
-          </People>
+            width="80px"
+          ></Img>
+          <Text fontSize="17px">{props.title}</Text>
+          <Text fontSize="14px" fontFamily="DunggeunmisoBold">
+            {props.groupProduct.price}원
+          </Text>
+          <Participants>
+            <ParticipantsProfile
+              totalUser={props.totalUsers}
+              currentUsers={props.currentUsers}
+            ></ParticipantsProfile>
+            <ParticipantsCnt>
+              <Img src={person} width="13px" height="13px"></Img>
+              <Text fontSize="12px" color="#a7a7a7">
+                {props.currentUsers}/{props.totalUsers}
+              </Text>
+            </ParticipantsCnt>
+          </Participants>
           <Details>
-            <div>{props.location}</div>
+            <Text fontSize="12px" fontWeight="bold" color="#a7a7a7">
+              {props.location}
+            </Text>
           </Details>
         </Content>
       </Wrap>

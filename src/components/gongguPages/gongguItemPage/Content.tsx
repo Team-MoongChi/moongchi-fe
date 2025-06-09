@@ -1,4 +1,7 @@
 import styled from "styled-components";
+import { Text } from "../../common/styled-component/Text";
+import { Img } from "../../common/styled-component/Img";
+import ParticipantsProfile from "../../common/ParticipantsProfile";
 
 import red from "../../../assets/images/gonggu/마감임박.png";
 import blue from "../../../assets/images/gonggu/모집중.png";
@@ -14,23 +17,30 @@ const Wrap = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0 3%;
-  gap: 10px;
+  gap: 15px;
 `;
+
 const Title = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 10px;
   width: 100%;
-  padding-bottom: 3%;
+  padding-bottom: 15px;
   border-bottom: 2px solid #e8edff;
 `;
 const Tag = styled.img`
   src: ${(props) => props.src};
   width: 80px;
 `;
+const TitleContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+`;
 const TitleFooter = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
 `;
 
 const Body = styled.div`
@@ -49,15 +59,6 @@ const UserProfile = styled.div`
   align-items: center;
   gap: 10px;
 `;
-const UserImg = styled.img`
-  src: ${(props) => props.src};
-  width: 40px;
-  background-color: #5849d0;
-  border-radius: 50%;
-`;
-const UserName = styled.div`
-  font-size: 20px;
-`;
 const UserScore = styled.div`
   display: flex;
   align-items: center;
@@ -72,10 +73,6 @@ const ScoreImg = styled.img`
   width: 30px;
 `;
 
-const BodyContent = styled.div`
-  font-size: 15px;
-`;
-
 const MapWrap = styled.div`
   display: flex;
   flex-direction: column;
@@ -84,10 +81,6 @@ const MapWrap = styled.div`
 const Place = styled.div`
   display: flex;
   justify-content: space-between;
-  font-size: 16px;
-  &:nth-child(1) {
-    font-weight: bold;
-  }
 `;
 const Map = styled.div`
   width: 100%;
@@ -112,36 +105,49 @@ export default function Content(props: Partial<GongguItem>) {
               : green
           }
         ></Tag>
-        <div>{props.title}</div>
-        <div>인 당 {props.groupProduct?.price}원</div>
+        <TitleContent>
+          <Text fontSize="24px">{props.title}</Text>
+          <Text fontSize="19px" fontFamily="DunggeunmisoBold">
+            인당 {props.groupProduct?.price}원
+          </Text>
+        </TitleContent>
         <TitleFooter>
-          <div>
+          <Text fontSize="13px" fontFamily="DunggeunmisoBold" color="#ff4242">
             {props.deadline} 마감까지{" "}
             {(props.totalUsers ?? 0) - (props.currentUsers ?? 0)}명 남았어요!
-          </div>
-          <div>사람사람사람</div>
+          </Text>
+          <ParticipantsProfile
+            totalUser={props.totalUsers}
+            currentUsers={props.currentUsers}
+          ></ParticipantsProfile>
         </TitleFooter>
-        {/* {product.participants.map((participants) => {
-
-          })} */}
       </Title>
       <Body>
         <BodyHeader>
           <UserProfile>
-            <UserImg src={userImg}></UserImg>
-            <UserName>유지원</UserName>
+            <Img
+              src={userImg}
+              width="40px"
+              height="40px"
+              borderRadious="50%"
+              border="1px solid"
+            ></Img>
+            <Text fontSize="20px">유지원</Text>
           </UserProfile>
           <UserScore>
             <ScoreText>50%</ScoreText>
             <ScoreImg src={scoreImg}></ScoreImg>
           </UserScore>
         </BodyHeader>
-        <BodyContent>{props.content}</BodyContent>
+
+        <Text fontSize="15px">{props.content}</Text>
 
         <MapWrap>
           <Place>
-            <div>거래 장소</div>
-            <div>{props.location}</div>
+            <Text fontSize="16px" fontFamily="DunggeunmisoBold">
+              거래 장소
+            </Text>
+            <Text fontSize="16px">{props.location}</Text>
           </Place>
           <Map></Map>
         </MapWrap>
