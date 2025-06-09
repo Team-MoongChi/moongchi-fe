@@ -8,8 +8,8 @@ import GongguMenu from "../../components/gongguPages/gongguMainPage/GongguMenu";
 import GongguRecommend from "../../components/gongguPages/gongguMainPage/GongguRecommend";
 import GongguListItem from "../../components/gongguPages/common/GongguListItem";
 import writeIcon from "../../assets/images/common/공구생성아이콘.png";
+import { Text } from "../../components/common/styled-component/Text";
 
-import type { ProductList } from "../../components/gongguPages/common/GongguListItem";
 import type { GongguItem } from "../../types/gongguPage/gongguItem";
 
 const Wrap = styled.div<{ isSmall: boolean }>`
@@ -20,7 +20,7 @@ const Wrap = styled.div<{ isSmall: boolean }>`
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 20px;
 `;
 
 // 공구 리스트
@@ -30,11 +30,6 @@ const GongguList = styled.div`
   padding: 0 5%;
   gap: 10px;
   padding-bottom: 10vh;
-`;
-const GongguTitle = styled.div`
-  font-family: DunggeunmisoBold;
-  font-size: 20px;
-  color: #5849d0;
 `;
 
 // 하단 내비바
@@ -55,11 +50,13 @@ const WriteIcon = styled.img.attrs({
   alt: "글쓰기 아이콘",
 })`
   position: fixed;
-  bottom: 6em;
-  right: 1em;
+  z-index: 1;
+  bottom: 5em;
   width: 80px;
   height: 80px;
   cursor: pointer;
+  align-self: end;
+  margin: 5px 15px;
 `;
 
 export default function GongguMainPage() {
@@ -110,14 +107,18 @@ export default function GongguMainPage() {
       <GongguSearchBar />
       <GongguMenu />
       <GongguRecommend />
+
       <GongguList>
-        <GongguTitle>근처에서 열린 공구</GongguTitle>
+        <Text fontSize="20px" fontFamily="DunggeunmisoBold" color="#5849d0">
+          근처에서 열린 공구
+        </Text>
         {gongguList.map((gongguItem) => {
           return <GongguListItem {...gongguItem}></GongguListItem>;
         })}
       </GongguList>
 
       <WriteIcon onClick={writeGonggu} />
+
       <NavBar isSmall={small}>
         {/* 나중에 onclick 삭제하기 */}
         <div onClick={writeGonggu2}>홈</div>
