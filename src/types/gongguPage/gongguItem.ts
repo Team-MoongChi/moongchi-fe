@@ -34,7 +34,7 @@ export interface GongguItem {
   boardStatus: BoardStatus;
   deadline: string;
   totalUsers: number;
-  currentUsers?: number;
+  currentUsers: number;
   groupProduct: Product;
   participants: Participant[];
 }
