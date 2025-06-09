@@ -26,7 +26,7 @@ const StartPage = () => {
   return (
     <Wrapper $isSmall={small}>
       <SlideInfo />
-      <Button text="시작하기" onClick={() => buttonHandle()} />
+      <Button text="시작하기" onClick={() => buttonHandle()} disable={true} />
     </Wrapper>
   );
 };
