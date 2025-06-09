@@ -1,14 +1,11 @@
 import styled from "styled-components";
+import { Text } from "../../common/styled-component/Text";
 
-const Recommend = styled.div`
+const Wrap = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0 5%;
   gap: 10px;
-`;
-const RecTitle = styled.div`
-  font-size: 20px;
-  font-weight: bold;
 `;
 const RecList = styled.div`
   width: 100%;
@@ -18,10 +15,12 @@ const RecList = styled.div`
 `;
 
 export default function GongguRecommend() {
-    return (
-      <Recommend>
-        <RecTitle>뭉치's PICK</RecTitle>
-        <RecList></RecList>
-      </Recommend>
-    );
+  return (
+    <Wrap>
+      <Text fontSize="20px" fontFamily="DunggeunmisoBold" color="#5849d0">
+        뭉치's PICK
+      </Text>
+      <RecList></RecList>
+    </Wrap>
+  );
 }
