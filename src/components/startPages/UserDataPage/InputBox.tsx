@@ -30,8 +30,35 @@ const Input = styled.input`
   }
 `;
 
-const InputBox = ({ title }: { title: string }) => {
+interface InputBoxProps {
+  title: string;
+  data: string;
+  onChange: (value: string) => void;
+}
+
+const InputBox = ({ title, data, onChange }: InputBoxProps) => {
   const [isFocused, setIsFocused] = useState<boolean>(false);
+
+  const formatPhoneNumber = (value: string) => {
+    // 숫자만 남기기
+    const onlyNums = value.replace(/\D/g, "");
+
+    if (onlyNums.length < 4) {
+      return onlyNums;
+    } else if (onlyNums.length < 8) {
+      return `${onlyNums.slice(0, 3)}-${onlyNums.slice(3)}`;
+    } else {
+      return `${onlyNums.slice(0, 3)}-${onlyNums.slice(3, 7)}-${onlyNums.slice(
+        7,
+        11
+      )}`;
+    }
+  };
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formatted = formatPhoneNumber(e.target.value);
+    onChange(formatted);
+  };
 
   return (
     <Wrapper>
@@ -40,6 +67,14 @@ const InputBox = ({ title }: { title: string }) => {
         type="text"
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
+        placeholder={data}
+        disabled={title === "이름" || title === "이메일" ? true : false}
+        onChange={
+          title === "전화번호"
+            ? handlePhoneChange
+            : (e) => onChange?.(e.target.value)
+        }
+        value={data || ""}
       />
     </Wrapper>
   );

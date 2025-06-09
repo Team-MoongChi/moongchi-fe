@@ -36,7 +36,12 @@ const Input = styled.input`
   }
 `;
 
-const InputBoxHalf = () => {
+interface MainProps {
+  onChange1?: (value: string) => void;
+  onChange2?: (value: string) => void;
+}
+
+const InputBoxHalf = ({ onChange1, onChange2 }: MainProps) => {
   const [isFocusedB, setIsFocusedB] = useState<boolean>(false);
   const [isFocusedG, setIsFocusedG] = useState<boolean>(false);
 
@@ -49,6 +54,7 @@ const InputBoxHalf = () => {
           onFocus={() => setIsFocusedB(true)}
           onBlur={() => setIsFocusedB(false)}
           style={{ color: "#afb1b6" }}
+          onChange={(e) => onChange1?.(e.target.value)}
         />
       </InputWrapper>
       <InputWrapper>
@@ -58,6 +64,7 @@ const InputBoxHalf = () => {
           onFocus={() => setIsFocusedG(true)}
           onBlur={() => setIsFocusedG(false)}
           placeholder="남성 or 여성"
+          onChange={(e) => onChange2?.(e.target.value)}
         />
       </InputWrapper>
     </Wrapper>

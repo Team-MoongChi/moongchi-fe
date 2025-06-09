@@ -9,15 +9,25 @@ const Box = styled.button`
   color: white;
   font-family: DunggeunmisoBold;
   font-size: 20px;
+
+  &:disabled {
+    background-color: #e8edff;
+    color: #aeb8db;
+  }
 `;
 
 type ButtonProps = {
   text: string;
   onClick: () => void;
+  disable?: boolean;
 };
 
-const Button = ({ text, onClick }: ButtonProps) => {
-  return <Box onClick={onClick}>{text}</Box>;
+const Button = ({ text, onClick, disable }: ButtonProps) => {
+  return (
+    <Box onClick={onClick} disabled={!disable}>
+      {text}
+    </Box>
+  );
 };
 
 export default Button;

@@ -20,7 +20,7 @@ const StartPage = () => {
   const navigate = useNavigate();
 
   const buttonHandle = () => {
-    navigate("/start/login");
+    navigate("/login");
   };
 
   return (

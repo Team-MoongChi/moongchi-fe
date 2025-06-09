@@ -21,14 +21,14 @@ const LocationPage = () => {
   const navigate = useNavigate();
 
   const buttonHandle = () => {
-    navigate("/start/prefer");
+    navigate("/prefer");
   };
 
   return (
     <Wrapper $isSmall={small}>
       <Step />
       <Main />
-      <Button text="다음" onClick={buttonHandle} />
+      <Button text="다음" onClick={buttonHandle} disable={true} />
     </Wrapper>
   );
 };

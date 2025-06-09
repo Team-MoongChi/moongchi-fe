@@ -4,7 +4,7 @@ import Step from "../../components/startPages/UserDataPage/Step";
 import Main from "../../components/startPages/UserDataPage/Main";
 import Button from "../../components/startPages/common/Button";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const Wrapper = styled.div<{ $isSmall: boolean }>`
   background-color: white;
@@ -20,9 +20,62 @@ const Wrapper = styled.div<{ $isSmall: boolean }>`
 const UserDataPage = () => {
   const { small } = useDeviceSize();
   const navigate = useNavigate();
+  const [userData, setUserData] = useState([]);
+
+  const [nickname, setNickname] = useState("");
+  const [phone, setPhone] = useState("");
+  const [birth, setBirth] = useState("");
+  const [gender, setGender] = useState("");
+  const profileUrl = ["/pink.png", "/yellow.png", "/mint.png", "/blue.png"];
+  const randomProfile =
+    profileUrl[Math.floor(Math.random() * profileUrl.length)];
+
+  const [buttonCheck, setButtonCheck] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (nickname && birth && gender && phone.length == 13) {
+      setButtonCheck(true);
+    } else {
+      setButtonCheck(false);
+    }
+  }, [nickname, birth, gender, phone]);
+
+  console.log(buttonCheck);
 
   const ButtonHandle = () => {
-    navigate("/start/location");
+    fetch("http://localhost:8080/api/users", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include", // withCredentials: true 역할
+      body: JSON.stringify({
+        nickname,
+        phone,
+        birth,
+        gender,
+        profileUrl: randomProfile,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("서버 응답 실패");
+        }
+
+        return response.json();
+      })
+      .then((result) => {
+        console.log("POST 성공!");
+        const accessToken = result.accessToken; // 토큰 꺼내기
+
+        if (accessToken) {
+          localStorage.setItem("accessToken", accessToken); // 로컬스토리지에 저장
+        }
+        navigate("/location");
+      })
+      .catch((error) => {
+        console.error("요청 실패:", error);
+      });
   };
 
   useEffect(() => {
@@ -33,11 +86,11 @@ const UserDataPage = () => {
     })
       .then((res) => {
         if (!res.ok) throw new Error("사용자 정보 요청 실패");
-        console.log(res);
         return res.json();
       })
       .then((data) => {
         const { email, name } = data;
+        setUserData(data);
         if (email && name) {
           // 2) 받은 정보로 회원가입 API 호출
           return fetch("http://localhost:8080/api/users", {
@@ -60,7 +113,6 @@ const UserDataPage = () => {
         const accessToken = data.accessToken;
         if (accessToken) {
           localStorage.setItem("access_token", accessToken);
-          navigate("/location");
         }
       })
       .catch((err) => {
@@ -68,11 +120,27 @@ const UserDataPage = () => {
       });
   }, []);
 
+  const handleGenderChange = (value: string) => {
+    if (value === "여성") setGender("FEMALE");
+    else if (value === "남성") setGender("MALE");
+    else setGender(value);
+  };
+
   return (
     <Wrapper $isSmall={small}>
       <Step />
-      <Main />
-      <Button text="다음" onClick={ButtonHandle} />
+      <Main
+        userData={userData}
+        nickname={nickname}
+        setNickname={setNickname}
+        phone={phone}
+        setPhone={setPhone}
+        birth={birth}
+        setBirth={setBirth}
+        gender={gender}
+        setGender={handleGenderChange}
+      />
+      <Button text="다음" onClick={ButtonHandle} disable={buttonCheck} />
     </Wrapper>
   );
 };
