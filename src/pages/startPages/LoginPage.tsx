@@ -28,7 +28,7 @@ const Buttons = styled.div`
   align-items: center;
   gap: 15px;
 `;
-const LoginButton = styled.button<{ color: string }>`
+const LoginButton = styled.a<{ color: string }>`
   width: 90%;
   max-width: 400px;
   height: 60px;
@@ -53,15 +53,24 @@ const LoginPage = () => {
     <Wrapper $isSmall={small}>
       <MoongBox src={moongchiBox} />
       <Buttons>
-        <LoginButton color="#FFEB3B">
+        <LoginButton
+          color="#FFEB3B"
+          href="http://localhost:8080/oauth2/authorization/kakao"
+        >
           <Img src={kakao} />
           카카오로 시작하기
         </LoginButton>
-        <LoginButton color="#03C75A">
+        <LoginButton
+          color="#03C75A"
+          href="http://localhost:8080/oauth2/authorization/naver"
+        >
           <Img src={naver} />
           네이버로 시작하기
         </LoginButton>
-        <LoginButton color="#4285F4">
+        <LoginButton
+          color="#4285F4"
+          href="http://localhost:8080/oauth2/authorization/google"
+        >
           <Img src={google} />
           구글로 시작하기
         </LoginButton>

@@ -12,7 +12,7 @@ const Wrapper = styled.div`
   align-items: center;
   gap: 20px;
   margin: 4% 0px 0px 0px;
-  height: 57%;
+  height: 55.4%;
 `;
 const WrapperSub = styled.div`
   display: flex;
@@ -50,9 +50,12 @@ const RadioLabel = styled.label<{ checked: boolean }>`
   }
 `;
 
-const Main = () => {
-  const [selected, setSelected] = useState("option2");
+interface MainProps {
+  selected: string;
+  setSelected: React.Dispatch<React.SetStateAction<string>>;
+}
 
+const Main = ({ selected, setSelected }: MainProps) => {
   return (
     <Wrapper>
       <WrapperSub>
