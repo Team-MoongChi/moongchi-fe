@@ -8,10 +8,9 @@ import blue from "../../../assets/images/gonggu/모집중.png";
 import gray from "../../../assets/images/gonggu/모집마감.png";
 import green from "../../../assets/images/gonggu/공구완료.png";
 
-import userImg from "../../../assets/images/moongchies/노란뭉치.png";
 import scoreImg from "../../../assets/images/userScore/리더하트50.png";
 
-import type { GongguItem } from "../../../types/gongguPage/gongguItem";
+import type { GongguPost } from "../../../types/gongguPage/gongguPost";
 
 const Wrap = styled.div`
   display: flex;
@@ -89,7 +88,7 @@ const Map = styled.div`
   background-color: #d0d0d0;
 `;
 
-export default function Content(props: Partial<GongguItem>) {
+export default function Content(props: GongguPost) {
   return (
     // 링크 수정 필요
     <Wrap>
@@ -108,13 +107,13 @@ export default function Content(props: Partial<GongguItem>) {
         <TitleContent>
           <Text fontSize="24px">{props.title}</Text>
           <Text fontSize="19px" fontFamily="DunggeunmisoBold">
-            인당 {props.groupProduct?.price}원
+            인당 {props.price}원
           </Text>
         </TitleContent>
         <TitleFooter>
           <Text fontSize="13px" fontFamily="DunggeunmisoBold" color="#ff4242">
-            {props.deadline} 마감까지{" "}
-            {(props.totalUsers ?? 0) - (props.currentUsers ?? 0)}명 남았어요!
+            {props.deadline} 마감까지 {props.totalUsers - props.currentUsers}명
+            남았어요!
           </Text>
           <ParticipantsProfile
             totalUser={props.totalUsers}
@@ -126,7 +125,7 @@ export default function Content(props: Partial<GongguItem>) {
         <BodyHeader>
           <UserProfile>
             <Img
-              src={userImg}
+              src={props.participants.profileUrl}
               width="40px"
               height="40px"
               borderRadious="50%"

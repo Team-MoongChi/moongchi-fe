@@ -42,14 +42,12 @@ const Details = styled.div`
   justify-content: space-between;
 `;
 
-// /api/group-boards/{groupBoardId}
-
 export default function GongguListItem(props: GongguItem) {
   return (
     <Link to={`/gonggu/list/${props.id}`}>
       <Wrap>
         <Img
-          src={props.groupProduct.images[0]}
+          src={props.image}
           width="140px"
           height="140px"
           borderRadious="10px"
@@ -69,7 +67,7 @@ export default function GongguListItem(props: GongguItem) {
           ></Img>
           <Text fontSize="17px">{props.title}</Text>
           <Text fontSize="14px" fontFamily="DunggeunmisoBold">
-            {props.groupProduct.price}원
+            {props.price}원
           </Text>
           <Participants>
             <ParticipantsProfile
