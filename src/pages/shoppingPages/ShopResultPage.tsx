@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Header from "../../components/shoppingPages/ShopResultPage/Header.tsx";
 import Main from "../../components/shoppingPages/ShopResultPage/Main.tsx";
-import Nav from "../../components/shoppingPages/ShopResultPage/Nav.tsx";
+import Nav from "../../components/common/Nav.tsx";
 import useDeviceSize from "../../useDeviceSize.tsx";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";

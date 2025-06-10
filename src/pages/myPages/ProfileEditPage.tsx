@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import useDeviceSize from "../../useDeviceSize";
-import Header from "../../components/myPages/ProfileEditPage/Header";
+import Header from "../../components/common/Header";
 import InputBox from "../../components/myPages/ProfileEditPage/InputBox";
 import Button from "../../components/myPages/ProfileEditPage/Button";
 import { useState } from "react";
@@ -46,7 +46,7 @@ const ProfileEditPage = () => {
 
   return (
     <Wrapper $isSmall={small}>
-      <Header />
+      <Header title="프로필 수정" />
       <Main>
         <ProfileImg>
           <img src="/mint.png" />

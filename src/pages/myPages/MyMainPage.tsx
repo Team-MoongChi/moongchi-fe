@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import useDeviceSize from "../../useDeviceSize";
 import Header from "../../components/myPages/MyMainPage/Header";
-import Nav from "../../components/myPages/MyMainPage/Nav";
+import Nav from "../../components/common/Nav";
 import Profile from "../../components/myPages/MyMainPage/Profile";
 import Menu from "../../components/myPages/MyMainPage/Menu";
 

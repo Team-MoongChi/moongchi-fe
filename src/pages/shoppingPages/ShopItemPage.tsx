@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Header from "../../components/shoppingPages/ShopItemPage/Header.tsx";
+import Header from "../../components/common/Header.tsx";
 import Nav from "../../components/shoppingPages/ShopItemPage/Nav.tsx";
 import Main from "../../components/shoppingPages/ShopItemPage/Main.tsx";
 import useDeviceSize from "../../useDeviceSize.tsx";
@@ -55,7 +55,7 @@ const ShopItemPage = () => {
 
   return (
     <Wrapper $isSmall={small}>
-      <Header />
+      <Header title="상품" />
       <Main item={item} />
       <Nav link={item?.productUrl} />
     </Wrapper>
