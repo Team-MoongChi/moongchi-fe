@@ -9,11 +9,11 @@ const Wrap = styled.div`
   gap: 2px;
   cursor: pointer;
 `;
-const Button = styled.div<{ backgroundColor: string }>`
+const Button = styled.div<{ $backgroundcolor: string }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: ${(props) => props.backgroundColor};
+  background-color: ${(props) => props.$backgroundcolor};
   border-radius: 6px;
   aspect-ratio: 1/1;
   padding: clamp(5px, 2vw, 15px);
@@ -29,7 +29,7 @@ interface MenuProps {
 export default function MenuButton(props: MenuProps) {
   return (
     <Wrap onClick={props.onClick}>
-      <Button backgroundColor={props.clicked ? "#5849d0" : "#e8edff"}>
+      <Button $backgroundcolor={props.clicked ? "#5849d0" : "#e8edff"}>
         <Img src={props.src} width="clamp(40px, 2vw, 50px)"></Img>
       </Button>
       <Text

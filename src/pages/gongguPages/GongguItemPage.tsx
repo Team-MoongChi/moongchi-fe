@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import useDeviceSize from "../../useDeviceSize";
 import { useEffect, useState } from "react";
 
@@ -6,20 +5,10 @@ import Header from "../../components/gongguPages/gongguItemPage/Header";
 import ImageSlide from "../../components/gongguPages/gongguItemPage/ImageSlide";
 import Footer from "../../components/gongguPages/gongguItemPage/Footer";
 import Content from "../../components/gongguPages/gongguItemPage/Content";
+import { Wrap } from "../../components/common/styled-component/Wrap";
 
 import { useParams } from "react-router-dom";
 import type { GongguPost } from "../../types/gongguPage/gongguPost";
-
-const Wrap = styled.div<{ isSmall: boolean }>`
-  background-color: white;
-  width: ${(props) => (props.isSmall ? "100%" : "50%")};
-  height: 100%;
-  margin: auto;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-`;
 
 export default function GongguItemPage() {
   const { small } = useDeviceSize();
@@ -63,7 +52,7 @@ export default function GongguItemPage() {
   if (loading) return <div>loading...</div>;
 
   return (
-    <Wrap isSmall={small}>
+    <Wrap $issmall={small} $gap="15px">
       <Header />
       <ImageSlide />
       {gongguItem ? <Content {...gongguItem}></Content> : null}

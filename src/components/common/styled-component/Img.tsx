@@ -4,8 +4,8 @@ interface ImgProps {
   src: string;
   width?: string;
   height?: string;
-  border?: string;
-  borderRadious?: string;
+  $border?: string;
+  $borderradious?: string;
 }
 
 export const Img = styled.img.attrs<ImgProps>((props) => ({
@@ -13,8 +13,8 @@ export const Img = styled.img.attrs<ImgProps>((props) => ({
 }))<ImgProps>`
   width: ${(props) => props.width};
   height: ${(props) => props.height};
-  border: ${(props) => props.border};
-  border-radius: ${(props) => props.borderRadious};
+  border: ${(props) => props.$border};
+  border-radius: ${(props) => props.$borderradious};
   object-fit: cover;
   box-sizing: border-box;
 `;

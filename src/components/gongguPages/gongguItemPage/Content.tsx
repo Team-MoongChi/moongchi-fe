@@ -128,8 +128,8 @@ export default function Content(props: GongguPost) {
               src={props.participants.profileUrl}
               width="40px"
               height="40px"
-              borderRadious="50%"
-              border="1px solid"
+              $borderradious="50%"
+              $border="1px solid"
             ></Img>
             <Text fontSize="20px">유지원</Text>
           </UserProfile>
