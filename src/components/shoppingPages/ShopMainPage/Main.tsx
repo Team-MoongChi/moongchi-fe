@@ -59,7 +59,7 @@ const Items = styled.div`
   align-items: start;
   flex-wrap: wrap;
 `;
-const Item = styled.div`
+const Item = styled.button`
   display: flex;
   justify-content: center;
   align-items: start;
@@ -221,10 +221,15 @@ type Product = {
 const Main = () => {
   const [index, setIndex] = useState(0);
   const [products, setProducts] = useState<Array<Product>>([]);
+  const navigate = useNavigate();
 
   const nextSlide = () => setIndex((prev) => (prev + 1) % images.length);
   const prevSlide = () =>
     setIndex((prev) => (prev - 1 + images.length) % images.length);
+
+  const handleItemClick = (itemId: number) => {
+    navigate(`/shopping/item?itemId=${itemId}`);
+  };
 
   // 자동 슬라이드
   useEffect(() => {
@@ -279,7 +284,7 @@ const Main = () => {
       <Title>뭉치's PICK!</Title>
       <Items>
         {products.map((product) => (
-          <Item key={product.id}>
+          <Item key={product.id} onClick={() => handleItemClick(product.id)}>
             <Img src={product.imgUrl}></Img>
             <ItemName>{product.name}</ItemName>
             <Price>{product.price.toLocaleString()}원</Price>
