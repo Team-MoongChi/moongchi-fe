@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Text } from "../../common/styled-component/Text";
 import { Img } from "../../common/styled-component/Img";
 import ParticipantsProfile from "../../common/ParticipantsProfile";
-
+import useTimeStamp from "../../../useTimeStamp";
 import type { GongguItem } from "../../../types/gongguPage/gongguItem";
 
 import red from "../../../assets/images/gonggu/마감임박.png";
@@ -42,17 +42,15 @@ const Details = styled.div`
   justify-content: space-between;
 `;
 
-// /api/group-boards/{groupBoardId}
-
 export default function GongguListItem(props: GongguItem) {
   return (
     <Link to={`/gonggu/list/${props.id}`}>
       <Wrap>
         <Img
-          src={props.groupProduct.images[0]}
+          src={props.image}
           width="140px"
           height="140px"
-          borderRadious="10px"
+          $borderradious="10px"
         ></Img>
         <Content>
           <Img
@@ -65,16 +63,17 @@ export default function GongguListItem(props: GongguItem) {
                 ? gray
                 : green
             }
-            width="80px"
+            width="70px"
           ></Img>
           <Text fontSize="17px">{props.title}</Text>
           <Text fontSize="14px" fontFamily="DunggeunmisoBold">
-            {props.groupProduct.price}원
+            {props.price.toLocaleString()}원
           </Text>
           <Participants>
             <ParticipantsProfile
               totalUser={props.totalUsers}
               currentUsers={props.currentUsers}
+              participants={props.participants}
             ></ParticipantsProfile>
             <ParticipantsCnt>
               <Img src={person} width="13px" height="13px"></Img>
@@ -86,6 +85,9 @@ export default function GongguListItem(props: GongguItem) {
           <Details>
             <Text fontSize="12px" fontWeight="bold" color="#a7a7a7">
               {props.location}
+            </Text>
+            <Text fontSize="12px" color="#a7a7a7">
+              {useTimeStamp(props.createAt)}
             </Text>
           </Details>
         </Content>

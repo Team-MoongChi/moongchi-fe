@@ -2,16 +2,19 @@ import styled from "styled-components";
 import { Text } from "../../common/styled-component/Text";
 import { Img } from "../../common/styled-component/Img";
 import ParticipantsProfile from "../../common/ParticipantsProfile";
+import { useCalDay } from "../../../useTimeStamp";
 
 import red from "../../../assets/images/gonggu/마감임박.png";
 import blue from "../../../assets/images/gonggu/모집중.png";
 import gray from "../../../assets/images/gonggu/모집마감.png";
 import green from "../../../assets/images/gonggu/공구완료.png";
 
-import userImg from "../../../assets/images/moongchies/노란뭉치.png";
-import scoreImg from "../../../assets/images/userScore/리더하트50.png";
+import scoreImg from "../../../assets/images/userScore/리더하트25.png";
+import scoreImg2 from "../../../assets/images/userScore/리더하트50.png";
+import scoreImg3 from "../../../assets/images/userScore/리더하트75.png";
+import scoreImg4 from "../../../assets/images/userScore/리더하트100.png";
 
-import type { GongguItem } from "../../../types/gongguPage/gongguItem";
+import type { GongguPost } from "../../../types/gongguPage/gongguPost";
 
 const Wrap = styled.div`
   display: flex;
@@ -64,14 +67,6 @@ const UserScore = styled.div`
   align-items: center;
   gap: 5px;
 `;
-const ScoreText = styled.div`
-  font-size: 13px;
-  font-weight: bold;
-`;
-const ScoreImg = styled.img`
-  src: ${(props) => props.src};
-  width: 30px;
-`;
 
 const MapWrap = styled.div`
   display: flex;
@@ -89,7 +84,21 @@ const Map = styled.div`
   background-color: #d0d0d0;
 `;
 
-export default function Content(props: Partial<GongguItem>) {
+export default function Content(props: GongguPost) {
+  const MannerImg = () => {
+    const score = Math.floor(props.participants[0].mannerLeader);
+
+    if (score <= 25) {
+      return <Img src={scoreImg} width="30px" height="30px"></Img>;
+    } else if (score <= 50) {
+      return <Img src={scoreImg2} width="30px" height="30px"></Img>;
+    } else if (score <= 75) {
+      return <Img src={scoreImg3} width="30px" height="30px"></Img>;
+    } else {
+      return <Img src={scoreImg4} width="30px" height="30px"></Img>;
+    }
+  };
+
   return (
     // 링크 수정 필요
     <Wrap>
@@ -108,17 +117,18 @@ export default function Content(props: Partial<GongguItem>) {
         <TitleContent>
           <Text fontSize="24px">{props.title}</Text>
           <Text fontSize="19px" fontFamily="DunggeunmisoBold">
-            인당 {props.groupProduct?.price}원
+            인당 {(props.price / props.totalUsers).toLocaleString()}원
           </Text>
         </TitleContent>
         <TitleFooter>
           <Text fontSize="13px" fontFamily="DunggeunmisoBold" color="#ff4242">
-            {props.deadline} 마감까지{" "}
-            {(props.totalUsers ?? 0) - (props.currentUsers ?? 0)}명 남았어요!
+            {useCalDay(props.deadline)} 마감까지{" "}
+            {props.totalUsers - props.currentUsers}명 남았어요!
           </Text>
           <ParticipantsProfile
             totalUser={props.totalUsers}
             currentUsers={props.currentUsers}
+            participants={props.participants}
           ></ParticipantsProfile>
         </TitleFooter>
       </Title>
@@ -126,17 +136,18 @@ export default function Content(props: Partial<GongguItem>) {
         <BodyHeader>
           <UserProfile>
             <Img
-              src={userImg}
+              src={props.participants[0].profileUrl}
               width="40px"
               height="40px"
-              borderRadious="50%"
-              border="1px solid"
+              $borderradious="50%"
             ></Img>
-            <Text fontSize="20px">유지원</Text>
+            <Text fontSize="20px">손하은</Text>
           </UserProfile>
           <UserScore>
-            <ScoreText>50%</ScoreText>
-            <ScoreImg src={scoreImg}></ScoreImg>
+            <Text fontSize="13px" fontFamily="DunggeunmisoBold" color="#ff6f6f">
+              {Math.floor(props.participants[0].mannerLeader)}%
+            </Text>
+            {MannerImg()}
           </UserScore>
         </BodyHeader>
 

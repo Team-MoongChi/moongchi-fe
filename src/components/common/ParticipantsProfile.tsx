@@ -17,18 +17,25 @@ const Plus = styled.div`
   background-color: #5849d0;
 `;
 
+interface Participant {
+  userId: number;
+  role?: string;
+  mannerLeader?: number;
+  nickname?: number;
+  profileUrl: string;
+}
+
 interface Props {
   totalUser: number;
   currentUsers: number;
+  participants: Participant[];
 }
 
 export default function ParticipantsProfile(props: Props) {
   const totalUser = props.totalUser;
   const currentUsers = props.currentUsers;
   const emptyUser = totalUser - currentUsers;
-  const participants = [
-    "https://image.utoimage.com/preview/cp872722/2022/12/202212008462_500.jpg",
-  ];
+  const participants = props.participants;
 
   const emptyProfile = () => {
     const arr = [];
@@ -41,10 +48,10 @@ export default function ParticipantsProfile(props: Props) {
   const totalMoreFive = () => {
     const arr = [];
     for (let i = 1; i < 5 - currentUsers; i++) {
-      arr.push(<Img key={i} src={empty} width="20px" height="20px"></Img>);
+      arr.push(<Img key={i - 1} src={empty} width="20px" height="20px"></Img>);
     }
     arr.push(
-      <Plus>
+      <Plus key="5">
         <Text fontSize="10px" color="white">
           +{totalUser - 4}
         </Text>
@@ -55,14 +62,15 @@ export default function ParticipantsProfile(props: Props) {
 
   return (
     <Wrap>
-      {participants.map((url) => {
+      {participants?.map((participant, idx) => {
         return (
           <Img
-            src={url}
+            key={idx}
+            src={participant.profileUrl}
             width="20px"
             height="20px"
-            border="1px solid #5849d0"
-            borderRadious="50%"
+            $border="1px solid #5849d0"
+            $borderradious="50%"
           ></Img>
         );
       })}
