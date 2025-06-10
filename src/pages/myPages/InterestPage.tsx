@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import useDeviceSize from "../../useDeviceSize";
-import Header from "../../components/myPages/InterestPage/Header";
-import GongguListItem from "../../components/myPages/InterestPage/GongguListItem";
+import Header from "../../components/common/Header";
+import GongguListItem from "../../components/gongguPages/common/GongguListItem";
 
 const Wrapper = styled.div<{ $isSmall: boolean }>`
   background-color: white;
@@ -15,7 +15,7 @@ const Wrapper = styled.div<{ $isSmall: boolean }>`
 `;
 const Main = styled.div`
   width: 100%;
-  margin-top: 90px;
+  margin-top: 82px;
 `;
 
 const example = {
@@ -31,9 +31,10 @@ const example = {
 
 const InterestPage = () => {
   const { small } = useDeviceSize();
+
   return (
     <Wrapper $isSmall={small}>
-      <Header />
+      <Header title="관심 목록" />
       <Main>
         <GongguListItem {...example} />
         <GongguListItem {...example} />

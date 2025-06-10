@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import useDeviceSize from "../../useDeviceSize";
-import Header from "../../components/myPages/MyGongguPage/Header";
-import GongguListItem from "../../components/myPages/MyGongguPage/GongguListItem";
+import Header from "../../components/common/Header";
+import GongguListItem from "../../components/gongguPages/common/GongguListItem";
 
 const Wrapper = styled.div<{ $isSmall: boolean }>`
   background-color: white;
@@ -15,7 +15,7 @@ const Wrapper = styled.div<{ $isSmall: boolean }>`
 `;
 const Main = styled.div`
   width: 100%;
-  margin-top: 90px;
+  margin-top: 82px;
 `;
 
 const example = {
@@ -33,7 +33,7 @@ const MyGongguPage = () => {
   const { small } = useDeviceSize();
   return (
     <Wrapper $isSmall={small}>
-      <Header />
+      <Header title="내가 올린 공구" />
       <Main>
         <GongguListItem {...example} />
         <GongguListItem {...example} />

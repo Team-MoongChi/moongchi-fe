@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import useDeviceSize from "../../useDeviceSize";
-import Header from "../../components/myPages/LocationPage/Header";
+import Header from "../../components/common/Header";
 import Main from "../../components/myPages/LocationPage/Main";
 import Button from "../../components/myPages/LocationPage/Button";
 import { useState } from "react";
@@ -37,7 +37,7 @@ const LocationPage = () => {
 
   return (
     <Wrapper $isSmall={small}>
-      <Header />
+      <Header title="주소 설정" />
       <Main />
       <Button text="완료" onClick={handleClick} disable={true} />
     </Wrapper>
