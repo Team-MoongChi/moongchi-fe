@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Header from "../../components/shoppingPages/ShopItemPage/Header.tsx";
 import Nav from "../../components/shoppingPages/ShopItemPage/Nav.tsx";
 import Main from "../../components/shoppingPages/ShopItemPage/Main.tsx";
-import useDeviceSize from "../../useDeviceSive.tsx";
+import useDeviceSize from "../../useDeviceSize.tsx";
 import { useState, useEffect } from "react";
 
 const Wrapper = styled.div<{ $isSmall: boolean }>`
