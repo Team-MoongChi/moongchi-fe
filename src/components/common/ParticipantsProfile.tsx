@@ -17,18 +17,25 @@ const Plus = styled.div`
   background-color: #5849d0;
 `;
 
+interface Participant {
+  userId: number;
+  role?: string;
+  mannerLeader?: number;
+  nickname?: number;
+  profileUrl: string;
+}
+
 interface Props {
   totalUser: number;
   currentUsers: number;
+  participants: Participant[];
 }
 
 export default function ParticipantsProfile(props: Props) {
   const totalUser = props.totalUser;
   const currentUsers = props.currentUsers;
   const emptyUser = totalUser - currentUsers;
-  const participants = [
-    "https://image.utoimage.com/preview/cp872722/2022/12/202212008462_500.jpg",
-  ];
+  const participants = props.participants;
 
   const emptyProfile = () => {
     const arr = [];
@@ -55,11 +62,11 @@ export default function ParticipantsProfile(props: Props) {
 
   return (
     <Wrap>
-      {participants.map((url, idx) => {
+      {participants?.map((participant, idx) => {
         return (
           <Img
             key={idx}
-            src={url}
+            src={participant.profileUrl}
             width="20px"
             height="20px"
             $border="1px solid #5849d0"
