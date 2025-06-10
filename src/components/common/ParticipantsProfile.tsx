@@ -41,10 +41,10 @@ export default function ParticipantsProfile(props: Props) {
   const totalMoreFive = () => {
     const arr = [];
     for (let i = 1; i < 5 - currentUsers; i++) {
-      arr.push(<Img key={i} src={empty} width="20px" height="20px"></Img>);
+      arr.push(<Img key={i - 1} src={empty} width="20px" height="20px"></Img>);
     }
     arr.push(
-      <Plus>
+      <Plus key="5">
         <Text fontSize="10px" color="white">
           +{totalUser - 4}
         </Text>
@@ -55,14 +55,15 @@ export default function ParticipantsProfile(props: Props) {
 
   return (
     <Wrap>
-      {participants.map((url) => {
+      {participants.map((url, idx) => {
         return (
           <Img
+            key={idx}
             src={url}
             width="20px"
             height="20px"
-            border="1px solid #5849d0"
-            borderRadious="50%"
+            $border="1px solid #5849d0"
+            $borderradious="50%"
           ></Img>
         );
       })}
