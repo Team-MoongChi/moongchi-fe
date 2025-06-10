@@ -4,6 +4,7 @@ import Nav from "../../components/shoppingPages/ShopItemPage/Nav.tsx";
 import Main from "../../components/shoppingPages/ShopItemPage/Main.tsx";
 import useDeviceSize from "../../useDeviceSize.tsx";
 import { useState, useEffect } from "react";
+import { fetchWithAuth } from "../../utils/FetchWithAuth.tsx";
 
 const Wrapper = styled.div<{ $isSmall: boolean }>`
   background-color: white;
@@ -26,7 +27,7 @@ type Product = {
 };
 
 const ShopItemPage = () => {
-  const { small, large } = useDeviceSize();
+  const { small } = useDeviceSize();
 
   const queryParams = new URLSearchParams(location.search);
   const itemId = queryParams.get("itemId") ?? "";
@@ -34,7 +35,14 @@ const ShopItemPage = () => {
   const [item, setItem] = useState<Product | null>(null);
 
   useEffect(() => {
-    fetch(`http://localhost:8080/api/products/${itemId}`)
+    const token = localStorage.getItem("accessToken");
+    fetchWithAuth(`http://localhost:8080/api/products/${itemId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((response) => response.json())
       .then((result) => {
         console.log(result);

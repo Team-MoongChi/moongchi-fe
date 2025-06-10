@@ -5,6 +5,7 @@ import styled from "styled-components";
 import useDeviceSize from "../../useDeviceSize";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { fetchWithAuth } from "../../utils/FetchWithAuth";
 
 const Wrapper = styled.div<{ $isSmall: boolean }>`
   background-color: white;
@@ -24,7 +25,7 @@ const PreferCategoryPage = () => {
   const token = localStorage.getItem("access_token");
 
   const buttonHandle = () => {
-    fetch("http://localhost:8080/api/users/interest-category", {
+    fetchWithAuth("http://localhost:8080/api/users/interest-category", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

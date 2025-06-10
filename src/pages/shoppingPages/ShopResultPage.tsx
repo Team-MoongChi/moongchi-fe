@@ -5,6 +5,7 @@ import Nav from "../../components/shoppingPages/ShopResultPage/Nav.tsx";
 import useDeviceSize from "../../useDeviceSize.tsx";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { fetchWithAuth } from "../../utils/FetchWithAuth.tsx";
 
 const Wrapper = styled.div<{ $isSmall: boolean }>`
   background-color: white;
@@ -36,16 +37,17 @@ const ShopResultPage = () => {
   const [result, setResult] = useState<Product[]>([]);
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/search", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        keyword: keyword,
-        userId: 1,
-      }),
-    })
+    const token = localStorage.getItem("accessToken");
+    fetchWithAuth(
+      `http://localhost:8080/api/products/search?keyword=${keyword}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
       .then((response) => {
         if (!response.ok) {
           throw new Error("서버 응답 실패");
@@ -54,7 +56,6 @@ const ShopResultPage = () => {
       })
       .then((result) => {
         console.log("POST 성공:", result);
-        console.log(result);
         setResult(result);
       })
       .catch((error) => {
