@@ -40,8 +40,6 @@ const UserDataPage = () => {
     }
   }, [nickname, birth, gender, phone]);
 
-  console.log(buttonCheck);
-
   const ButtonHandle = () => {
     fetch("http://localhost:8080/api/users", {
       method: "POST",

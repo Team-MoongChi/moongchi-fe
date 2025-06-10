@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import heartOn from "../../../assets/images/common/누른하트.png";
+import { useNavigate } from "react-router-dom";
 
 const Wrapper = styled.div`
   display: flex;
@@ -9,7 +10,7 @@ const Wrapper = styled.div`
   position: sticky;
   bottom: 0;
   width: 100%;
-  height: 90px;
+  height: 13%;
   padding: 10px 10px 15px 10px;
   gap: 4%;
   bottom: 0;
@@ -53,6 +54,12 @@ const HeartImg = styled.img`
 `;
 
 const Nav = ({ link }) => {
+  const navigate = useNavigate();
+
+  const handleButton = () => {
+    navigate("/gonggu/write");
+  };
+
   return (
     <Wrapper>
       <LikeButton>
@@ -60,7 +67,9 @@ const Nav = ({ link }) => {
         <p style={{ fontFamily: "DunggeunmisoBold" }}>15</p>
       </LikeButton>
       <DetailButton href={link}>제품 상세</DetailButton>
-      <CreateButton>공구방 생성하기</CreateButton>
+      <CreateButton onClick={() => handleButton()}>
+        공구방 생성하기
+      </CreateButton>
     </Wrapper>
   );
 };

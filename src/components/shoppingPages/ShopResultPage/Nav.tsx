@@ -36,24 +36,27 @@ const Nav = () => {
   const { small } = useDeviceSize();
   const navigate = useNavigate();
 
-  const handleHomeButton = () => {
-    navigate("/shopping");
+  const handleButton = (link: string) => {
+    navigate(`/${link}`);
   };
 
   return (
     <Wrapper $isSmall={small}>
-      <Button>
+      <Button onClick={() => handleButton("")}>
         <Img src={home} alt="" />홈
       </Button>
-      <Button>
+      <Button onClick={() => handleButton("chat/list")}>
         <Img src={chatting} alt="" />
         채팅
       </Button>
-      <Button style={{ color: "#5849D0" }} onClick={handleHomeButton}>
+      <Button
+        style={{ color: "#5849D0" }}
+        onClick={() => handleButton("shopping")}
+      >
         <Img src={shopping} alt="" />
         쇼핑
       </Button>
-      <Button>
+      <Button onClick={() => handleButton("mypage")}>
         <Img src={mypage} alt="" />
         마이페이지
       </Button>
