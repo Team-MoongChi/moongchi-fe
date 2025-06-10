@@ -4,6 +4,7 @@ import GongguMainRoutes from "./gongguPage/GongguMainRoutes";
 import ChatMainRoutes from "./chatPage/ChatMainRoutes";
 import ShoppingMainRoutes from "./shoppingPage/ShoppngMainRoutes";
 import StartMainRoutes from "./startPage/StartMainRoutes";
+import MyMainRoutes from "./myPage/MyMainRoutes";
 
 export default function TotalRoutes() {
   return (
@@ -13,6 +14,7 @@ export default function TotalRoutes() {
         {ChatMainRoutes()}
         {ShoppingMainRoutes()}
         {StartMainRoutes()}
+        {MyMainRoutes()}
       </Routes>
     </BrowserRouter>
   );
