@@ -9,22 +9,13 @@ import GongguRecommend from "../../components/gongguPages/gongguMainPage/GongguR
 import GongguListItem from "../../components/gongguPages/common/GongguListItem";
 import writeIcon from "../../assets/images/common/공구생성아이콘.png";
 import { Text } from "../../components/common/styled-component/Text";
+import { Wrap } from "../../components/common/styled-component/Wrap";
 
 import type { GongguItem } from "../../types/gongguPage/gongguItem";
 
-const Wrap = styled.div<{ isSmall: boolean }>`
-  background-color: white;
-  width: ${(props) => (props.isSmall ? "100%" : "50%")};
-  height: 100vh;
-  margin: auto;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-`;
-
 // 공구 리스트
 const GongguList = styled.div`
+  background-color: white;
   display: flex;
   flex-direction: column;
   padding: 0 5%;
@@ -33,8 +24,8 @@ const GongguList = styled.div`
 `;
 
 // 하단 내비바
-const NavBar = styled.div<{ isSmall: boolean }>`
-  width: ${(props) => (props.isSmall ? "100%" : "50%")};
+const NavBar = styled.div<{ $issmall: boolean }>`
+  width: ${(props) => (props.$issmall ? "100%" : "50%")};
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -69,10 +60,12 @@ export default function GongguMainPage() {
   };
   const { small } = useDeviceSize();
 
+  const [menuClicked, setMenuClicked] = useState(0);
+
   const [gongguList, setGongguList] = useState<GongguItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const fetchGongguItem = async () => {
+  const fetchAllGongguItem = async () => {
     try {
       const response = await fetch("http://localhost:8080/api/group-boards", {
         method: "GET",
@@ -96,30 +89,61 @@ export default function GongguMainPage() {
     }
   };
 
+  const fetchCategory = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:8080/api/group-boards/categories/${menuClicked}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwiaWF0IjoxNzQ5MDkzODk3LCJleHAiOjE3NDk2OTg2OTd9.hjyAym7PrQl_8DTGJY0U-piRN5hPuzDlknIlRv_6xLA",
+          },
+        }
+      );
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data: GongguItem[] = await response.json();
+      console.log(data);
+      setGongguList(data);
+      setLoading(false);
+    } catch (error) {
+      console.error("get failed: ", error);
+      throw error;
+    }
+  };
+
   useEffect(() => {
-    fetchGongguItem();
-  }, []);
+    if (menuClicked == 0) {
+      fetchAllGongguItem();
+    } else {
+      fetchCategory();
+    }
+  }, [menuClicked]);
 
   if (loading) return <div>loading 중...</div>;
 
   return (
-    <Wrap isSmall={small}>
+    <Wrap $issmall={small} $gap="20px">
       <GongguSearchBar />
-      <GongguMenu />
+      <GongguMenu menuClicked={menuClicked} setMenuClicked={setMenuClicked} />
       <GongguRecommend />
 
       <GongguList>
         <Text fontSize="20px" fontFamily="DunggeunmisoBold" color="#5849d0">
           근처에서 열린 공구
         </Text>
-        {gongguList.map((gongguItem) => {
-          return <GongguListItem {...gongguItem}></GongguListItem>;
+        {gongguList.map((gongguItem, idx) => {
+          return <GongguListItem key={idx} {...gongguItem}></GongguListItem>;
         })}
       </GongguList>
 
       <WriteIcon onClick={writeGonggu} />
 
-      <NavBar isSmall={small}>
+      <NavBar $issmall={small}>
         {/* 나중에 onclick 삭제하기 */}
         <div onClick={writeGonggu2}>홈</div>
         <div
