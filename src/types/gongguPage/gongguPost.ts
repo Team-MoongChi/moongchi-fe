@@ -16,5 +16,5 @@ export interface GongguPost {
   totalUsers: number;
   currentUsers: number;
   images: string[];
-  participants: Participant;
+  participants: Participant[];
 }
