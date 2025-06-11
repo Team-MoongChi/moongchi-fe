@@ -8,7 +8,8 @@ import Content from "../../components/gongguPages/gongguItemPage/Content";
 import { Wrap } from "../../components/common/styled-component/Wrap";
 
 import { useParams } from "react-router-dom";
-import type { GongguPost } from "../../types/gongguPage/gongguPost";
+import type { GongguPost } from "../../types/gongguPages/gongguPost";
+import { fetchWithAuth } from "../../utils/FetchWithAuth";
 
 export default function GongguItemPage() {
   const { small } = useDeviceSize();
@@ -19,15 +20,16 @@ export default function GongguItemPage() {
   const { gongguId } = useParams();
 
   const fetchGongguItem = async () => {
+    const token = localStorage.getItem("access_token");
+    console.log(token);
+
     try {
-      const response = await fetch(
+      const response = await fetchWithAuth(
         `http://localhost:8080/api/group-boards/${gongguId}`,
         {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwiaWF0IjoxNzQ5MDkzODk3LCJleHAiOjE3NDk2OTg2OTd9.hjyAym7PrQl_8DTGJY0U-piRN5hPuzDlknIlRv_6xLA",
           },
         }
       );
@@ -41,6 +43,7 @@ export default function GongguItemPage() {
       setLoading(false);
     } catch (error) {
       console.error("get failed: ", error);
+      setLoading(false);
       throw error;
     }
   };
@@ -56,7 +59,7 @@ export default function GongguItemPage() {
       <Header />
       <ImageSlide />
       {gongguItem ? <Content {...gongguItem}></Content> : null}
-      <Footer />
+      {gongguItem?.editable ? null : <Footer />};
     </Wrap>
   );
 }

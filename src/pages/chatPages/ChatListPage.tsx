@@ -5,18 +5,9 @@ import { useState, useEffect } from "react";
 
 import Header from "../../components/chatPages/chatListPage/Header";
 import ChatListItem from "../../components/chatPages/chatListPage/ChatListItem";
-import type { ChatRoom } from "../../types/chatListPage/chatRoom";
-
-const Wrap = styled.div<{ isSmall: boolean }>`
-  background-color: white;
-  width: ${(props) => (props.isSmall ? "100%" : "50%")};
-  height: 100%;
-  margin: auto;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-`;
+import { Wrap } from "../../components/common/styled-component/Wrap";
+import type { ChatRoomList } from "../../types/chatPages/chatRoomList";
+import { fetchWithAuth } from "../../utils/FetchWithAuth";
 
 const ChatList = styled.div`
   display: flex;
@@ -43,24 +34,25 @@ export default function ChatListPage() {
 
   const { small } = useDeviceSize();
 
-  const [chatList, setChatList] = useState<ChatRoom[]>([]);
+  const [chatList, setChatList] = useState<ChatRoomList[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   const fetchChatList = async () => {
     try {
-      const response = await fetch("http://localhost:8080/api/chat/rooms", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwiaWF0IjoxNzQ5MDkzODk3LCJleHAiOjE3NDk2OTg2OTd9.hjyAym7PrQl_8DTGJY0U-piRN5hPuzDlknIlRv_6xLA",
-        },
-      });
+      const response = await fetchWithAuth(
+        "http://localhost:8080/api/chat/rooms",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const data: ChatRoom[] = await response.json();
+      const data: ChatRoomList[] = await response.json();
       console.log(data);
       setChatList(data);
       setLoading(false);
@@ -77,12 +69,12 @@ export default function ChatListPage() {
   if (loading) return <div>loading...</div>;
 
   return (
-    <Wrap isSmall={small}>
+    <Wrap $issmall={small} $gap="15px">
       <Header />
 
       <ChatList>
-        {chatList.map((chatRoom) => {
-          return <ChatListItem {...chatRoom}></ChatListItem>;
+        {chatList.map((chatRoom, idx) => {
+          return <ChatListItem key={idx} {...chatRoom}></ChatListItem>;
         })}
       </ChatList>
 

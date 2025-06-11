@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { fetchWithAuth } from "../../../utils/FetchWithAuth";
 
 const Wrap = styled.div`
   padding: 0 5%;
@@ -115,16 +116,20 @@ export default function Content() {
   }, [formData]);
 
   const submitHandler = async () => {
+    const token = localStorage.getItem("access_token");
+    console.log(token);
+
     try {
-      const response = await fetch("http://localhost:8080/api/group-boards", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwiaWF0IjoxNzQ5MDQzNjI2LCJleHAiOjE3NDk2NDg0MjZ9.8EpX-Wg_rkeTzPCKgDclgHjommxD-z6Kxu8Y6etLKc8",
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetchWithAuth(
+        "http://localhost:8080/api/group-boards",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
       if (response.ok) {
         alert("글쓰기 성공");
         console.log(formData);
