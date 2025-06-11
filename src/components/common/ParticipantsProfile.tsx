@@ -19,9 +19,9 @@ const Plus = styled.div`
 
 interface Participant {
   userId: number;
-  role?: string;
+  role?: "LEADER" | "MEMBER";
   mannerLeader?: number;
-  nickname?: number;
+  nickname?: string;
   profileUrl: string;
 }
 
