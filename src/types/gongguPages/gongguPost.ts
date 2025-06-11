@@ -1,5 +1,5 @@
 type BoardStatus = "OPEN" | "CLOSING_SOON" | "CLOSED" | "COMPLETED";
-type Role = "LEADER | MEMBER";
+type Role = "LEADER" | "MEMBER";
 
 interface Participant {
   userId: number;
@@ -19,6 +19,7 @@ export interface GongguPost {
   totalUser: number;
   currentUsers: number;
   editable: boolean;
+  chatRoomId: number;
   images: string[];
   participants: Participant[];
 }

@@ -7,6 +7,8 @@ interface Participant {
   payStatement: "PAID" | "UNPAID";
   tradeCompleted: boolean;
   perPersonPrice: number;
+  reviewed: boolean;
+  me: boolean;
 }
 interface Message {
   id: string;
