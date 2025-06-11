@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { fetchWithAuth } from "../../../utils/FetchWithAuth";
 
 const Wrapper = styled.div`
   width: 90%;
@@ -31,6 +32,23 @@ const Menu = () => {
 
   const handleButton = (link: string) => {
     navigate(link);
+  };
+  const handleLogout = () => {
+    const token = localStorage.getItem("accessToken");
+    fetchWithAuth("http://localhost:8080/api/auth/logout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      credentials: "include", // withCredentials: true 역할
+    }).then((response) => {
+      if (!response.ok) {
+        throw new Error("서버 응답 실패");
+      }
+      console.log("로그아웃 성공!", response);
+      navigate("/start");
+    });
   };
 
   return (
@@ -65,7 +83,7 @@ const Menu = () => {
       </Button>
       <Button
         onClick={() => {
-          handleButton("/start");
+          handleLogout();
         }}
       >
         <p style={{ color: "#ED5959" }}>로그아웃</p>

@@ -12,7 +12,7 @@ const Wrapper = styled.div<{ $isSmall: boolean }>`
   width: ${(props) => (props.$isSmall ? "100%" : "50%")};
   margin: auto;
   position: relative;
-  min-height: 70vh;
+  min-height: 100vh;
 `;
 
 const ShopMainPage = () => {

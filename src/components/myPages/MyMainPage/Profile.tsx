@@ -13,6 +13,7 @@ import { fetchWithAuth } from "../../../utils/FetchWithAuth";
 const Wrapper = styled.div`
   width: 90%;
   height: 28%;
+  max-height: 220px;
   background-color: #e8edff;
   margin-top: 90px;
   border-radius: 20px;
@@ -20,15 +21,18 @@ const Wrapper = styled.div`
 const InfoWrapper = styled.div`
   display: flex;
   align-items: center;
-  justify-content: start;
-  gap: 15%;
+  justify-content: center;
+  gap: 10%;
   padding: 20px;
   padding-top: 30px;
   padding-bottom: 33px;
 `;
 const Img = styled.img`
-  width: 93px;
-  height: 93px;
+  width: 100px;
+  height: 100px;
+  background-color: white;
+  border-radius: 50px;
+  object-fit: cover;
 `;
 const Info = styled.div`
   display: flex;
@@ -111,7 +115,6 @@ const Profile = () => {
         return response.json();
       })
       .then((result) => {
-        console.log(result);
         setUserData(result);
       })
       .catch((error) => {
