@@ -6,6 +6,7 @@ import Button from "../../components/myPages/ProfileEditPage/Button";
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchWithAuth } from "../../utils/FetchWithAuth";
+import noProfile from "../../assets/images/common/사진없을때.png";
 
 const Wrapper = styled.div<{ $isSmall: boolean }>`
   background-color: white;
@@ -130,7 +131,7 @@ const ProfileEditPage = () => {
       <Header title="프로필 수정" />
       <Main>
         <ProfileImg onClick={handleClickInput}>
-          <img src={img || "/pink.png"} />
+          <img src={img || noProfile} />
         </ProfileImg>
         <InputBox title="닉네임" data={nickname} onChange={setNickname} />
         <input
