@@ -15,11 +15,12 @@ const Wrap = styled.div`
 interface ButtonProps {
   content: string;
   link?: string;
+  onClick?: () => void;
 }
 
 export default function FetchButton(props: ButtonProps) {
   return (
-    <Wrap>
+    <Wrap onClick={props.onClick}>
       {props.link ? (
         <Link to={props.link}>
           <Text fontSize="15px" fontFamily="DunggeunmisoBold" color="white">
