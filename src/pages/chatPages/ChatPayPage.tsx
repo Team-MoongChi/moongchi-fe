@@ -65,23 +65,19 @@ export default function ChatPayPage() {
 
   const [chatRoom, setChatRoom] = useState<ChatRoomItem>();
   const [loading, setLoading] = useState<boolean>(true);
+  const [clickCount, setClickCount] = useState<number>(0);
 
   const fetchChatRoom = async () => {
     const token = localStorage.getItem("access_token");
     console.log(token);
 
-    console.log(chatRoomId);
-
     try {
-      const response = await fetchWithAuth(
-        `http://localhost:8080/api/chat/rooms/${chatRoomId}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await fetchWithAuth(`/api/chat/rooms/${chatRoomId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -97,9 +93,34 @@ export default function ChatPayPage() {
     }
   };
 
+  const fetchPay = async () => {
+    const token = localStorage.getItem("access_token");
+    console.log(token);
+
+    try {
+      const response = await fetchWithAuth(
+        `/api/chat/rooms/${chatRoomId}/pay`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (response.ok) {
+        alert("결제 성공");
+        setClickCount((prev) => prev + 1);
+      }
+    } catch (error) {
+      console.log("post failed: ", error);
+      alert("결제 실패");
+      throw error;
+    }
+  };
+
   useEffect(() => {
     fetchChatRoom();
-  }, []);
+  }, [clickCount]);
 
   if (loading) return <div>loading...</div>;
 
@@ -122,27 +143,25 @@ export default function ChatPayPage() {
         </TotalCost>
 
         <PayWrap>
-          <UserWrap>
-            {chatRoom?.participants.map((participant, idx) => {
-              return (
-                <React.Fragment key={idx}>
-                  <UserProfile
-                    src={participant.profileUrl}
-                    width="clamp(40px, 2vw, 40px)"
-                    name={participant.nickname}
-                  />
-                  <UserCost
-                    cost={participant.perPersonPrice.toLocaleString()}
-                    isPayed={participant.payStatement === "PAID"}
-                    width="clamp(40px, 2vw, 40px)"
-                  />
-                </React.Fragment>
-              );
-            })}
-          </UserWrap>
+          {chatRoom?.participants.map((participant, idx) => {
+            return (
+              <UserWrap key={idx}>
+                <UserProfile
+                  src={participant.profileUrl}
+                  width="clamp(40px, 2vw, 40px)"
+                  name={participant.nickname}
+                />
+                <UserCost
+                  cost={participant.perPersonPrice.toLocaleString()}
+                  isPayed={participant.payStatement === "PAID"}
+                  width="clamp(40px, 2vw, 40px)"
+                />
+              </UserWrap>
+            );
+          })}
         </PayWrap>
       </Body>
-      <Button>결제하기</Button>
+      <Button onClick={fetchPay}>결제하기</Button>
     </Wrap>
   );
 }

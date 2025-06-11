@@ -24,15 +24,12 @@ export default function GongguItemPage() {
     console.log(token);
 
     try {
-      const response = await fetchWithAuth(
-        `http://localhost:8080/api/group-boards/${gongguId}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await fetchWithAuth(`/api/group-boards/${gongguId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -59,7 +56,11 @@ export default function GongguItemPage() {
       <Header />
       <ImageSlide />
       {gongguItem ? <Content {...gongguItem}></Content> : null}
-      {gongguItem?.editable ? null : <Footer />};
+      <Footer
+        editable={gongguItem?.editable}
+        chatRoomId={gongguItem?.chatRoomId}
+      />
+      ;
     </Wrap>
   );
 }

@@ -39,15 +39,12 @@ export default function ChatListPage() {
 
   const fetchChatList = async () => {
     try {
-      const response = await fetchWithAuth(
-        "http://localhost:8080/api/chat/rooms",
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await fetchWithAuth("/api/chat/rooms", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }

@@ -120,16 +120,13 @@ export default function Content() {
     console.log(token);
 
     try {
-      const response = await fetchWithAuth(
-        "http://localhost:8080/api/group-boards",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        }
-      );
+      const response = await fetchWithAuth("/api/group-boards", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
       if (response.ok) {
         alert("글쓰기 성공");
         console.log(formData);

@@ -31,15 +31,12 @@ export default function ChatPage() {
     console.log(chatRoomId);
 
     try {
-      const response = await fetchWithAuth(
-        `http://localhost:8080/api/chat/rooms/${chatRoomId}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await fetchWithAuth(`/api/chat/rooms/${chatRoomId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -51,6 +48,30 @@ export default function ChatPage() {
     } catch (error) {
       console.error("get failed: ", error);
       setLoading(false);
+      throw error;
+    }
+  };
+
+  const fetchTrade = async () => {
+    const token = localStorage.getItem("access_token");
+    console.log(token);
+
+    try {
+      const response = await fetchWithAuth(
+        `/api/chat/rooms/${chatRoomId}/trade-complete`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (response.ok) {
+        alert("거래 완료!");
+      }
+    } catch (error) {
+      console.log("post failed: ", error);
+      alert("거래 완료 실패");
       throw error;
     }
   };
@@ -67,10 +88,14 @@ export default function ChatPage() {
       <Body>
         <FetchButton
           content="결제 현황"
-          link={`/chat/pay/${chatRoomId}`}
+          link={`/chat/${chatRoomId}/pay`}
         ></FetchButton>
-        <FetchButton content="거래 완료"></FetchButton>
-        <FetchButton content="리뷰 작성" link={`/chat/review`}></FetchButton>
+        <FetchButton content="거래 완료" onClick={fetchTrade}></FetchButton>
+        {/* /api/chat/rooms/{chatRoomId}/reviews/{targetParticipantId} */}
+        <FetchButton
+          content="리뷰 작성"
+          link={`/chat/${chatRoomId}/review`}
+        ></FetchButton>
       </Body>
     </Wrap>
   );

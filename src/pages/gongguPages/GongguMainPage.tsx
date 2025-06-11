@@ -71,15 +71,12 @@ export default function GongguMainPage() {
     console.log("token: ", token);
 
     try {
-      const response = await fetchWithAuth(
-        "http://localhost:8080/api/group-boards",
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await fetchWithAuth("/api/group-boards", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -101,7 +98,7 @@ export default function GongguMainPage() {
 
     try {
       const response = await fetchWithAuth(
-        `http://localhost:8080/api/group-boards/categories/${menuClicked}`,
+        `/api/group-boards/categories/${menuClicked}`,
         {
           method: "GET",
           headers: {
