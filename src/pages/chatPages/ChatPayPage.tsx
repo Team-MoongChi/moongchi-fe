@@ -1,21 +1,16 @@
+import React from "react";
 import styled from "styled-components";
 import useDeviceSize from "../../useDeviceSize";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 import Header from "../../components/chatPages/chatPayPage/Header";
 import UserProfile from "../../components/chatPages/common/UserProfile";
 import UserCost from "../../components/chatPages/chatPayPage/UserCost";
+import { Wrap } from "../../components/common/styled-component/Wrap";
+import { fetchWithAuth } from "../../utils/FetchWithAuth";
 
-const Wrap = styled.div<{ isSmall: boolean }>`
-  background-color: white;
-  width: ${(props) => (props.isSmall ? "100%" : "50%")};
-  height: 100%;
-  margin: auto;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-`;
+import type { ChatRoomItem } from "../../types/chatPages/chatRoomItem";
 
 const Body = styled.div`
   display: flex;
@@ -32,9 +27,7 @@ const Button = styled.div`
   font-size: 20px;
   text-align: center;
   padding: 20px;
-`;
-const StyledLink = styled(Link)`
-  text-decoration: none;
+  margin: 0 5%;
 `;
 
 const TotalCost = styled.div`
@@ -68,9 +61,50 @@ const Text = styled.div<TextProps>`
 
 export default function ChatPayPage() {
   const { small } = useDeviceSize();
+  const { chatRoomId } = useParams();
+
+  const [chatRoom, setChatRoom] = useState<ChatRoomItem>();
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const fetchChatRoom = async () => {
+    const token = localStorage.getItem("access_token");
+    console.log(token);
+
+    console.log(chatRoomId);
+
+    try {
+      const response = await fetchWithAuth(
+        `http://localhost:8080/api/chat/rooms/${chatRoomId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data: ChatRoomItem = await response.json();
+      console.log(data);
+      setChatRoom(data);
+      setLoading(false);
+    } catch (error) {
+      console.error("get failed: ", error);
+      setLoading(false);
+      throw error;
+    }
+  };
+
+  useEffect(() => {
+    fetchChatRoom();
+  }, []);
+
+  if (loading) return <div>loading...</div>;
 
   return (
-    <Wrap isSmall={small}>
+    <Wrap $issmall={small} $gap="30px">
       <Header />
       <Body>
         <Text fontSize="22px">결제 현황이에요.</Text>
@@ -79,55 +113,36 @@ export default function ChatPayPage() {
             모인 금액
           </Text>
           <Text fontSize="32px" color="#5849d0" fontFamily="DunggeunmisoBold">
-            총 10,000원
+            총{" "}
+            {chatRoom?.participants
+              .reduce((acc, cur) => acc + cur.perPersonPrice, 0)
+              .toLocaleString()}
+            원
           </Text>
         </TotalCost>
 
         <PayWrap>
           <UserWrap>
-            <UserProfile
-              src={
-                "https://blog.kakaocdn.net/dn/ccZFOS/btsBiw3BPSU/4PxS7JJKh2D80opSgQq3fk/img.jpg"
-              }
-              width="clamp(40px, 2vw, 40px)"
-              name="손하은"
-            />
-            <UserCost
-              cost={5000}
-              isPayed={true}
-              width="clamp(40px, 2vw, 40px)"
-            ></UserCost>
-          </UserWrap>
-          <UserWrap>
-            <UserProfile
-              src={
-                "https://blog.kakaocdn.net/dn/ccZFOS/btsBiw3BPSU/4PxS7JJKh2D80opSgQq3fk/img.jpg"
-              }
-              width="clamp(40px, 2vw, 40px)"
-              name="손하은"
-            />
-            <UserCost
-              cost={5000}
-              isPayed={true}
-              width="clamp(40px, 2vw, 40px)"
-            ></UserCost>
-          </UserWrap>
-          <UserWrap>
-            <UserProfile
-              src={
-                "https://blog.kakaocdn.net/dn/ccZFOS/btsBiw3BPSU/4PxS7JJKh2D80opSgQq3fk/img.jpg"
-              }
-              width="40px"
-              name="손하은"
-            />
-            <UserCost cost={5000} isPayed={false} width="40px"></UserCost>
+            {chatRoom?.participants.map((participant, idx) => {
+              return (
+                <React.Fragment key={idx}>
+                  <UserProfile
+                    src={participant.profileUrl}
+                    width="clamp(40px, 2vw, 40px)"
+                    name={participant.nickname}
+                  />
+                  <UserCost
+                    cost={participant.perPersonPrice.toLocaleString()}
+                    isPayed={participant.payStatement === "PAID"}
+                    width="clamp(40px, 2vw, 40px)"
+                  />
+                </React.Fragment>
+              );
+            })}
           </UserWrap>
         </PayWrap>
-
-        <StyledLink to="/chat/review">
-          <Button>결제하기</Button>
-        </StyledLink>
       </Body>
+      <Button>결제하기</Button>
     </Wrap>
   );
 }
