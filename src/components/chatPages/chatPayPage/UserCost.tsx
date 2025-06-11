@@ -27,7 +27,7 @@ const UserImg = styled.img`
 `;
 
 interface UserCostProps {
-  cost: number;
+  cost: string;
   isPayed: boolean;
   width: string;
 }
