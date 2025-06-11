@@ -117,16 +117,16 @@ export default function Content(props: GongguPost) {
         <TitleContent>
           <Text fontSize="24px">{props.title}</Text>
           <Text fontSize="19px" fontFamily="DunggeunmisoBold">
-            인당 {(props.price / props.totalUsers).toLocaleString()}원
+            인당 {(props.price / props.totalUser).toLocaleString()}원
           </Text>
         </TitleContent>
         <TitleFooter>
           <Text fontSize="13px" fontFamily="DunggeunmisoBold" color="#ff4242">
             {useCalDay(props.deadline)} 마감까지{" "}
-            {props.totalUsers - props.currentUsers}명 남았어요!
+            {props.totalUser - props.currentUsers}명 남았어요!
           </Text>
           <ParticipantsProfile
-            totalUser={props.totalUsers}
+            totalUser={props.totalUser}
             currentUsers={props.currentUsers}
             participants={props.participants}
           ></ParticipantsProfile>
@@ -141,7 +141,7 @@ export default function Content(props: GongguPost) {
               height="40px"
               $borderradious="50%"
             ></Img>
-            <Text fontSize="20px">손하은</Text>
+            <Text fontSize="20px">{props.participants[0].nickname}</Text>
           </UserProfile>
           <UserScore>
             <Text fontSize="13px" fontFamily="DunggeunmisoBold" color="#ff6f6f">
