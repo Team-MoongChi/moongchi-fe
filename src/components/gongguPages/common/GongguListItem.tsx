@@ -4,7 +4,7 @@ import { Text } from "../../common/styled-component/Text";
 import { Img } from "../../common/styled-component/Img";
 import ParticipantsProfile from "../../common/ParticipantsProfile";
 import useTimeStamp from "../../../useTimeStamp";
-import type { GongguItem } from "../../../types/gongguPage/gongguItem";
+import type { GongguItem } from "../../../types/gongguPages/gongguItem";
 
 import red from "../../../assets/images/gonggu/마감임박.png";
 import blue from "../../../assets/images/gonggu/모집중.png";
@@ -16,7 +16,7 @@ const Wrap = styled.div`
   display: flex;
   padding-bottom: 10px;
   border-bottom: 2px solid #e8edff;
-  gap: 10px;
+  gap: 3%;
 `;
 
 const Content = styled.div`

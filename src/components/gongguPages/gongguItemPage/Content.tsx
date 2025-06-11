@@ -14,13 +14,14 @@ import scoreImg2 from "../../../assets/images/userScore/리더하트50.png";
 import scoreImg3 from "../../../assets/images/userScore/리더하트75.png";
 import scoreImg4 from "../../../assets/images/userScore/리더하트100.png";
 
-import type { GongguPost } from "../../../types/gongguPage/gongguPost";
+import type { GongguPost } from "../../../types/gongguPages/gongguPost";
 
 const Wrap = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0 3%;
   gap: 15px;
+  margin-bottom: 15%;
 `;
 
 const Title = styled.div`
@@ -99,11 +100,12 @@ export default function Content(props: GongguPost) {
     }
   };
 
+  console.log("broadStatus: ", props.boardStatus);
+
   return (
-    // 링크 수정 필요
     <Wrap>
       <Title>
-        <Tag
+        <Img
           src={
             props.boardStatus == "CLOSING_SOON"
               ? red
@@ -113,7 +115,8 @@ export default function Content(props: GongguPost) {
               ? gray
               : green
           }
-        ></Tag>
+          width="70px"
+        ></Img>
         <TitleContent>
           <Text fontSize="24px">{props.title}</Text>
           <Text fontSize="19px" fontFamily="DunggeunmisoBold">
