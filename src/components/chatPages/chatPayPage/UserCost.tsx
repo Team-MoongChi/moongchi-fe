@@ -34,7 +34,7 @@ interface UserCostProps {
 export default function UserCost(props: UserCostProps) {
   return (
     <UserCostWrap>
-      <Text fontSize="20px" fontFamily="DunggeunmisoBold" color="#5849d0">
+      <Text fontSize="18px" fontFamily="DunggeunmisoBold" color="#5849d0">
         {props.cost}원
       </Text>
       {props.isPayed ? (

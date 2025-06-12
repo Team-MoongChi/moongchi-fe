@@ -40,7 +40,7 @@ const PayWrap = styled.div`
   flex-direction: column;
   background-color: #e8edff;
   border-radius: 15px;
-  padding: 10%;
+  padding: 8%;
   gap: 40px;
 `;
 const UserWrap = styled.div`
@@ -130,10 +130,10 @@ export default function ChatPayPage() {
       <Body>
         <Text fontSize="22px">결제 현황이에요.</Text>
         <TotalCost>
-          <Text fontSize="14px" color="#767676">
+          <Text fontSize="16px" color="#767676">
             모인 금액
           </Text>
-          <Text fontSize="32px" color="#5849d0" fontFamily="DunggeunmisoBold">
+          <Text fontSize="30px" color="#5849d0" fontFamily="DunggeunmisoBold">
             총{" "}
             {chatRoom?.participants
               .reduce((acc, cur) => acc + cur.perPersonPrice, 0)
@@ -148,13 +148,14 @@ export default function ChatPayPage() {
               <UserWrap key={idx}>
                 <UserProfile
                   src={participant.profileUrl}
-                  width="clamp(40px, 2vw, 40px)"
+                  width="clamp(38px, 2vw, 38px)"
                   name={participant.nickname}
+                  isLeader={participant.role === "LEADER"}
                 />
                 <UserCost
                   cost={participant.perPersonPrice.toLocaleString()}
                   isPayed={participant.payStatement === "PAID"}
-                  width="clamp(40px, 2vw, 40px)"
+                  width="clamp(38px, 2vw, 38px)"
                 />
               </UserWrap>
             );
