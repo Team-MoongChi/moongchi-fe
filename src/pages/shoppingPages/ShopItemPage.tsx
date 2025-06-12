@@ -24,6 +24,7 @@ type Product = {
   largeCategory: string;
   mediumCategory: string;
   smallCategory: string;
+  likeCount: number;
 };
 
 const ShopItemPage = () => {
@@ -36,7 +37,7 @@ const ShopItemPage = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
-    fetchWithAuth(`http://localhost:8080/api/products/${itemId}`, {
+    fetchWithAuth(`/api/products/${itemId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -57,7 +58,7 @@ const ShopItemPage = () => {
     <Wrapper $isSmall={small}>
       <Header title="상품" route={-1} />
       {item && <Main item={item} />}
-      <Nav link={item?.productUrl} />
+      <Nav link={item?.productUrl} itemId={item?.id} />
     </Wrapper>
   );
 };

@@ -64,12 +64,12 @@ const Item = styled.button`
   justify-content: center;
   align-items: start;
   flex-direction: column;
-  padding: 3%;
+  padding: 10px;
   gap: 3px;
 `;
 const Img = styled.img`
-  width: 200px;
-  height: 140px;
+  width: 160px;
+  height: 120px;
   border: none;
   border-radius: 10px;
   object-fit: cover;
@@ -121,7 +121,7 @@ const Main = () => {
   useEffect(() => {
     const token = localStorage.getItem("accessToken"); // 또는 sessionStorage, context 등
 
-    fetchWithAuth("http://localhost:8080/api/products", {
+    fetchWithAuth("/api/products", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

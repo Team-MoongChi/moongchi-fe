@@ -47,8 +47,8 @@ const ProfileEditPage = () => {
 
   const handleClick = () => {
     const token = localStorage.getItem("accessToken");
-    fetchWithAuth("http://localhost:8080/api/users", {
-      method: "POST",
+    fetchWithAuth("/api/users", {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -58,20 +58,13 @@ const ProfileEditPage = () => {
         nickname,
         profileUrl: img,
       }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("서버 응답 실패");
-        }
-        return response.json();
-      })
-      .then((result) => {
-        console.log("POST 성공!", result);
-        navigate("/mypage");
-      })
-      .catch((error) => {
-        console.error("요청 실패:", error);
-      });
+    }).then((response) => {
+      if (!response.ok) {
+        throw new Error("서버 응답 실패");
+      }
+      console.log("POST 성공!", response);
+      navigate("/mypage");
+    });
   };
 
   const handleFileChange = async (e) => {
@@ -102,7 +95,7 @@ const ProfileEditPage = () => {
   useEffect(() => {
     const token = localStorage.getItem("accessToken"); // 또는 sessionStorage, context 등
 
-    fetchWithAuth("http://localhost:8080/api/users", {
+    fetchWithAuth("/api/users", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
