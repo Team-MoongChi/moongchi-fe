@@ -33,10 +33,11 @@ const Input = styled.input`
 interface InputBoxProps {
   title: string;
   data: string;
-  onChange: (value: string) => void;
+  onChange?: (value: string) => void;
+  maxLength?: number;
 }
 
-const InputBox = ({ title, data, onChange }: InputBoxProps) => {
+const InputBox = ({ title, data, onChange, maxLength }: InputBoxProps) => {
   const [isFocused, setIsFocused] = useState<boolean>(false);
 
   const formatPhoneNumber = (value: string) => {
@@ -75,6 +76,7 @@ const InputBox = ({ title, data, onChange }: InputBoxProps) => {
             : (e) => onChange?.(e.target.value)
         }
         value={data || ""}
+        maxLength={maxLength}
       />
     </Wrapper>
   );

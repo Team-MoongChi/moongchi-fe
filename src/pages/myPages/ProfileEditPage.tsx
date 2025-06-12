@@ -133,7 +133,12 @@ const ProfileEditPage = () => {
         <ProfileImg onClick={handleClickInput}>
           <img src={img || noProfile} />
         </ProfileImg>
-        <InputBox title="닉네임" data={nickname} onChange={setNickname} />
+        <InputBox
+          title="닉네임 (5자 이내)"
+          data={nickname}
+          onChange={setNickname}
+          maxLength={5}
+        />
         <input
           type="file"
           accept="image/*"

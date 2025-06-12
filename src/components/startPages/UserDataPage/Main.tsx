@@ -44,7 +44,12 @@ const Main = ({
   return (
     <Wrapper>
       <InputBox title="이름" data={userData.name} />
-      <InputBox title="닉네임" data={nickname} onChange={setNickname} />
+      <InputBox
+        title="닉네임 (5자 이내)"
+        data={nickname}
+        onChange={setNickname}
+        maxLength={5}
+      />
       <InputBox title="전화번호" data={phone} onChange={setPhone} />
       <InputBox title="이메일" data={userData.email} />
       <InputBoxHalf onChange1={setBirth} onChange2={setGender} />
