@@ -25,11 +25,16 @@ const BackImg = styled.img`
   width: 14px;
 `;
 
-const Header = (props) => {
+interface MainProps {
+  title: string;
+  route: string;
+}
+
+const Header = (props: MainProps) => {
   const navigate = useNavigate();
 
   const handleBackButton = () => {
-    navigate(-1);
+    navigate(props.route);
   };
 
   return (
