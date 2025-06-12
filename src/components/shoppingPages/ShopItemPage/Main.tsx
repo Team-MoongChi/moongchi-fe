@@ -18,7 +18,6 @@ const Img = styled.img`
   height: 42%;
   background-color: lightgray;
   object-fit: cover;
-  margin-top: 50px;
 `;
 const Info = styled.div`
   width: 100%;
@@ -108,7 +107,7 @@ const NoGonggu = styled.div`
   align-items: center;
   gap: 2px;
   width: 100%;
-  height: 33%;
+  height: 37%;
   background-color: #e8edff;
   margin-top: 10px;
 

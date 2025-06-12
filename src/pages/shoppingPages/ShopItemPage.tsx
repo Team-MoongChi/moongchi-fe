@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Header from "../../components/shoppingPages/ShopItemPage/Header.tsx";
+import Header from "../../components/common/Header.tsx";
 import Nav from "../../components/shoppingPages/ShopItemPage/Nav.tsx";
 import Main from "../../components/shoppingPages/ShopItemPage/Main.tsx";
 import useDeviceSize from "../../useDeviceSize.tsx";
@@ -23,7 +23,7 @@ type Product = {
   rating: number;
   largeCategory: string;
   mediumCategory: string;
-  smallCategory: string;
+  smallCategory: string | null;
 };
 
 const ShopItemPage = () => {
@@ -51,12 +51,12 @@ const ShopItemPage = () => {
       .catch((error) => {
         console.error("요청 실패:", error);
       });
-  }, [itemId]);
+  }, []);
 
   return (
     <Wrapper $isSmall={small}>
-      <Header title="상품" route={-1} />
-      {item && <Main item={item} />}
+      <Header title="상품" />
+      <Main item={item} />
       <Nav link={item?.productUrl} />
     </Wrapper>
   );

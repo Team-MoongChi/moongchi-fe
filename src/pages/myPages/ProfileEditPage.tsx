@@ -19,7 +19,7 @@ const Wrapper = styled.div<{ $isSmall: boolean }>`
   align-items: center;
 `;
 const ProfileImg = styled.button`
-  margin-top: 50px;
+  margin-top: 120px;
 
   img {
     width: 160px;
@@ -31,7 +31,7 @@ const ProfileImg = styled.button`
 `;
 const Main = styled.div`
   width: 100%;
-  height: 75%;
+  height: 80%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -128,7 +128,7 @@ const ProfileEditPage = () => {
 
   return (
     <Wrapper $isSmall={small}>
-      <Header title="프로필 수정" route="/mypage" />
+      <Header title="프로필 수정" />
       <Main>
         <ProfileImg onClick={handleClickInput}>
           <img src={img || noProfile} />

@@ -25,7 +25,7 @@ const MapWrapper = styled.div`
   align-items: center;
   gap: 15px;
   width: 100%;
-  height: 75%;
+  height: 80%;
 `;
 const Info = styled.div`
   display: flex;
@@ -119,14 +119,14 @@ const LocationPage = () => {
 
   return (
     <Wrapper $isSmall={small}>
-      <Header title="주소 설정" route="/mypage" />
+      <Header title="주소 설정" />
       <MapWrapper>
         <Map
           style={{
             width: "100%",
             height: "50%",
             zIndex: "0",
-            marginTop: "50px",
+            marginTop: "120px",
           }}
           id="map"
           center={center}
