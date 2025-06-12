@@ -27,7 +27,7 @@ const Main2 = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  padding-bottom: 100px;
+  padding-bottom: 90px;
 `;
 const ImgNothing = styled.img`
   width: 170px;
