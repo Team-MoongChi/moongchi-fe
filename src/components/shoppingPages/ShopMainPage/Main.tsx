@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import ShoppingMenu from "./ShoppingMenu";
 import banner1 from "../../../assets/images/common/banner1.png";
 import bannerButtonLeft from "../../../assets/images/common/배너버튼_왼.png";
 import bannerButtonRight from "../../../assets/images/common/배너버튼_오.png";
@@ -48,8 +49,7 @@ const BannerButtonImg = styled.img`
 `;
 const Title = styled.div`
   font-size: 20px;
-  padding: 3%;
-  padding-bottom: 0%;
+  padding: 5% 3% 0 3%;
   color: #5849d0;
   font-family: DunggeunmisoBold;
 `;
@@ -58,6 +58,7 @@ const Items = styled.div`
   justify-content: center;
   align-items: start;
   flex-wrap: wrap;
+  width: 100%;
 `;
 const Item = styled.button`
   display: flex;
@@ -66,10 +67,11 @@ const Item = styled.button`
   flex-direction: column;
   padding: 10px;
   gap: 3px;
+  width: 50%;
 `;
 const Img = styled.img`
-  width: 160px;
-  height: 120px;
+  width: 100%;
+  aspect-ratio: 1/0.65;
   border: none;
   border-radius: 10px;
   object-fit: cover;
@@ -77,11 +79,13 @@ const Img = styled.img`
 `;
 const ItemName = styled.div`
   font-size: 15px;
+  padding-left: 2px;
 `;
 const Price = styled.div`
   font-size: 15px;
   font-family: DunggeunmisoBold;
   color: #5849d0;
+  padding-left: 2px;
 `;
 
 type Product = {
@@ -100,6 +104,7 @@ const Main = () => {
   const [index, setIndex] = useState(0);
   const [products, setProducts] = useState<Array<Product>>([]);
   const navigate = useNavigate();
+  const [menuClicked, setMenuClicked] = useState<number>(0);
 
   const nextSlide = () => setIndex((prev) => (prev + 1) % images.length);
   const prevSlide = () =>
@@ -144,6 +149,22 @@ const Main = () => {
       });
   }, []);
 
+  const title = () => {
+    if (menuClicked === 0) {
+      return <Title>공구 열기 좋은 물건을 찾아 왔어요!</Title>;
+    } else if (menuClicked === 1) {
+      return <Title>전체</Title>;
+    } else if (menuClicked === 2) {
+      return <Title>신선식품</Title>;
+    } else if (menuClicked === 3) {
+      return <Title>가공식품</Title>;
+    } else if (menuClicked === 4) {
+      return <Title>생활용품</Title>;
+    } else if (menuClicked === 5) {
+      return <Title>주방용품</Title>;
+    }
+  };
+
   return (
     <Wrapper>
       <SliderWrapper>
@@ -159,7 +180,8 @@ const Main = () => {
           <BannerButtonImg src={bannerButtonRight} alt="" />
         </NavButton>
       </SliderWrapper>
-      <Title>뭉치's PICK!</Title>
+      <ShoppingMenu menuClicked={menuClicked} setMenuClicked={setMenuClicked} />
+      {title()}
       <Items>
         {products.map((product) => (
           <Item key={product.id} onClick={() => handleItemClick(product.id)}>
