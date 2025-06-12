@@ -18,9 +18,16 @@ const Wrapper = styled.div<{ $isSmall: boolean }>`
   flex-direction: column;
   align-items: center;
 `;
-const Main = styled.div`
+const Main1 = styled.div`
   width: 100%;
   margin-top: 10px;
+`;
+const Main2 = styled.div`
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding-bottom: 100px;
 `;
 const ImgNothing = styled.img`
   width: 170px;
@@ -38,9 +45,9 @@ const NWrapper = styled.div`
   align-items: center;
   gap: 3px;
 `;
-const Toggle = styled.div`
-  width: 100%;
-  height: 10%;
+const Toggle = styled.div<{ $isSmall: boolean }>`
+  width: ${(props) => (props.$isSmall ? "100%" : "50%")};
+  height: 80px;
   position: fixed;
   bottom: 0;
   display: flex;
@@ -64,14 +71,16 @@ const ItemB = styled.button<{ $state: boolean }>`
 const Item = styled.button`
   display: flex;
   justify-content: center;
-  align-items: start;
+  align-items: center;
   flex-direction: column;
-  padding: 0 0 3% 0;
   gap: 3px;
+  width: 50%;
 `;
 const Img = styled.img`
-  width: 170px;
-  height: 120px;
+  width: 80%;
+  max-width: 300px;
+  height: 60%;
+  max-height: 270px;
   border-radius: 10px;
   object-fit: cover;
   border: 2px solid #eff3ff;
@@ -167,40 +176,39 @@ const InterestPage = () => {
   return (
     <Wrapper $isSmall={small}>
       <Header title="관심 목록" route="/mypage" />
-      <Main>
-        {(state ? gonggus.length : items.length) !== 0 ? (
-          <>
-            {state ? (
-              <>
-                {gonggus?.map((gonggu) => (
-                  <GongguListItem {...gonggu} key={gonggu.id} />
-                ))}
-              </>
-            ) : (
-              <>
-                {items?.map((item) => (
-                  <Item key={item.id} onClick={() => itemInfo(item.id)}>
-                    <Img src={item.imgUrl}></Img>
-                    <ItemName>{item.name}</ItemName>
-                    <Price>{item.price.toLocaleString()}원</Price>
-                  </Item>
-                ))}
-              </>
-            )}
-          </>
-        ) : (
-          <>
-            <NWrapper>
-              <ImgNothing src={state ? pink : mint}></ImgNothing>
-              <PNothing>하트 누른 {state ? "공구" : "상품"}를</PNothing>
-              <PNothing>여기서 확인할 수 있어요!</PNothing>
-            </NWrapper>
-          </>
-        )}
-      </Main>
-      <Toggle>
+
+      {(state ? gonggus.length : items.length) !== 0 ? (
+        <>
+          {state ? (
+            <Main1>
+              {gonggus?.map((gonggu) => (
+                <GongguListItem {...gonggu} key={gonggu.id} />
+              ))}
+            </Main1>
+          ) : (
+            <Main2>
+              {items?.map((item) => (
+                <Item key={item.id} onClick={() => itemInfo(item.id)}>
+                  <Img src={item.imgUrl}></Img>
+                  <ItemName>{item.name}</ItemName>
+                  <Price>{item.price.toLocaleString()}원</Price>
+                </Item>
+              ))}
+            </Main2>
+          )}
+        </>
+      ) : (
+        <>
+          <NWrapper>
+            <ImgNothing src={state ? pink : mint}></ImgNothing>
+            <PNothing>하트 누른 {state ? "공구" : "상품"}를</PNothing>
+            <PNothing>여기서 확인할 수 있어요!</PNothing>
+          </NWrapper>
+        </>
+      )}
+      <Toggle $isSmall={small}>
         <GongguB $state={state} onClick={() => ClickButton(true)}>
-          공구글
+          공구
         </GongguB>
         <ItemB $state={state} onClick={() => ClickButton(false)}>
           쇼핑 상품

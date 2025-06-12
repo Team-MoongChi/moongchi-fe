@@ -24,6 +24,7 @@ type Product = {
   largeCategory: string;
   mediumCategory: string;
   smallCategory: string;
+  likeCount: number;
 };
 
 const ShopItemPage = () => {
@@ -57,7 +58,7 @@ const ShopItemPage = () => {
     <Wrapper $isSmall={small}>
       <Header title="상품" route={-1} />
       {item && <Main item={item} />}
-      <Nav link={item?.productUrl} />
+      <Nav link={item?.productUrl} itemId={item?.id} />
     </Wrapper>
   );
 };

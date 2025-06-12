@@ -1,6 +1,9 @@
 import styled from "styled-components";
 import heartOn from "../../../assets/images/common/누른하트.png";
+import heartOff from "../../../assets/images/common/안누른하트.png";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { fetchWithAuth } from "../../../utils/FetchWithAuth";
 
 const Wrapper = styled.div`
   display: flex;
@@ -10,12 +13,12 @@ const Wrapper = styled.div`
   position: sticky;
   bottom: 0;
   width: 100%;
-  height: 13%;
+  height: 95px;
   padding: 10px 10px 15px 10px;
   gap: 4%;
   bottom: 0;
 `;
-const LikeButton = styled.div`
+const LikeButton = styled.button`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -53,18 +56,115 @@ const HeartImg = styled.img`
   width: 43px;
 `;
 
-const Nav = ({ link }) => {
+interface Props {
+  link: string | undefined;
+  itemId: number | undefined;
+}
+
+const Nav = ({ link, itemId }: Props) => {
   const navigate = useNavigate();
+  const [isLike, setIsLike] = useState<boolean>(false);
+  const [likeCount, setLikeCount] = useState<number>(0);
 
   const handleButton = () => {
     navigate("/gonggu/write");
   };
 
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken"); // 또는 sessionStorage, context
+
+    fetchWithAuth(`/api/products/like`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          // 예: 401, 404, 500 등일 때
+          throw new Error(`서버 오류: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((result) => {
+        console.log(result);
+        setIsLike(result.some((item) => item.id === itemId));
+        console.log(isLike);
+      })
+      .catch((error) => {
+        console.error("요청 실패:", error);
+      });
+  }, [itemId]);
+
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    fetchWithAuth(`/api/products/${itemId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result);
+        setLikeCount(result.likeCount);
+      })
+      .catch((error) => {
+        console.error("요청 실패:", error);
+      });
+  }, [isLike]);
+
+  const handleLike = () => {
+    const token = localStorage.getItem("accessToken"); // 또는 sessionStorage, context 등
+
+    fetchWithAuth(`/api/products/${itemId}/like`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          // 예: 401, 404, 500 등일 때
+          throw new Error(`서버 오류: ${response.status}`);
+        }
+        setIsLike(true);
+      })
+      .catch((error) => {
+        console.error("요청 실패:", error);
+      });
+  };
+
+  const handleUnlike = () => {
+    const token = localStorage.getItem("accessToken"); // 또는 sessionStorage, context 등
+
+    fetchWithAuth(`/api/products/${itemId}/like`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          // 예: 401, 404, 500 등일 때
+          throw new Error(`서버 오류: ${response.status}`);
+        }
+        setIsLike(false);
+      })
+      .catch((error) => {
+        console.error("요청 실패:", error);
+      });
+  };
+
   return (
     <Wrapper>
-      <LikeButton>
-        <HeartImg src={heartOn} alt="" />
-        <p style={{ fontFamily: "DunggeunmisoBold" }}>15</p>
+      <LikeButton onClick={() => (isLike ? handleUnlike() : handleLike())}>
+        <HeartImg src={isLike ? heartOn : heartOff} alt="" />
+        <p style={{ fontFamily: "DunggeunmisoBold" }}>{likeCount}</p>
       </LikeButton>
       <DetailButton href={link}>제품 상세</DetailButton>
       <CreateButton onClick={() => handleButton()}>
