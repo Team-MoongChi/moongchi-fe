@@ -16,7 +16,10 @@ export default function ChatMainRoutes() {
         path="/chat/:chatRoomId/review"
         element={<AllReviewPage />}
       ></Route>
-      <Route path="/chat/review/write" element={<OneReviewPage />}></Route>
+      <Route
+        path="/chat/:chatRoomId/review/:targetParticipantId"
+        element={<OneReviewPage />}
+      ></Route>
     </>
   );
 }
