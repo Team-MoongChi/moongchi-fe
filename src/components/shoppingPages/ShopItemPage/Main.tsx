@@ -168,16 +168,13 @@ const Main = ({ item }: MainProps) => {
   useEffect(() => {
     if (!item) return;
     const token = localStorage.getItem("accessToken");
-    fetchWithAuth(
-      `http://localhost:8080/api/products/${item.id}/group-boards`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    )
+    fetchWithAuth(`/api/products/${item.id}/group-boards`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((response) => {
         if (!response.ok) {
           // 예: 401, 404, 500 등일 때

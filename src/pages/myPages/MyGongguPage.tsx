@@ -62,7 +62,7 @@ const MyGongguPage = () => {
   useEffect(() => {
     const token = localStorage.getItem("accessToken"); // 또는 sessionStorage, context 등
 
-    fetchWithAuth("http://localhost:8080/api/group-boards/me", {
+    fetchWithAuth("/api/group-boards/me", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

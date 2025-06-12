@@ -121,7 +121,7 @@ const Main = () => {
   useEffect(() => {
     const token = localStorage.getItem("accessToken"); // 또는 sessionStorage, context 등
 
-    fetchWithAuth("http://localhost:8080/api/products", {
+    fetchWithAuth("/api/products", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

@@ -36,7 +36,7 @@ const ShopItemPage = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
-    fetchWithAuth(`http://localhost:8080/api/products/${itemId}`, {
+    fetchWithAuth(`/api/products/${itemId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

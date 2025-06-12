@@ -38,16 +38,13 @@ const ShopResultPage = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
-    fetchWithAuth(
-      `http://localhost:8080/api/products/search?keyword=${keyword}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    )
+    fetchWithAuth(`/api/products/search?keyword=${keyword}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error("서버 응답 실패");
