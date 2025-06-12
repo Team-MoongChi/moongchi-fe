@@ -91,7 +91,6 @@ export default function ChatPage() {
           link={`/chat/${chatRoomId}/pay`}
         ></FetchButton>
         <FetchButton content="거래 완료" onClick={fetchTrade}></FetchButton>
-        {/* /api/chat/rooms/{chatRoomId}/reviews/{targetParticipantId} */}
         <FetchButton
           content="리뷰 작성"
           link={`/chat/${chatRoomId}/review`}
