@@ -18,7 +18,7 @@ const Wrapper = styled.div<{ $isSmall: boolean }>`
 `;
 const Main = styled.div`
   width: 100%;
-  margin-top: 82px;
+  margin-top: 10px;
 `;
 const ImgNothing = styled.img`
   width: 200px;
@@ -87,7 +87,7 @@ const InterestPage = () => {
 
   return (
     <Wrapper $isSmall={small}>
-      <Header title="관심 목록" />
+      <Header title="관심 목록" route="/mypage" />
       {gonggus.length !== 0 ? (
         <Main>
           {gonggus?.map((gonggu) => (

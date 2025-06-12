@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import backButton from "../../assets/images/common/뒤로가기.png";
+import backButton from "../../../assets/images/common/뒤로가기.png";
 import { useNavigate } from "react-router-dom";
 
 const Wrapper = styled.div`
@@ -8,7 +8,7 @@ const Wrapper = styled.div`
   align-items: center;
   width: 100%;
   padding: 20px;
-  position: sticky;
+  position: absolute;
   z-index: 1;
   background-color: #5849d0;
   border-radius: 0 0 15px 15px;
