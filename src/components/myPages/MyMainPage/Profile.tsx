@@ -7,10 +7,13 @@ import FHeart25 from "../../../assets/images/userScore/팔로워하트25.png";
 import FHeart50 from "../../../assets/images/userScore/팔로워하트50.png";
 import FHeart75 from "../../../assets/images/userScore/팔로워하트75.png";
 import FHeart100 from "../../../assets/images/userScore/팔로워하트100.png";
+import { useState, useEffect } from "react";
+import { fetchWithAuth } from "../../../utils/FetchWithAuth";
 
 const Wrapper = styled.div`
   width: 90%;
   height: 28%;
+  max-height: 220px;
   background-color: #e8edff;
   margin-top: 90px;
   border-radius: 20px;
@@ -18,15 +21,18 @@ const Wrapper = styled.div`
 const InfoWrapper = styled.div`
   display: flex;
   align-items: center;
-  justify-content: start;
-  gap: 15%;
+  justify-content: center;
+  gap: 10%;
   padding: 20px;
   padding-top: 30px;
   padding-bottom: 33px;
 `;
 const Img = styled.img`
-  width: 93px;
-  height: 93px;
+  width: 100px;
+  height: 100px;
+  background-color: white;
+  border-radius: 50px;
+  object-fit: cover;
 `;
 const Info = styled.div`
   display: flex;
@@ -77,24 +83,64 @@ const Tag = styled.div`
   font-size: 13px;
 `;
 
+type UserData = {
+  email: string;
+  id: number;
+  latitude: number;
+  longitude: number;
+  mannerLeader: number;
+  mannerParticipant: number;
+  nickname: string;
+  profileUrl: string;
+};
+
 const Profile = () => {
+  const [userData, setUserData] = useState<UserData | null>(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken"); // 또는 sessionStorage, context 등
+
+    fetchWithAuth("http://localhost:8080/api/users", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          // 예: 401, 404, 500 등일 때
+          throw new Error(`서버 오류: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((result) => {
+        setUserData(result);
+      })
+      .catch((error) => {
+        console.error("요청 실패:", error);
+      });
+  }, []);
+
   return (
     <Wrapper>
       <InfoWrapper>
-        <Img src="/pink.png" />
+        <Img src={userData?.profileUrl} />
         <Info>
-          <Nickname>춤추는 후라이팬</Nickname>
+          <Nickname>{userData?.nickname}</Nickname>
           <ReaderGage>
             <HeartImg src={RHeart50} />
             <p>리더 게이지</p>
             <p style={{ paddingLeft: "15px", fontFamily: "DunggeunmisoBold" }}>
-              50%
+              {userData?.mannerLeader}%
             </p>
           </ReaderGage>
           <FollowerGage>
             <HeartImg src={FHeart75} />
             <p>팔로워 게이지</p>
-            <p style={{ fontFamily: "DunggeunmisoBold" }}>75%</p>
+            <p style={{ fontFamily: "DunggeunmisoBold" }}>
+              {userData?.mannerParticipant}%
+            </p>
           </FollowerGage>
         </Info>
       </InfoWrapper>

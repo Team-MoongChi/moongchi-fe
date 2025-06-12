@@ -18,10 +18,10 @@ const SliderWrapper = styled.div`
   height: 73%;
 `;
 
-const Slide = styled.div<{ index: number }>`
+const Slide = styled.div<{ $index: number }>`
   display: flex;
   transition: transform 0.5s ease-in-out;
-  transform: translateX(${(props) => -props.index * 100}%);
+  transform: translateX(${(props) => -props.$index * 100}%);
 `;
 
 const SlideItem = styled.img`
@@ -33,9 +33,9 @@ const Steps = styled.div`
   justify-content: center;
   gap: 11px;
 `;
-const Step = styled.div<{ num: number; index: number }>`
+const Step = styled.div<{ $num: number; $index: number }>`
   background-color: ${(props) =>
-    props.num === props.index ? "#5849D0" : "#e8edff"};
+    props.$num === props.$index ? "#5849D0" : "#e8edff"};
   width: 13px;
   height: 13px;
   border-radius: 50px;
@@ -59,16 +59,16 @@ const SlideInfo = () => {
 
   return (
     <SliderWrapper>
-      <Slide index={index}>
+      <Slide $index={index}>
         {images.map((src, i) => (
           <SlideItem key={i} src={src} alt={`slide-${i}`} />
         ))}
       </Slide>
       <Steps>
-        <Step num={0} index={index} />
-        <Step num={1} index={index} />
-        <Step num={2} index={index} />
-        <Step num={3} index={index} />
+        <Step $num={0} $index={index} />
+        <Step $num={1} $index={index} />
+        <Step $num={2} $index={index} />
+        <Step $num={3} $index={index} />
       </Steps>
     </SliderWrapper>
   );

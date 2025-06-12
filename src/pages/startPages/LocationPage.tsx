@@ -4,6 +4,8 @@ import Button from "../../components/startPages/common/Button";
 import styled from "styled-components";
 import useDeviceSize from "../../useDeviceSize";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { fetchWithAuth } from "../../utils/FetchWithAuth";
 
 const Wrapper = styled.div<{ $isSmall: boolean }>`
   background-color: white;
@@ -19,15 +21,52 @@ const Wrapper = styled.div<{ $isSmall: boolean }>`
 const LocationPage = () => {
   const { small } = useDeviceSize();
   const navigate = useNavigate();
+  const [address, setAddress] = useState("");
+  const [center, setCenter] = useState<{ lat: number; lng: number }>({
+    lat: 33.450701,
+    lng: 126.570667,
+  });
+
+  // 현재 위치
+  const [position, setPosition] = useState<{ lat: number; lng: number }>({
+    lat: 33.450701,
+    lng: 126.570667,
+  });
 
   const buttonHandle = () => {
-    navigate("/prefer");
+    const token = localStorage.getItem("accessToken");
+    fetchWithAuth("http://localhost:8080/api/users/location", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      credentials: "include", // withCredentials: true 역할
+      body: JSON.stringify({
+        address,
+        latitude: position.lat,
+        longitude: position.lng,
+      }),
+    }).then((response) => {
+      if (!response.ok) {
+        throw new Error("서버 응답 실패");
+      }
+      console.log("POST 성공!", response);
+      navigate("/prefer");
+    });
   };
 
   return (
     <Wrapper $isSmall={small}>
       <Step />
-      <Main />
+      <Main
+        address={address}
+        setAddress={setAddress}
+        center={center}
+        setCenter={setCenter}
+        position={position}
+        setPosition={setPosition}
+      />
       <Button text="다음" onClick={buttonHandle} disable={true} />
     </Wrapper>
   );

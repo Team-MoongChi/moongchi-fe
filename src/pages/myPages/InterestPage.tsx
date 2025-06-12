@@ -2,6 +2,9 @@ import styled from "styled-components";
 import useDeviceSize from "../../useDeviceSize";
 import Header from "../../components/common/Header";
 import GongguListItem from "../../components/gongguPages/common/GongguListItem";
+import { useEffect, useState } from "react";
+import { fetchWithAuth } from "../../utils/FetchWithAuth";
+import pink from "../../assets/images/moongchies/빨간뭉치.png";
 
 const Wrapper = styled.div<{ $isSmall: boolean }>`
   background-color: white;
@@ -17,34 +20,89 @@ const Main = styled.div`
   width: 100%;
   margin-top: 82px;
 `;
+const ImgNothing = styled.img`
+  width: 200px;
+`;
+const PNothing = styled.p`
+  font-size: 21px;
+  font-family: DunggeunmisoBold;
+  color: #5849d0;
+`;
+const NWrapper = styled.div`
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 3px;
+`;
 
-const example = {
-  id: 1,
-  boardStatus: "OPEN",
-  title: "나는 사과",
-  location: "나는 집",
-  groupProduct: {
-    price: 10000,
-    images: "/mint.png",
-  },
-};
+type BoardStatus = "OPEN" | "CLOSING_SOON" | "CLOSED" | "COMPLETED";
+interface Participant {
+  userId: number;
+  profileUrl: string;
+}
+export interface GongguItem {
+  id: number;
+  title: string;
+  price: number;
+  location: string;
+  boardStatus: BoardStatus;
+  totalUsers: number;
+  currentUsers: number;
+  createAt: string;
+  image: string;
+  participants: Participant[];
+}
 
 const InterestPage = () => {
   const { small } = useDeviceSize();
+  const [gonggus, setGonggus] = useState<Array<GongguItem>>([]);
+
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken"); // 또는 sessionStorage, context 등
+
+    fetchWithAuth("http://localhost:8080/api/group-boards/like", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          // 예: 401, 404, 500 등일 때
+          throw new Error(`서버 오류: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((result) => {
+        console.log(result);
+        setGonggus(result);
+      })
+      .catch((error) => {
+        console.error("요청 실패:", error);
+      });
+  }, []);
 
   return (
     <Wrapper $isSmall={small}>
       <Header title="관심 목록" />
-      <Main>
-        <GongguListItem {...example} />
-        <GongguListItem {...example} />
-        <GongguListItem {...example} />
-        <GongguListItem {...example} />
-        <GongguListItem {...example} />
-        <GongguListItem {...example} />
-        <GongguListItem {...example} />
-        <GongguListItem {...example} />
-      </Main>
+      {gonggus.length !== 0 ? (
+        <Main>
+          {gonggus?.map((gonggu) => (
+            <GongguListItem {...gonggu} key={gonggu.id} />
+          ))}
+        </Main>
+      ) : (
+        <Main>
+          <NWrapper>
+            <ImgNothing src={pink}></ImgNothing>
+            <PNothing>하트 누른 공구를</PNothing>
+            <PNothing>여기서 확인할 수 있어요!</PNothing>
+          </NWrapper>
+        </Main>
+      )}
     </Wrapper>
   );
 };

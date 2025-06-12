@@ -126,69 +126,6 @@ type User = {
   profileUrl: string;
 };
 
-// const gonggus: Gonggu[] = [
-//   {
-//     user: {
-//       nickname: "조용한 후라이팬",
-//       profileUrl:
-//         "https://shop-phinf.pstatic.net/20220610_16/1654835622697SY1vP_JPEG/55971402389646143_1225557300.jpg?type=m510",
-//     },
-//     participants: [
-//       {
-//         userId: 1,
-//         profileUrl:
-//           "https://shop-phinf.pstatic.net/20220610_16/1654835622697SY1vP_JPEG/55971402389646143_1225557300.jpg?type=m510",
-//       },
-//       {
-//         userId: 2,
-//         profileUrl:
-//           "https://shop-phinf.pstatic.net/20220610_16/1654835622697SY1vP_JPEG/55971402389646143_1225557300.jpg?type=m510",
-//       },
-//     ],
-//     deadline: "2025-06-01",
-//   },
-//   {
-//     user: {
-//       nickname: "춤추는 앞치마",
-//       profileUrl:
-//         "https://shopping-phinf.pstatic.net/main_4412185/44121858715.20241213100329.jpg?type=f640",
-//     },
-//     participants: [
-//       {
-//         userId: 1,
-//         profileUrl:
-//           "https://shop-phinf.pstatic.net/20220610_16/1654835622697SY1vP_JPEG/55971402389646143_1225557300.jpg?type=m510",
-//       },
-//       {
-//         userId: 2,
-//         profileUrl:
-//           "https://shop-phinf.pstatic.net/20220610_16/1654835622697SY1vP_JPEG/55971402389646143_1225557300.jpg?type=m510",
-//       },
-//     ],
-//     deadline: "2025-06-01",
-//   },
-//   {
-//     user: {
-//       nickname: "심심한 도마",
-//       profileUrl:
-//         "https://shop-phinf.pstatic.net/20250422_230/1745317670642oHSDd_JPEG/21270112859955742_1437399076.jpg?type=m510",
-//     },
-//     participants: [
-//       {
-//         userId: 1,
-//         profileUrl:
-//           "https://shop-phinf.pstatic.net/20220610_16/1654835622697SY1vP_JPEG/55971402389646143_1225557300.jpg?type=m510",
-//       },
-//       {
-//         userId: 2,
-//         profileUrl:
-//           "https://shop-phinf.pstatic.net/20220610_16/1654835622697SY1vP_JPEG/55971402389646143_1225557300.jpg?type=m510",
-//       },
-//     ],
-//     deadline: "2025-06-01",
-//   },
-// ];
-
 interface MainProps {
   item: {
     id: number;
