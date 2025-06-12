@@ -22,7 +22,7 @@ const InfoWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10%;
+  gap: 3%;
   padding: 20px;
   padding-top: 30px;
   padding-bottom: 33px;
