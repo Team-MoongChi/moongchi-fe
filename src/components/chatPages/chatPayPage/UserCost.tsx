@@ -27,14 +27,14 @@ const UserImg = styled.img`
 `;
 
 interface UserCostProps {
-  cost: number;
+  cost: string;
   isPayed: boolean;
   width: string;
 }
 export default function UserCost(props: UserCostProps) {
   return (
     <UserCostWrap>
-      <Text fontSize="20px" fontFamily="DunggeunmisoBold" color="#5849d0">
+      <Text fontSize="18px" fontFamily="DunggeunmisoBold" color="#5849d0">
         {props.cost}원
       </Text>
       {props.isPayed ? (

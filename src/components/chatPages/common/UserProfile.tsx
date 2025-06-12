@@ -1,4 +1,7 @@
 import styled from "styled-components";
+import { Img } from "../../common/styled-component/Img";
+
+import leader from "../../../assets/images/gonggu/leader.png";
 
 const UserPayWrap = styled.div`
   display: flex;
@@ -30,12 +33,16 @@ interface UserProfileProps {
   src: string;
   width: string;
   name: string;
+  isLeader: boolean;
 }
 export default function UserProfile(props: UserProfileProps) {
   return (
     <UserPayWrap>
       <UserImg src={props.src} width={props.width}></UserImg>
-      <Text fontSize="20px">{props.name}</Text>
+      <Text fontSize="18px">{props.name}</Text>
+      {props.isLeader ? (
+        <Img src={leader} width="clamp(20px, 2vw, 20px)" />
+      ) : null}
     </UserPayWrap>
   );
 }

@@ -1,4 +1,4 @@
-export interface ChatRoom {
+export interface ChatRoomList {
   id: number;
   title: string;
   status: string;

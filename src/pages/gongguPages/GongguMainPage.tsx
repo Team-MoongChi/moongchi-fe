@@ -10,8 +10,9 @@ import GongguListItem from "../../components/gongguPages/common/GongguListItem";
 import writeIcon from "../../assets/images/common/공구생성아이콘.png";
 import { Text } from "../../components/common/styled-component/Text";
 import { Wrap } from "../../components/common/styled-component/Wrap";
+import { fetchWithAuth } from "../../utils/FetchWithAuth";
 
-import type { GongguItem } from "../../types/gongguPage/gongguItem";
+import type { GongguItem } from "../../types/gongguPages/gongguItem";
 
 // 공구 리스트
 const GongguList = styled.div`
@@ -66,13 +67,14 @@ export default function GongguMainPage() {
   const [loading, setLoading] = useState<boolean>(true);
 
   const fetchAllGongguItem = async () => {
+    const token = localStorage.getItem("access_token");
+    console.log("token: ", token);
+
     try {
-      const response = await fetch("http://localhost:8080/api/group-boards", {
+      const response = await fetchWithAuth("/api/group-boards", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwiaWF0IjoxNzQ5MDkzODk3LCJleHAiOjE3NDk2OTg2OTd9.hjyAym7PrQl_8DTGJY0U-piRN5hPuzDlknIlRv_6xLA",
         },
       });
       if (!response.ok) {
@@ -85,20 +87,22 @@ export default function GongguMainPage() {
       setLoading(false);
     } catch (error) {
       console.error("get failed: ", error);
+      setLoading(false);
       throw error;
     }
   };
 
   const fetchCategory = async () => {
+    const token = localStorage.getItem("access_token");
+    console.log("token: ", token);
+
     try {
-      const response = await fetch(
-        `http://localhost:8080/api/group-boards/categories/${menuClicked}`,
+      const response = await fetchWithAuth(
+        `/api/group-boards/categories/${menuClicked}`,
         {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwiaWF0IjoxNzQ5MDkzODk3LCJleHAiOjE3NDk2OTg2OTd9.hjyAym7PrQl_8DTGJY0U-piRN5hPuzDlknIlRv_6xLA",
           },
         }
       );
@@ -111,7 +115,7 @@ export default function GongguMainPage() {
       setGongguList(data);
       setLoading(false);
     } catch (error) {
-      console.error("get failed: ", error);
+      console.error("get failed2: ", error);
       throw error;
     }
   };
