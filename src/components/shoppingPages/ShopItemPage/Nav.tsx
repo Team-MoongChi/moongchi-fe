@@ -114,7 +114,7 @@ const Nav = ({ link, itemId }: Props) => {
       .catch((error) => {
         console.error("요청 실패:", error);
       });
-  }, [isLike]);
+  }, [itemId, isLike]);
 
   const handleLike = () => {
     const token = localStorage.getItem("accessToken"); // 또는 sessionStorage, context 등

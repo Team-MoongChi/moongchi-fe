@@ -24,7 +24,7 @@ const Title = styled.p`
   color: white;
   font-family: DunggeunmisoBold;
 `;
-const Insert = styled.form`
+const Insert = styled.form<{ $aiState: number }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -32,17 +32,18 @@ const Insert = styled.form`
   height: 46px;
   padding: 0px 8px 0px 8px;
   border-radius: 50px;
-  background-color: white;
+  background-color: ${(props) => (props.$aiState ? "#EFF3FF" : "white")};
   gap: 20px;
 `;
 const SearchIcon = styled.img`
   width: 20px;
 `;
-const Search = styled.input`
+const Search = styled.input<{ $aiState: number }>`
   width: 75%;
   height: 40px;
   border: none;
   font-size: 18px;
+  background-color: ${(props) => (props.$aiState ? "#EFF3FF" : "white")};
 
   &:focus {
     outline: none;
@@ -60,8 +61,9 @@ const Ai = styled.img`
 `;
 
 const Header = () => {
-  const [keyword, setKeyword] = useState("");
+  const [keyword, setKeyword] = useState<string>("");
   const navigate = useNavigate();
+  const [aiState, setAiState] = useState<number>(1); //1: ON, 0: OFF
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -69,14 +71,26 @@ const Header = () => {
       navigate(`/shopping/result?keyword=${encodeURIComponent(keyword)}`);
     }
   };
+
+  const aiOnOff = () => {
+    if (aiState === 0) {
+      setAiState(1);
+    } else {
+      setAiState(0);
+    }
+  };
+
   return (
     <Wrapper>
       <Title>쇼핑</Title>
-      <Insert onSubmit={onSubmit}>
+      <Insert onSubmit={onSubmit} $aiState={aiState}>
         <SearchIcon src={searchIcon} />
-        <Search onChange={(e) => setKeyword(e.target.value)}></Search>
-        <AiButton>
-          <Ai src={AiOn} />
+        <Search
+          onChange={(e) => setKeyword(e.target.value)}
+          $aiState={aiState}
+        ></Search>
+        <AiButton onClick={aiOnOff}>
+          <Ai src={aiState === 1 ? AiOn : AiOff} />
         </AiButton>
       </Insert>
     </Wrapper>
