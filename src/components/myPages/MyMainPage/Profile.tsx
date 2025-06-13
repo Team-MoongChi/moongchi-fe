@@ -75,7 +75,7 @@ const Tag = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 66px;
+  width: 74px;
   height: 30px;
   background-color: #5849d0;
   border-radius: 20px;
@@ -194,19 +194,19 @@ const Profile = () => {
   const keywordChange = (original: string) => {
     switch (original) {
       case "친절해요":
-        return "친절";
+        return "친절해요";
       case "약속 시간을 지켰어요":
-        return "약속";
+        return "시간준수";
       case "채팅 응답이 빨라요":
-        return "응답";
+        return "빠른응답";
       case "설명과 같아요":
-        return "일치";
+        return "설명일치";
       case "믿을 수 있어요":
-        return "신뢰";
+        return "신뢰해요";
       case "가격 수량이 확실해요":
-        return "정확";
+        return "물건확실";
       case "또 거래하고 싶어요":
-        return "재거래";
+        return "매우만족";
       default:
         return original; // 해당되지 않으면 원문 반환
     }
@@ -235,9 +235,9 @@ const Profile = () => {
         </Info>
       </InfoWrapper>
       <Tags>
-        {reviews?.length !== 0 ? (
-          reviews?.map((review: string, index) => (
-            <Tag key={index}># {keywordChange(review)}</Tag>
+        {review?.length !== 0 ? (
+          review?.map((review: string, index) => (
+            <Tag key={index}>#{keywordChange(review)}</Tag>
           ))
         ) : (
           <NotReview>아직 리뷰가 없어요!</NotReview>
