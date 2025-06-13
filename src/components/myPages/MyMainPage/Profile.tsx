@@ -122,6 +122,29 @@ const Profile = () => {
       });
   }, []);
 
+  const ReaderHeart = (gage: number) => {
+    if (gage < 26) {
+      return RHeart25;
+    } else if (gage < 51) {
+      return RHeart50;
+    } else if (gage < 76) {
+      return RHeart75;
+    } else if (gage < 101) {
+      return RHeart100;
+    }
+  };
+  const FollowerHeart = (gage: number) => {
+    if (gage < 26) {
+      return FHeart25;
+    } else if (gage < 51) {
+      return FHeart50;
+    } else if (gage < 76) {
+      return FHeart75;
+    } else if (gage < 101) {
+      return FHeart100;
+    }
+  };
+
   return (
     <Wrapper>
       <InfoWrapper>
@@ -129,14 +152,14 @@ const Profile = () => {
         <Info>
           <Nickname>{userData?.nickname}</Nickname>
           <ReaderGage>
-            <HeartImg src={RHeart50} />
+            <HeartImg src={ReaderHeart(userData?.mannerLeader || 0)} />
             <p>리더 게이지</p>
             <p style={{ paddingLeft: "15px", fontFamily: "DunggeunmisoBold" }}>
               {userData?.mannerLeader}%
             </p>
           </ReaderGage>
           <FollowerGage>
-            <HeartImg src={FHeart75} />
+            <HeartImg src={FollowerHeart(userData?.mannerParticipant || 0)} />
             <p>팔로워 게이지</p>
             <p style={{ fontFamily: "DunggeunmisoBold" }}>
               {userData?.mannerParticipant}%
