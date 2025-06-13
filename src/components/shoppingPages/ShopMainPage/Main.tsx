@@ -105,6 +105,7 @@ const Main = () => {
   const [products, setProducts] = useState<Array<Product>>([]);
   const navigate = useNavigate();
   const [menuClicked, setMenuClicked] = useState<number>(0);
+  const menuOrder = [-1, 0, 1, 25, 43, 58];
 
   const nextSlide = () => setIndex((prev) => (prev + 1) % images.length);
   const prevSlide = () =>
@@ -125,8 +126,12 @@ const Main = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken"); // 또는 sessionStorage, context 등
+    const url =
+      menuClicked === menuOrder[1]
+        ? "/api/products"
+        : `/api/products/categories/${menuClicked}`;
 
-    fetchWithAuth("/api/products", {
+    fetchWithAuth(url, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -147,20 +152,20 @@ const Main = () => {
       .catch((error) => {
         console.error("요청 실패:", error);
       });
-  }, []);
+  }, [menuClicked]);
 
   const title = () => {
-    if (menuClicked === 0) {
+    if (menuClicked === menuOrder[0]) {
       return <Title>공구 열기 좋은 물건을 찾아 왔어요!</Title>;
-    } else if (menuClicked === 1) {
+    } else if (menuClicked === menuOrder[1]) {
       return <Title>전체</Title>;
-    } else if (menuClicked === 2) {
+    } else if (menuClicked === menuOrder[2]) {
       return <Title>신선식품</Title>;
-    } else if (menuClicked === 3) {
+    } else if (menuClicked === menuOrder[3]) {
       return <Title>가공식품</Title>;
-    } else if (menuClicked === 4) {
+    } else if (menuClicked === menuOrder[4]) {
       return <Title>생활용품</Title>;
-    } else if (menuClicked === 5) {
+    } else if (menuClicked === menuOrder[5]) {
       return <Title>주방용품</Title>;
     }
   };

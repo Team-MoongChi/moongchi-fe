@@ -17,7 +17,7 @@ const Button = styled.div<{ $backgroundcolor: string }>`
   background-color: ${(props) => props.$backgroundcolor};
   border-radius: 6px;
   aspect-ratio: 1/1;
-  padding: clamp(5px, 2vw, 15px);
+  padding: clamp(5px, 2vw, 8px);
   transition: background-color 0.3s ease;
 `;
 
@@ -35,7 +35,7 @@ export default function MenuButton(props: MenuProps) {
         <Img src={props.src} width="clamp(40px, 2vw, 50px)"></Img>
       </Button>
       <Text
-        fontSize="clamp(11px, 2vw, 15px)"
+        fontSize="clamp(10px, 2vw, 10px)"
         fontFamily="DunggeunmisoBold"
         color={props.clicked ? "#5849d0" : "#e8edff"}
       >

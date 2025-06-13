@@ -12,6 +12,7 @@ const Menu = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 0 5%;
+  gap: 2px;
 `;
 
 interface MenuProps {
@@ -22,7 +23,7 @@ interface MenuProps {
 export default function GongguMenu(props: MenuProps) {
   const menuClicked = props.menuClicked;
   const setMenuClicked = props.setMenuClicked;
-  const menuOrder = [0, 1, 2, 3, 4, 5];
+  const menuOrder = [-1, 0, 1, 25, 43, 58];
 
   const clickMenu = (number: number) => {
     setMenuClicked(number);
@@ -33,37 +34,37 @@ export default function GongguMenu(props: MenuProps) {
       <MenuButton
         src={moongchi}
         text="뭉치's PICK!"
-        onClick={() => clickMenu(0)}
+        onClick={() => clickMenu(menuOrder[0])}
         clicked={menuClicked === menuOrder[0]}
       ></MenuButton>
       <MenuButton
         src={all}
         text="전체"
-        onClick={() => clickMenu(1)}
+        onClick={() => clickMenu(menuOrder[1])}
         clicked={menuClicked === menuOrder[1]}
       ></MenuButton>
       <MenuButton
         src={fresh}
         text="신선식품"
-        onClick={() => clickMenu(2)}
+        onClick={() => clickMenu(menuOrder[2])}
         clicked={menuClicked === menuOrder[2]}
       ></MenuButton>
       <MenuButton
         src={processed}
         text="가공식품"
-        onClick={() => clickMenu(3)}
+        onClick={() => clickMenu(menuOrder[3])}
         clicked={menuClicked === menuOrder[3]}
       ></MenuButton>
       <MenuButton
         src={dailyLife}
         text="생활용품"
-        onClick={() => clickMenu(4)}
+        onClick={() => clickMenu(menuOrder[4])}
         clicked={menuClicked === menuOrder[4]}
       ></MenuButton>
       <MenuButton
         src={kitchen}
         text="주방용품"
-        onClick={() => clickMenu(5)}
+        onClick={() => clickMenu(menuOrder[5])}
         clicked={menuClicked === menuOrder[5]}
       ></MenuButton>
     </Menu>
