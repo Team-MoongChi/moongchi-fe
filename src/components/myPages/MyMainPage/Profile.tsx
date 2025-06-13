@@ -13,6 +13,7 @@ import { fetchWithAuth } from "../../../utils/FetchWithAuth";
 const Wrapper = styled.div`
   width: 90%;
   height: 28%;
+  min-height: 200px;
   max-height: 220px;
   background-color: #e8edff;
   margin-top: 90px;
@@ -23,9 +24,9 @@ const InfoWrapper = styled.div`
   align-items: center;
   justify-content: center;
   gap: 3%;
-  padding: 20px;
+  padding: 15px;
   padding-top: 30px;
-  padding-bottom: 33px;
+  padding-bottom: 25px;
 `;
 const Img = styled.img`
   width: 100px;
@@ -74,13 +75,24 @@ const Tag = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 70px;
+  width: 66px;
   height: 30px;
   background-color: #5849d0;
   border-radius: 20px;
   color: white;
   font-family: DunggeunmisoBold;
   font-size: 13px;
+`;
+const NotReview = styled.div`
+  color: #8c8cd9;
+  font-size: 18px;
+  background-color: #eff3ff;
+  width: 90%;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
 `;
 
 type UserData = {
@@ -94,8 +106,16 @@ type UserData = {
   profileUrl: string;
 };
 
+const review = [
+  "친절해요",
+  "설명과 같아요",
+  "또 거래하고 싶어요",
+  "믿을 수 있어요",
+];
+
 const Profile = () => {
   const [userData, setUserData] = useState<UserData | null>(null);
+  const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken"); // 또는 sessionStorage, context 등
@@ -122,6 +142,76 @@ const Profile = () => {
       });
   }, []);
 
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken"); // 또는 sessionStorage, context 등
+
+    fetchWithAuth("/api/users/reviews", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          // 예: 401, 404, 500 등일 때
+          throw new Error(`서버 오류: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((result) => {
+        setReviews(result.keywords);
+      })
+      .catch((error) => {
+        console.error("요청 실패:", error);
+      });
+  }, []);
+
+  const ReaderHeart = (gage: number) => {
+    if (gage < 26) {
+      return RHeart25;
+    } else if (gage < 51) {
+      return RHeart50;
+    } else if (gage < 76) {
+      return RHeart75;
+    } else if (gage < 101) {
+      return RHeart100;
+    }
+  };
+
+  const FollowerHeart = (gage: number) => {
+    if (gage < 26) {
+      return FHeart25;
+    } else if (gage < 51) {
+      return FHeart50;
+    } else if (gage < 76) {
+      return FHeart75;
+    } else if (gage < 101) {
+      return FHeart100;
+    }
+  };
+
+  const keywordChange = (original: string) => {
+    switch (original) {
+      case "친절해요":
+        return "친절";
+      case "약속 시간을 지켰어요":
+        return "약속";
+      case "채팅 응답이 빨라요":
+        return "응답";
+      case "설명과 같아요":
+        return "일치";
+      case "믿을 수 있어요":
+        return "신뢰";
+      case "가격 수량이 확실해요":
+        return "정확";
+      case "또 거래하고 싶어요":
+        return "재거래";
+      default:
+        return original; // 해당되지 않으면 원문 반환
+    }
+  };
+
   return (
     <Wrapper>
       <InfoWrapper>
@@ -129,14 +219,14 @@ const Profile = () => {
         <Info>
           <Nickname>{userData?.nickname}</Nickname>
           <ReaderGage>
-            <HeartImg src={RHeart50} />
+            <HeartImg src={ReaderHeart(userData?.mannerLeader || 0)} />
             <p>리더 게이지</p>
             <p style={{ paddingLeft: "15px", fontFamily: "DunggeunmisoBold" }}>
               {userData?.mannerLeader}%
             </p>
           </ReaderGage>
           <FollowerGage>
-            <HeartImg src={FHeart75} />
+            <HeartImg src={FollowerHeart(userData?.mannerParticipant || 0)} />
             <p>팔로워 게이지</p>
             <p style={{ fontFamily: "DunggeunmisoBold" }}>
               {userData?.mannerParticipant}%
@@ -145,10 +235,13 @@ const Profile = () => {
         </Info>
       </InfoWrapper>
       <Tags>
-        <Tag># 예의</Tag>
-        <Tag># 친절</Tag>
-        <Tag># 신속</Tag>
-        <Tag># 집앞</Tag>
+        {reviews?.length !== 0 ? (
+          reviews?.map((review: string, index) => (
+            <Tag key={index}># {keywordChange(review)}</Tag>
+          ))
+        ) : (
+          <NotReview>아직 리뷰가 없어요!</NotReview>
+        )}
       </Tags>
     </Wrapper>
   );
