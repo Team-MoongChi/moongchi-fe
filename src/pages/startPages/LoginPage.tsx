@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import useDeviceSize from "../../useDeviceSize";
-import moongchiBox from "../../assets/images/start/뭉치박스.png";
+import moongchiBox from "../../assets/images/start/뭉치박스.gif";
 import kakao from "../../assets/images/common/카카오.png";
 import naver from "../../assets/images/common/네이버.png";
 import google from "../../assets/images/common/구글.png";

@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
-import logo from "../../../assets/images/start/로그인_로고.png";
-import info1 from "../../../assets/images/start/안내1.png";
-import info2 from "../../../assets/images/start/안내2.png";
-import info3 from "../../../assets/images/start/안내3.png";
+import logo from "../../../assets/images/start/로그인_로고2.gif";
+import info1 from "../../../assets/images/start/안내1_2.gif";
+import info2 from "../../../assets/images/start/안내2_2.gif";
+import info3 from "../../../assets/images/start/안내3_2.gif";
 
 const SliderWrapper = styled.div`
   position: relative;
@@ -52,7 +52,7 @@ const SlideInfo = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       nextSlide();
-    }, 4000); // 3초마다 전환
+    }, 5000); // 3초마다 전환
 
     return () => clearInterval(interval);
   }, []);
