@@ -9,7 +9,7 @@ import shoppingClick from "../../assets/images/nav/쇼핑아이콘_클릭.png";
 import mypageClick from "../../assets/images/nav/마이페이지아이콘_클릭.png";
 import useDeviceSize from "../../useDeviceSize";
 import { useNavigate } from "react-router-dom";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const Wrapper = styled.div<{ $isSmall: boolean }>`
   display: flex;
