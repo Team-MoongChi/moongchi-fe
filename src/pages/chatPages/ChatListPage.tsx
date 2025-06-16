@@ -1,13 +1,13 @@
 import styled from "styled-components";
-import useDeviceSize from "../../useDeviceSize";
-import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
+import useDeviceSize from "../../useDeviceSize";
 import Header from "../../components/chatPages/chatListPage/Header";
 import ChatListItem from "../../components/chatPages/chatListPage/ChatListItem";
+import Nav from "../../components/common/Nav";
 import { Wrap } from "../../components/common/styled-component/Wrap";
-import type { ChatRoomList } from "../../types/chatPages/chatRoomList";
 import { fetchWithAuth } from "../../utils/FetchWithAuth";
+import type { ChatRoomList } from "../../types/chatPages/chatRoomList";
 
 const ChatList = styled.div`
   display: flex;
@@ -16,22 +16,7 @@ const ChatList = styled.div`
   gap: 10px;
 `;
 
-const NavBar = styled.div`
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  position: sticky;
-  bottom: 0;
-  background-color: #e8edff;
-  padding: 30px;
-`;
-
 export default function ChatListPage() {
-  const navigate = useNavigate();
-  const writeGonggu2 = () => {
-    navigate("/gonggu/write", { state: { message: "shop" } });
-  };
-
   const { small } = useDeviceSize();
 
   const [chatList, setChatList] = useState<ChatRoomList[]>([]);
@@ -75,19 +60,7 @@ export default function ChatListPage() {
         })}
       </ChatList>
 
-      <NavBar>
-        {/* 나중에 onclick 삭제하기 */}
-        <div onClick={writeGonggu2}>홈</div>
-        <div
-          onClick={() => {
-            navigate("/chat/list");
-          }}
-        >
-          채팅
-        </div>
-        <div>쇼핑</div>
-        <div>마이페이지</div>
-      </NavBar>
+      <Nav />
     </Wrap>
   );
 }
