@@ -35,7 +35,7 @@ const Menu = () => {
   };
   const handleLogout = () => {
     const token = localStorage.getItem("accessToken");
-    fetchWithAuth("http://localhost:8080/api/auth/logout", {
+    fetchWithAuth("/api/auth/logout", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
