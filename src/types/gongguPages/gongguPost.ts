@@ -18,6 +18,8 @@ export interface GongguPost {
   deadline: string;
   totalUser: number;
   currentUsers: number;
+  productUrl?: string;
+  likeCount: number;
   editable: boolean;
   chatRoomId: number;
   images: string[];

@@ -53,14 +53,14 @@ export default function GongguItemPage() {
 
   return (
     <Wrap $issmall={small} $gap="15px">
-      <Header />
-      <ImageSlide />
+      <Header editable={gongguItem?.editable} />
+      <ImageSlide images={gongguItem?.images} />
       {gongguItem ? <Content {...gongguItem}></Content> : null}
       <Footer
         editable={gongguItem?.editable}
         chatRoomId={gongguItem?.chatRoomId}
+        likeCount={gongguItem?.likeCount}
       />
-      ;
     </Wrap>
   );
 }
