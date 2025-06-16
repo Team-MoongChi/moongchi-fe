@@ -46,7 +46,8 @@ interface UploadProps {
 
 export default function ImageUpload(props: UploadProps) {
   const [imgList, setImgList] = useState<ImageItem[]>([]);
-  const imgUrlList: string[] = [];
+  // const imgUrlList: string[] = [];
+  const imgUrlListRef = useRef<string[]>([]);
 
   // cloudinary 이미지 url 가져오기
   const uploadCloudinary = async () => {
@@ -68,8 +69,8 @@ export default function ImageUpload(props: UploadProps) {
         }
       );
       const data = await response.json();
-      imgUrlList.push(data.secure_url);
-      console.log("cloudinary 링크 배열: ", imgUrlList);
+      imgUrlListRef.current.push(data.secure_url);
+      console.log("cloudinary 링크 배열: ", imgUrlListRef);
     }
   };
 
@@ -88,7 +89,7 @@ export default function ImageUpload(props: UploadProps) {
     setImgList(curList);
 
     await uploadCloudinary();
-    props.urlPost(imgUrlList);
+    props.urlPost(imgUrlListRef.current);
   };
 
   // 이미지 업로드 버튼 custom
