@@ -35,7 +35,7 @@ const LocationPage = () => {
 
   const buttonHandle = () => {
     const token = localStorage.getItem("accessToken");
-    fetchWithAuth("http://localhost:8080/api/users/location", {
+    fetchWithAuth("/api/users/location", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

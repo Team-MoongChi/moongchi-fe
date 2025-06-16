@@ -25,7 +25,7 @@ const PreferCategoryPage = () => {
   const token = localStorage.getItem("access_token");
 
   const buttonHandle = () => {
-    fetchWithAuth("http://localhost:8080/api/users/interest-category", {
+    fetchWithAuth("/api/users/interest-category", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

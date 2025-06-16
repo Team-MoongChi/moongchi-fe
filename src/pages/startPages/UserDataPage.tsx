@@ -5,6 +5,7 @@ import Main from "../../components/startPages/UserDataPage/Main";
 import Button from "../../components/startPages/common/Button";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { fetchWithAuth } from "../../utils/FetchWithAuth";
 
 const Wrapper = styled.div<{ $isSmall: boolean }>`
   background-color: white;
@@ -41,10 +42,12 @@ const UserDataPage = () => {
   }, [nickname, birth, gender, phone]);
 
   const ButtonHandle = () => {
-    fetch("http://localhost:8080/api/users", {
+    const token = localStorage.getItem("accessToken");
+    fetchWithAuth("/api/users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       credentials: "include", // withCredentials: true 역할
       body: JSON.stringify({
@@ -78,7 +81,7 @@ const UserDataPage = () => {
 
   useEffect(() => {
     // 1) /api/auth/users에서 사용자 정보 받아오기
-    fetch("http://localhost:8080/api/users/basic", {
+    fetchWithAuth("/api/users/basic", {
       method: "GET",
       credentials: "include", // withCredentials: true 역할
     })
@@ -87,34 +90,7 @@ const UserDataPage = () => {
         return res.json();
       })
       .then((data) => {
-        const { email, name } = data;
         setUserData(data);
-        if (email && name) {
-          // 2) 받은 정보로 회원가입 API 호출
-          return fetch("http://localhost:8080/api/users", {
-            method: "POST",
-            credentials: "include",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ email, name }),
-          });
-        } else {
-          throw new Error("회원정보를 불러오지 못했습니다.");
-        }
-      })
-      .then((res) => {
-        if (!res.ok) throw new Error("회원가입 요청 실패");
-        return res.json();
-      })
-      .then((data) => {
-        const accessToken = data.accessToken;
-        if (accessToken) {
-          localStorage.setItem("access_token", accessToken);
-        }
-      })
-      .catch((err) => {
-        console.error("회원가입 과정 중 오류 발생:", err);
       });
   }, []);
 

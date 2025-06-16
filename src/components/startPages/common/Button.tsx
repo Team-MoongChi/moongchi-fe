@@ -24,7 +24,7 @@ type ButtonProps = {
 
 const Button = ({ text, onClick, disable }: ButtonProps) => {
   return (
-    <Box onClick={onClick} disabled={!disable}>
+    <Box onClick={() => onClick()} disabled={!disable}>
       {text}
     </Box>
   );
