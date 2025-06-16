@@ -15,13 +15,15 @@ import scoreImg3 from "../../../assets/images/userScore/리더하트75.png";
 import scoreImg4 from "../../../assets/images/userScore/리더하트100.png";
 
 import type { GongguPost } from "../../../types/gongguPages/gongguPost";
+import TradeSpace from "./TradeSpace";
+import GotoShop from "./GotoShop";
 
 const Wrap = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0 3%;
   gap: 15px;
-  margin-bottom: 15%;
+  padding-bottom: 100vh;
 `;
 
 const Title = styled.div`
@@ -31,10 +33,6 @@ const Title = styled.div`
   width: 100%;
   padding-bottom: 15px;
   border-bottom: 2px solid #e8edff;
-`;
-const Tag = styled.img`
-  src: ${(props) => props.src};
-  width: 80px;
 `;
 const TitleContent = styled.div`
   display: flex;
@@ -69,6 +67,12 @@ const UserScore = styled.div`
   gap: 5px;
 `;
 
+const ContentWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+`;
+
 const MapWrap = styled.div`
   display: flex;
   flex-direction: column;
@@ -77,12 +81,6 @@ const MapWrap = styled.div`
 const Place = styled.div`
   display: flex;
   justify-content: space-between;
-`;
-const Map = styled.div`
-  width: 100%;
-  height: 200px;
-  border-radius: 15px;
-  background-color: #d0d0d0;
 `;
 
 export default function Content(props: GongguPost) {
@@ -100,18 +98,18 @@ export default function Content(props: GongguPost) {
     }
   };
 
-  console.log("broadStatus: ", props.boardStatus);
+  const calDay = useCalDay(props.deadline);
 
   return (
     <Wrap>
       <Title>
         <Img
           src={
-            props.boardStatus == "CLOSING_SOON"
+            props.boardStatus === "CLOSING_SOON"
               ? red
-              : props.boardStatus == "OPEN"
+              : props.boardStatus === "OPEN"
               ? blue
-              : props.boardStatus == "CLOSED"
+              : props.boardStatus === "CLOSED"
               ? gray
               : green
           }
@@ -119,21 +117,30 @@ export default function Content(props: GongguPost) {
         ></Img>
         <TitleContent>
           <Text fontSize="24px">{props.title}</Text>
-          <Text fontSize="19px" fontFamily="DunggeunmisoBold">
+          <Text fontSize="20px" fontFamily="DunggeunmisoBold">
             인당 {(props.price / props.totalUser).toLocaleString()}원
           </Text>
         </TitleContent>
         <TitleFooter>
-          <Text fontSize="13px" fontFamily="DunggeunmisoBold" color="#ff4242">
-            {useCalDay(props.deadline)} 마감까지{" "}
-            {props.totalUser - props.currentUsers}명 남았어요!
-          </Text>
+          {props.boardStatus === "OPEN" ||
+          props.boardStatus === "CLOSING_SOON" ? (
+            <Text fontSize="13px" fontFamily="DunggeunmisoBold" color="#ff4242">
+              {calDay} 마감까지 {props.totalUser - props.currentUsers}명
+              남았어요!
+            </Text>
+          ) : (
+            <Text fontSize="13px" fontFamily="DunggeunmisoBold" color="#ff4242">
+              마감된 공구입니다.
+            </Text>
+          )}
           <ParticipantsProfile
             totalUser={props.totalUser}
             currentUsers={props.currentUsers}
             participants={props.participants}
           ></ParticipantsProfile>
         </TitleFooter>
+        {/* {props.productUrl ? <GotoShop productUrl={props.productUrl} /> : null} */}
+        <GotoShop />
       </Title>
       <Body>
         <BodyHeader>
@@ -154,16 +161,22 @@ export default function Content(props: GongguPost) {
           </UserScore>
         </BodyHeader>
 
-        <Text fontSize="15px">{props.content}</Text>
+        <ContentWrap>
+          {props.content.split("\n").map((sentence, idx) => (
+            <Text key={idx} fontSize="16px">
+              {sentence}
+            </Text>
+          ))}
+        </ContentWrap>
 
         <MapWrap>
           <Place>
-            <Text fontSize="16px" fontFamily="DunggeunmisoBold">
+            <Text fontSize="17px" fontFamily="DunggeunmisoBold">
               거래 장소
             </Text>
             <Text fontSize="16px">{props.location}</Text>
           </Place>
-          <Map></Map>
+          <TradeSpace location={props.location} />
         </MapWrap>
       </Body>
     </Wrap>
