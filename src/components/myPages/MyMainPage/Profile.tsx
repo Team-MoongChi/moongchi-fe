@@ -106,12 +106,12 @@ type UserData = {
   profileUrl: string;
 };
 
-const review = [
-  "친절해요",
-  "설명과 같아요",
-  "또 거래하고 싶어요",
-  "믿을 수 있어요",
-];
+// const review = [
+//   "친절해요",
+//   "설명과 같아요",
+//   "또 거래하고 싶어요",
+//   "믿을 수 있어요",
+// ];
 
 const Profile = () => {
   const [userData, setUserData] = useState<UserData | null>(null);
@@ -235,8 +235,8 @@ const Profile = () => {
         </Info>
       </InfoWrapper>
       <Tags>
-        {review?.length !== 0 ? (
-          review?.map((review: string, index) => (
+        {reviews?.length !== 0 ? (
+          reviews?.map((review: string, index) => (
             <Tag key={index}>#{keywordChange(review)}</Tag>
           ))
         ) : (
