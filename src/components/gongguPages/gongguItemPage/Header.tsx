@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 import useDeviceSize from "../../../useDeviceSize";
@@ -7,6 +7,7 @@ import back from "../../../assets/images/common/뒤로가기.png";
 import edit from "../../../assets/images/gonggu/공구수정아이콘.png";
 import share from "../../../assets/images/gonggu/공구공유아이콘.png";
 import del from "../../../assets/images/gonggu/공구삭제아이콘.png";
+import { fetchWithAuth } from "../../../utils/FetchWithAuth";
 
 const Wrap = styled.div<{
   $issmall: boolean;
@@ -49,10 +50,55 @@ interface HeaderProps {
 
 export default function Header(props: HeaderProps) {
   const { small } = useDeviceSize();
+  const { gongguId } = useParams();
+  const navigate = useNavigate();
 
   const [scroll, setScroll] = useState<number>(0);
   const onScroll = () => {
     setScroll(window.scrollY);
+  };
+
+  const editFetch = async () => {
+    const token = localStorage.getItem("access_token");
+    console.log(token);
+
+    try {
+      const response = await fetchWithAuth(`/api/group-boards/${gongguId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (response.ok) {
+        alert("글 수정 성공");
+      }
+    } catch (error) {
+      console.log("post failed: ", error);
+      alert("글 수정 실패");
+      throw error;
+    }
+  };
+
+  const deleteFetch = async () => {
+    const token = localStorage.getItem("access_token");
+    console.log(token);
+
+    try {
+      const response = await fetchWithAuth(`/api/group-boards/${gongguId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (response.ok) {
+        alert("글 삭제 성공");
+        navigate("/");
+      }
+    } catch (error) {
+      console.log("post failed: ", error);
+      alert("글 삭제 실패");
+      throw error;
+    }
   };
 
   useEffect(() => {
@@ -70,7 +116,7 @@ export default function Header(props: HeaderProps) {
       <Right>
         <IconButton src={share} />
         {props.editable ? <IconButton src={edit} /> : null}
-        {props.editable ? <IconButton src={del} /> : null}
+        {props.editable ? <IconButton src={del} onClick={deleteFetch} /> : null}
       </Right>
     </Wrap>
   );
