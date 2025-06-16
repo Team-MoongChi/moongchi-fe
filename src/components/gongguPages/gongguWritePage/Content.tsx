@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-
 import SubmitButton from "./SubmitButton";
 import CategoryButton from "./CategoryButton";
 import { Img } from "../../common/styled-component/Img";
@@ -12,6 +11,7 @@ import Input from "./Input";
 import GuideTitle from "./GuideTitle";
 import ImageUpload from "./ImageUpload";
 import SetLocation from "./SetLocation";
+import AddressModal from "./AddressModal";
 
 const Wrap = styled.div`
   padding: 0 5%;
@@ -96,6 +96,7 @@ export default function Content() {
     images: [],
   });
   const [isAll, setIsAll] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const changeHandler = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -239,7 +240,6 @@ export default function Content() {
               원
             </Text>
           </InputWrap>
-          <Input title="장소" name="location" onChange={changeHandler} />
           <InputWrap>
             <Div>
               <Text fontSize="16px" fontFamily="DunggeunmisoBold">
@@ -253,8 +253,11 @@ export default function Content() {
                 *
               </Text>
             </Div>
-            <SetLocation />
+            <SetLocation setIsOpen={setIsOpen} location={formData.location} />
           </InputWrap>
+          {isOpen && (
+            <AddressModal setIsOpen={setIsOpen} setFormData={setFormData} />
+          )}
           <Input
             title="모집 마감 날짜"
             name="deadLine"

@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
 
 import { Text } from "../../common/styled-component/Text";
 import { Img } from "../../common/styled-component/Img";
@@ -15,11 +14,15 @@ const Wrap = styled.div`
   cursor: pointer;
 `;
 
-export default function SetLocation() {
-  const navigate = useNavigate();
+type Props = {
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  location: string;
+};
+
+export default function SetLocation({ setIsOpen, location }: Props) {
   return (
-    <Wrap onClick={() => navigate("/gonggu/write/map")}>
-      <Text fontSize="14px">위치 추가</Text>
+    <Wrap onClick={() => setIsOpen(true)}>
+      <Text fontSize="14px">{location ? location : "위치 추가"}</Text>
       <Img src={arrow} width="20px" height="20px"></Img>
     </Wrap>
   );
