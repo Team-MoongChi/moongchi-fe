@@ -1,49 +1,41 @@
-import useDeviceSize from "../../useDeviceSize";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
+import useDeviceSize from "../../useDeviceSize";
 import GongguSearchBar from "../../components/gongguPages/gongguMainPage/GongguSearchBar";
 import GongguMenu from "../../components/gongguPages/gongguMainPage/GongguMenu";
 import GongguRecommend from "../../components/gongguPages/gongguMainPage/GongguRecommend";
 import GongguListItem from "../../components/gongguPages/common/GongguListItem";
-import writeIcon from "../../assets/images/common/공구생성아이콘.png";
+import Nav from "../../components/common/Nav";
 import { Text } from "../../components/common/styled-component/Text";
 import { Wrap } from "../../components/common/styled-component/Wrap";
 import { fetchWithAuth } from "../../utils/FetchWithAuth";
-
 import type { GongguItem } from "../../types/gongguPages/gongguItem";
+import writeIcon from "../../assets/images/common/공구생성아이콘.png";
+import GongguEmpty from "../../components/gongguPages/gongguMainPage/GongguEmpty";
 
-// 공구 리스트
-const GongguList = styled.div`
+const Body = styled.div`
   background-color: white;
   display: flex;
   flex-direction: column;
   padding: 0 5%;
-  gap: 10px;
-  padding-bottom: 10vh;
+  margin-top: 20px;
+  gap: 20px;
 `;
-
-// 하단 내비바
-const NavBar = styled.div<{ $issmall: boolean }>`
-  width: ${(props) => (props.$issmall ? "100%" : "50%")};
+const GongguList = styled.div`
   display: flex;
-  justify-content: space-around;
-  align-items: center;
-  position: fixed;
-  bottom: 0;
-  background-color: #e8edff;
-  padding: 30px;
+  padding-bottom: 15vh;
+  flex-direction: column;
+  gap: 10px;
 `;
-
-// 글쓰기아이콘
 const WriteIcon = styled.img.attrs({
   src: writeIcon,
   alt: "글쓰기 아이콘",
 })`
   position: fixed;
   z-index: 1;
-  bottom: 5em;
+  bottom: 6em;
   width: 80px;
   height: 80px;
   cursor: pointer;
@@ -56,13 +48,10 @@ export default function GongguMainPage() {
   const writeGonggu = () => {
     navigate("/gonggu/write", { state: { message: "user" } });
   };
-  const writeGonggu2 = () => {
-    navigate("/gonggu/write", { state: { message: "shop" } });
-  };
+
   const { small } = useDeviceSize();
 
   const [menuClicked, setMenuClicked] = useState(0);
-
   const [gongguList, setGongguList] = useState<GongguItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -77,16 +66,16 @@ export default function GongguMainPage() {
           "Content-Type": "application/json",
         },
       });
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-
       const data: GongguItem[] = await response.json();
       console.log(data);
       setGongguList(data);
       setLoading(false);
     } catch (error) {
-      console.error("get failed: ", error);
+      console.error("list get failed: ", error);
       setLoading(false);
       throw error;
     }
@@ -106,16 +95,16 @@ export default function GongguMainPage() {
           },
         }
       );
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-
       const data: GongguItem[] = await response.json();
       console.log(data);
       setGongguList(data);
       setLoading(false);
     } catch (error) {
-      console.error("get failed2: ", error);
+      console.error("category get failed: ", error);
       throw error;
     }
   };
@@ -131,35 +120,29 @@ export default function GongguMainPage() {
   if (loading) return <div>loading 중...</div>;
 
   return (
-    <Wrap $issmall={small} $gap="20px">
+    <Wrap $issmall={small}>
       <GongguSearchBar />
-      <GongguMenu menuClicked={menuClicked} setMenuClicked={setMenuClicked} />
-      <GongguRecommend />
+      <Body>
+        <GongguMenu menuClicked={menuClicked} setMenuClicked={setMenuClicked} />
+        <GongguRecommend />
 
-      <GongguList>
-        <Text fontSize="20px" fontFamily="DunggeunmisoBold" color="#5849d0">
-          근처에서 열린 공구
-        </Text>
-        {gongguList.map((gongguItem, idx) => {
-          return <GongguListItem key={idx} {...gongguItem}></GongguListItem>;
-        })}
-      </GongguList>
-
+        <GongguList>
+          <Text fontSize="20px" fontFamily="DunggeunmisoBold" color="#5849d0">
+            근처에서 열린 공구
+          </Text>
+          {gongguList.length === 0 ? (
+            <GongguEmpty />
+          ) : (
+            gongguList.map((gongguItem, idx) => {
+              return (
+                <GongguListItem key={idx} {...gongguItem}></GongguListItem>
+              );
+            })
+          )}
+        </GongguList>
+      </Body>
       <WriteIcon onClick={writeGonggu} />
-
-      <NavBar $issmall={small}>
-        {/* 나중에 onclick 삭제하기 */}
-        <div onClick={writeGonggu2}>홈</div>
-        <div
-          onClick={() => {
-            navigate("/chat/list");
-          }}
-        >
-          채팅
-        </div>
-        <div>쇼핑</div>
-        <div>마이페이지</div>
-      </NavBar>
+      <Nav />
     </Wrap>
   );
 }
