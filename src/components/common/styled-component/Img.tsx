@@ -6,6 +6,7 @@ interface ImgProps {
   height?: string;
   $border?: string;
   $borderradious?: string;
+  $flexShrink?: number;
 }
 
 export const Img = styled.img.attrs<ImgProps>((props) => ({
@@ -15,6 +16,7 @@ export const Img = styled.img.attrs<ImgProps>((props) => ({
   height: ${(props) => props.height};
   border: ${(props) => props.$border};
   border-radius: ${(props) => props.$borderradious};
+  flex-shrink: ${(props) => props.$flexShrink};
   object-fit: cover;
   box-sizing: border-box;
 `;
