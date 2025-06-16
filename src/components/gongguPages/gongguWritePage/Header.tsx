@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-import close from "../../../assets/images/gonggu/closeButton.png"
+import { Text } from "../../common/styled-component/Text";
+import close from "../../../assets/images/gonggu/closeButton.png";
 
 const Wrap = styled.div`
   display: flex;
@@ -11,7 +12,7 @@ const Wrap = styled.div`
   top: 0;
   background-color: white;
   padding: 15px;
-`
+`;
 const CloseBUtton = styled.img.attrs({
   src: close,
   alt: "닫기 아이콘",
@@ -20,21 +21,18 @@ const CloseBUtton = styled.img.attrs({
   width: 30px;
   height: 30px;
   cursor: pointer;
-`
-const HeaderText = styled.div`
-  font-size: 28px;
-  font-weight: bold;
-  color: #5849d0;
-`
+`;
 
 export default function Header() {
-    return (
-        <Wrap>
-            <Link to="/">
-              <CloseBUtton />
-            </Link>
-            <HeaderText>공구 열기</HeaderText>
-            <CloseBUtton visibility="hidden" />
-        </Wrap>
-    );
+  return (
+    <Wrap>
+      <Link to="/">
+        <CloseBUtton />
+      </Link>
+      <Text fontSize="30px" fontFamily="Dunggeunmisobold" color="#5849d0">
+        공구 열기
+      </Text>
+      <CloseBUtton visibility="hidden" />
+    </Wrap>
+  );
 }
