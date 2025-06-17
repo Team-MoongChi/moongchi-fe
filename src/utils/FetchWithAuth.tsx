@@ -4,7 +4,7 @@ export const fetchWithAuth = async (
   init?: RequestInit,
   retry = true
 ): Promise<Response> => {
-  const accessToken = localStorage.getItem("access_token");
+  const accessToken = localStorage.getItem("accessToken");
 
   const headers = new Headers(init?.headers || {});
   if (accessToken) {
