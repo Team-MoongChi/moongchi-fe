@@ -59,9 +59,9 @@ const HeartImg = styled.img`
 interface Props {
   link: string | undefined;
   itemId: number | undefined;
-  imgUrl: string;
-  name: string;
-  category: string;
+  imgUrl: string | undefined;
+  name: string | undefined;
+  category: string | undefined;
 }
 
 const Nav = ({ link, itemId, imgUrl, name, category }: Props) => {
