@@ -10,7 +10,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   background-color: white;
-  height: 87%;
+  height: 100%;
   overflow-y: auto;
 `;
 const Img = styled.img`
