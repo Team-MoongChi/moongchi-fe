@@ -31,6 +31,9 @@ const HeartWrap = styled.div`
   justify-content: center;
   align-items: center;
 `;
+const Heart = styled(Img)`
+  cursor: pointer;
+`;
 const Button = styled.div`
   flex: 1;
   background-color: #5849d0;
@@ -99,6 +102,8 @@ export default function Footer(props: FooterProp) {
         throw new Error(`HTTP error! status: ${response.status}`);
       } else {
         console.log("찜 성공");
+        setIsLike(true);
+        setClickCnt((prev) => prev + 1);
       }
     } catch (error) {
       console.log("post failed: ", error);
@@ -125,23 +130,13 @@ export default function Footer(props: FooterProp) {
         throw new Error(`HTTP error! status: ${response.status}`);
       } else {
         console.log("찜 취소 완료");
+        setIsLike(false);
+        setClickCnt((prev) => prev - 1);
       }
     } catch (error) {
       console.log("delete failed: ", error);
       alert("찜 취소 실패");
       throw error;
-    }
-  };
-
-  const likeClickHandler = () => {
-    if (isLike) {
-      setIsLike(false);
-      setClickCnt((prev) => prev - 1);
-      likeDelete();
-    } else {
-      setIsLike(true);
-      setClickCnt((prev) => prev + 1);
-      likeAdd();
     }
   };
 
@@ -173,12 +168,12 @@ export default function Footer(props: FooterProp) {
   return (
     <Wrap $isSmall={small}>
       <HeartWrap>
-        <Img
+        <Heart
           src={isLike ? clickedHeart : unclickedHeart}
           width="45px"
           height="45px"
-          onClick={likeClickHandler}
-        ></Img>
+          onClick={isLike ? likeDelete : likeAdd}
+        ></Heart>
         <Text fontSize="15px" fontFamily="DunggeunmisoBold" color="#5849d0">
           {clickCnt}
         </Text>
