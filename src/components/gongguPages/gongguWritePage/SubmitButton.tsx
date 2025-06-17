@@ -1,5 +1,8 @@
 import styled from "styled-components";
+import { useNavigate, useParams } from "react-router-dom";
+import { fetchWithAuth } from "../../../utils/FetchWithAuth";
 import useDeviceSize from "../../../useDeviceSize";
+import type { FormData } from "./Content";
 
 const Footer = styled.div<{ $isSmall: boolean }>`
   width: ${(props) => (props.$isSmall ? "100%" : "50%")};
@@ -34,16 +37,70 @@ const Button = styled.button.attrs<{
 `;
 
 type SubmitButtonProps = {
-  onClick?: () => void;
+  formData: FormData;
   disabled: boolean;
 };
 
 export default function SubmitButton(props: SubmitButtonProps) {
   const { small } = useDeviceSize();
+  const { gongguId } = useParams();
+  const navigate = useNavigate();
+  const isEdit: boolean = gongguId !== undefined;
+
+  const submitHandler = async () => {
+    const token = localStorage.getItem("access_token");
+    console.log(token);
+
+    try {
+      const response = await fetchWithAuth("/api/group-boards", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(props.formData),
+      });
+      if (response.ok) {
+        alert("글쓰기 성공");
+        console.log(props.formData);
+        navigate("/");
+      }
+    } catch (error) {
+      console.error("post failed: ", error);
+      alert("글쓰기 실패");
+      throw error;
+    }
+  };
+
+  const editFetch = async () => {
+    const token = localStorage.getItem("access_token");
+    console.log(token);
+
+    try {
+      const response = await fetchWithAuth(`/api/group-boards/${gongguId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(props.formData),
+      });
+      if (response.ok) {
+        alert("글 수정 성공");
+        navigate(`/gonggu/list/${gongguId}`);
+      }
+    } catch (error) {
+      console.log("post failed: ", error);
+      alert("글 수정 실패");
+      throw error;
+    }
+  };
+
   return (
     <Footer $isSmall={small}>
-      <Button onClick={props.onClick} disabled={props.disabled}>
-        작성 완료
+      <Button
+        onClick={isEdit ? editFetch : submitHandler}
+        disabled={props.disabled}
+      >
+        {isEdit ? "수정" : "작성"} 완료
       </Button>
     </Footer>
   );
