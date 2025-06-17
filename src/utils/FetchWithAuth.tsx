@@ -4,7 +4,7 @@ export const fetchWithAuth = async (
   init?: RequestInit,
   retry = true
 ): Promise<Response> => {
-  const accessToken = localStorage.getItem("access_token");
+  const accessToken = localStorage.getItem("accessToken");
 
   const headers = new Headers(init?.headers || {});
   if (accessToken) {
@@ -29,7 +29,7 @@ export const fetchWithAuth = async (
       if (reissueRes.ok) {
         const data = await reissueRes.json();
         const newToken = data.accessToken;
-        localStorage.setItem("access_token", newToken);
+        localStorage.setItem("accessToken", newToken);
 
         // 재시도
         const retryHeaders = new Headers(init?.headers || {});
@@ -42,7 +42,7 @@ export const fetchWithAuth = async (
         });
       } else {
         // 재발급 실패 → 로그인 페이지로 리다이렉트
-        localStorage.removeItem("access_token");
+        localStorage.removeItem("accessToken");
         window.location.href = "/login";
         throw new Error("Token reissue failed");
       }

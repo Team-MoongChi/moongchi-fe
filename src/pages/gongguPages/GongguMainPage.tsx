@@ -56,7 +56,7 @@ export default function GongguMainPage() {
   const [loading, setLoading] = useState<boolean>(true);
 
   const fetchAllGongguItem = async () => {
-    const token = localStorage.getItem("access_token");
+    const token = localStorage.getItem("accessToken");
     console.log("token: ", token);
 
     try {
@@ -82,7 +82,7 @@ export default function GongguMainPage() {
   };
 
   const fetchCategory = async () => {
-    const token = localStorage.getItem("access_token");
+    const token = localStorage.getItem("accessToken");
     console.log("token: ", token);
 
     try {
