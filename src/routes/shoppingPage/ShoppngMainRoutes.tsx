@@ -3,7 +3,7 @@ import { Route } from "react-router-dom";
 import ShopItemPage from "../../pages/shoppingPages/ShopItemPage";
 import ShopMainPage from "../../pages/shoppingPages/ShopMainPage";
 import ShopResultPage from "../../pages/shoppingPages/ShopResultPage";
-import ShopChatBotPage from "../../pages/shoppingPages/shopChatBotPage";
+import ShopChatBotPage from "../../pages/shoppingPages/ShopChatBotPage";
 
 export default function ShoppingMainRoutes() {
   return (
