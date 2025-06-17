@@ -46,6 +46,8 @@ const Right = styled.div`
 
 interface HeaderProps {
   editable: boolean | undefined;
+  isShop: string | undefined;
+  imgUrl: string | undefined;
 }
 
 export default function Header(props: HeaderProps) {
@@ -56,27 +58,6 @@ export default function Header(props: HeaderProps) {
   const [scroll, setScroll] = useState<number>(0);
   const onScroll = () => {
     setScroll(window.scrollY);
-  };
-
-  const editFetch = async () => {
-    const token = localStorage.getItem("access_token");
-    console.log(token);
-
-    try {
-      const response = await fetchWithAuth(`/api/group-boards/${gongguId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      if (response.ok) {
-        alert("글 수정 성공");
-      }
-    } catch (error) {
-      console.log("post failed: ", error);
-      alert("글 수정 실패");
-      throw error;
-    }
   };
 
   const deleteFetch = async () => {
@@ -115,7 +96,19 @@ export default function Header(props: HeaderProps) {
       </StyledLink>
       <Right>
         <IconButton src={share} />
-        {props.editable ? <IconButton src={edit} /> : null}
+        {props.editable ? (
+          <IconButton
+            src={edit}
+            onClick={() =>
+              navigate(`/gonggu/edit/${gongguId}`, {
+                state: {
+                  message: props.isShop,
+                  imgUrl: props.imgUrl,
+                },
+              })
+            }
+          />
+        ) : null}
         {props.editable ? <IconButton src={del} onClick={deleteFetch} /> : null}
       </Right>
     </Wrap>
