@@ -56,7 +56,7 @@ export default function Footer(props: FooterProp) {
   const [clickCnt, setClickCnt] = useState<number>(props.likeCount || 0);
 
   const GotoChat = async () => {
-    const token = localStorage.getItem("access_token");
+    const token = localStorage.getItem("accessToken");
     console.log(token);
 
     try {

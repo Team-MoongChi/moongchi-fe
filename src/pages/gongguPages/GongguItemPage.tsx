@@ -20,7 +20,7 @@ export default function GongguItemPage() {
   const { gongguId } = useParams();
 
   const fetchGongguItem = async () => {
-    const token = localStorage.getItem("access_token");
+    const token = localStorage.getItem("accessToken");
     console.log(token);
 
     try {

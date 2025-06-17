@@ -104,7 +104,7 @@ export default function OneReviewPage() {
     /* /api/chat/rooms/{chatRoomId}/reviews/{targetParticipantId} */
   }
   const submitReview = async () => {
-    const token = localStorage.getItem("access_token");
+    const token = localStorage.getItem("accessToken");
     console.log(token);
 
     const response = await fetchWithAuth(

@@ -42,7 +42,7 @@ const UserDataPage = () => {
   }, [nickname, birth, gender, phone]);
 
   const ButtonHandle = () => {
-    const token = localStorage.getItem("access_token");
+    const token = localStorage.getItem("accessToken");
     fetchWithAuth("/api/users", {
       method: "POST",
       headers: {
@@ -67,10 +67,10 @@ const UserDataPage = () => {
       })
       .then((result) => {
         console.log("POST 성공!");
-        const access_token = result.access_token; // 토큰 꺼내기
+        const accessToken = result.accessToken; // 토큰 꺼내기
 
-        if (access_token) {
-          localStorage.setItem("access_token", access_token); // 로컬스토리지에 저장
+        if (accessToken) {
+          localStorage.setItem("accessToken", accessToken); // 로컬스토리지에 저장
         }
         navigate("/location");
       })

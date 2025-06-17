@@ -22,7 +22,7 @@ const PreferCategoryPage = () => {
   const { small } = useDeviceSize();
   const navigate = useNavigate();
   const [selected, setSelected] = useState<string>("option1");
-  const token = localStorage.getItem("access_token");
+  const token = localStorage.getItem("accessToken");
 
   const buttonHandle = () => {
     fetchWithAuth("/api/users/interest-category", {

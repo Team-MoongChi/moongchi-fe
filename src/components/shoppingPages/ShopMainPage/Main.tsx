@@ -125,7 +125,7 @@ const Main = () => {
   }, []);
 
   useEffect(() => {
-    const token = localStorage.getItem("access_token"); // 또는 sessionStorage, context 등
+    const token = localStorage.getItem("accessToken"); // 또는 sessionStorage, context 등
     const url =
       menuClicked === menuOrder[1]
         ? "/api/products"

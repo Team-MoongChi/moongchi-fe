@@ -37,7 +37,7 @@ const ShopResultPage = () => {
   const [result, setResult] = useState<Product[]>([]);
 
   useEffect(() => {
-    const token = localStorage.getItem("access_token");
+    const token = localStorage.getItem("accessToken");
     fetchWithAuth(`/api/products/search?keyword=${keyword}`, {
       method: "GET",
       headers: {

@@ -68,7 +68,7 @@ export default function ChatPayPage() {
   const [clickCount, setClickCount] = useState<number>(0);
 
   const fetchChatRoom = async () => {
-    const token = localStorage.getItem("access_token");
+    const token = localStorage.getItem("accessToken");
     console.log(token);
 
     try {
@@ -94,7 +94,7 @@ export default function ChatPayPage() {
   };
 
   const fetchPay = async () => {
-    const token = localStorage.getItem("access_token");
+    const token = localStorage.getItem("accessToken");
     console.log(token);
 
     try {
