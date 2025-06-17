@@ -23,7 +23,7 @@ interface MenuProps {
 export default function GongguMenu(props: MenuProps) {
   const menuClicked = props.menuClicked;
   const setMenuClicked = props.setMenuClicked;
-  const menuOrder = [-1, 0, 1, 25, 43, 58];
+  const menuOrder = [-1, 0, 1, 2, 4, 3];
 
   const clickMenu = (number: number) => {
     setMenuClicked(number);

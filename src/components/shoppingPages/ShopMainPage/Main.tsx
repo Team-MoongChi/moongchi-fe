@@ -105,7 +105,7 @@ const Main = () => {
   const [products, setProducts] = useState<Array<Product>>([]);
   const navigate = useNavigate();
   const [menuClicked, setMenuClicked] = useState<number>(0);
-  const menuOrder = [-1, 0, 1, 25, 43, 58];
+  const menuOrder = [-1, 0, 1, 2, 4, 3];
 
   const nextSlide = () => setIndex((prev) => (prev + 1) % images.length);
   const prevSlide = () =>
