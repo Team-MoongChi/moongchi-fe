@@ -26,7 +26,7 @@ const Title = styled.p`
 `;
 const Insert = styled.form<{ $aiState: number }>`
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
   width: 90%;
   height: 46px;
