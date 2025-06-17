@@ -18,10 +18,13 @@ export interface GongguPost {
   deadline: string;
   totalUser: number;
   currentUsers: number;
-  productUrl?: string;
   likeCount: number;
   editable: boolean;
   chatRoomId: number;
+  categoryId: number;
   images: string[];
   participants: Participant[];
+  productId?: number;
+  productName?: string;
+  productPrice?: number;
 }
