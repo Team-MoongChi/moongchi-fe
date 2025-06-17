@@ -58,7 +58,13 @@ const ShopItemPage = () => {
     <Wrapper $isSmall={small}>
       <Header title="상품" route={-1} />
       {item && <Main item={item} />}
-      <Nav link={item?.productUrl} itemId={item?.id} />
+      <Nav
+        link={item?.productUrl}
+        itemId={item?.id}
+        imgUrl={item?.imgUrl}
+        name={item?.name}
+        category={item?.largeCategory}
+      />
     </Wrapper>
   );
 };
