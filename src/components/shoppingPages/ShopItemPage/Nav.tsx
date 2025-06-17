@@ -13,7 +13,7 @@ const Wrapper = styled.div`
   position: sticky;
   bottom: 0;
   width: 100%;
-  height: 95px;
+  height: 85px;
   padding: 10px 10px 15px 10px;
   gap: 4%;
   bottom: 0;
@@ -59,15 +59,36 @@ const HeartImg = styled.img`
 interface Props {
   link: string | undefined;
   itemId: number | undefined;
+  imgUrl: string;
+  name: string;
+  category: string;
 }
 
-const Nav = ({ link, itemId }: Props) => {
+const Nav = ({ link, itemId, imgUrl, name, category }: Props) => {
   const navigate = useNavigate();
   const [isLike, setIsLike] = useState<boolean>(false);
   const [likeCount, setLikeCount] = useState<number>(0);
 
   const handleButton = () => {
-    navigate("/gonggu/write");
+    let categoryId = 0;
+    if (category === "신선식품") {
+      categoryId = 1;
+    } else if (category === "가공식품") {
+      categoryId = 25;
+    } else if (category === "주방용품") {
+      categoryId = 43;
+    } else if (category === "생활용품") {
+      categoryId = 58;
+    }
+
+    navigate("/gonggu/write", {
+      state: {
+        message: "shop",
+        imgUrl: imgUrl,
+        name: name,
+        categoryId: categoryId,
+      },
+    });
   };
 
   useEffect(() => {
@@ -90,7 +111,6 @@ const Nav = ({ link, itemId }: Props) => {
       .then((result) => {
         console.log(result);
         setIsLike(result.some((item) => item.id === itemId));
-        console.log(isLike);
       })
       .catch((error) => {
         console.error("요청 실패:", error);
