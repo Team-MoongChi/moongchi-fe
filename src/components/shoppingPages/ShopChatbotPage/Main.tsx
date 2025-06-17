@@ -31,11 +31,11 @@ const Main = ({ chattings }: { chattings: Chat[] }) => {
 
   return (
     <Wrapper>
-      {chattings?.map((chat) =>
+      {chattings?.map((chat, index) =>
         chat.status === 0 ? (
-          <AIChat text={chat.text} />
+          <AIChat text={chat.text} key={index} />
         ) : (
-          <IChat text={chat.text} />
+          <IChat text={chat.text} key={index} />
         )
       )}
       <Blank ref={bottomRef} />

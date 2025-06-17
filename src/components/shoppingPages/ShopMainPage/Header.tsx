@@ -67,8 +67,13 @@ const Header = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    console.log(aiState);
     if (keyword.trim() !== "") {
-      navigate(`/shopping/result?keyword=${encodeURIComponent(keyword)}`);
+      if (aiState === 1) {
+        navigate(`/shopping/chatbot?keyword=${encodeURIComponent(keyword)}`);
+      } else {
+        navigate(`/shopping/result?keyword=${encodeURIComponent(keyword)}`);
+      }
     }
   };
 
@@ -89,7 +94,7 @@ const Header = () => {
           onChange={(e) => setKeyword(e.target.value)}
           $aiState={aiState}
         ></Search>
-        <AiButton onClick={aiOnOff}>
+        <AiButton onClick={() => aiOnOff()} type="button">
           <Ai src={aiState === 1 ? AiOn : AiOff} />
         </AiButton>
       </Insert>
