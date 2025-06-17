@@ -27,7 +27,6 @@ const ProductText = styled.div<{ $isSmall: boolean }>`
   max-width: ${(props) => (props.$isSmall ? "50vw" : "30vw")};
 `;
 const Title = styled(Text)`
-  display: inline-block;
   width: 100%;
   white-space: nowrap;
   overflow: hidden;
