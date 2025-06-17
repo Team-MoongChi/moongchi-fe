@@ -10,6 +10,10 @@ export default function GongguMainRoutes() {
     <>
       <Route path="/" element={<GongguMainPage />}></Route>
       <Route path="/gonggu/write" element={<GongguWritePage />}></Route>
+      <Route
+        path="/gonggu/edit/:gongguId"
+        element={<GongguWritePage />}
+      ></Route>
       <Route path="/gonggu/write/map" element={<GongguMapPage />}></Route>
       <Route path="/gonggu/list/:gongguId" element={<GongguItemPage />}></Route>
     </>
