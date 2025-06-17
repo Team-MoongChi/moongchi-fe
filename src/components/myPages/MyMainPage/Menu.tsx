@@ -34,7 +34,7 @@ const Menu = () => {
     navigate(link);
   };
   const handleLogout = () => {
-    const token = localStorage.getItem("accessToken");
+    const token = localStorage.getItem("access_token");
     fetchWithAuth("/api/auth/logout", {
       method: "POST",
       headers: {

@@ -118,7 +118,7 @@ const Profile = () => {
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
-    const token = localStorage.getItem("accessToken"); // 또는 sessionStorage, context 등
+    const token = localStorage.getItem("access_token"); // 또는 sessionStorage, context 등
 
     fetchWithAuth("/api/users", {
       method: "GET",
@@ -143,7 +143,7 @@ const Profile = () => {
   }, []);
 
   useEffect(() => {
-    const token = localStorage.getItem("accessToken"); // 또는 sessionStorage, context 등
+    const token = localStorage.getItem("access_token"); // 또는 sessionStorage, context 등
 
     fetchWithAuth("/api/users/reviews", {
       method: "GET",

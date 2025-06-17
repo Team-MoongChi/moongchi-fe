@@ -71,7 +71,7 @@ const Nav = ({ link, itemId }: Props) => {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("accessToken"); // 또는 sessionStorage, context
+    const token = localStorage.getItem("access_token"); // 또는 sessionStorage, context
 
     fetchWithAuth(`/api/products/like`, {
       method: "GET",
@@ -98,7 +98,7 @@ const Nav = ({ link, itemId }: Props) => {
   }, [itemId]);
 
   useEffect(() => {
-    const token = localStorage.getItem("accessToken");
+    const token = localStorage.getItem("access_token");
     fetchWithAuth(`/api/products/${itemId}`, {
       method: "GET",
       headers: {
@@ -117,7 +117,7 @@ const Nav = ({ link, itemId }: Props) => {
   }, [itemId, isLike]);
 
   const handleLike = () => {
-    const token = localStorage.getItem("accessToken"); // 또는 sessionStorage, context 등
+    const token = localStorage.getItem("access_token"); // 또는 sessionStorage, context 등
 
     fetchWithAuth(`/api/products/${itemId}/like`, {
       method: "POST",
@@ -139,7 +139,7 @@ const Nav = ({ link, itemId }: Props) => {
   };
 
   const handleUnlike = () => {
-    const token = localStorage.getItem("accessToken"); // 또는 sessionStorage, context 등
+    const token = localStorage.getItem("access_token"); // 또는 sessionStorage, context 등
 
     fetchWithAuth(`/api/products/${itemId}/like`, {
       method: "DELETE",

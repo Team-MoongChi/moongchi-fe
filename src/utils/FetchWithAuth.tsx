@@ -4,11 +4,11 @@ export const fetchWithAuth = async (
   init?: RequestInit,
   retry = true
 ): Promise<Response> => {
-  const accessToken = localStorage.getItem("accessToken");
+  const access_token = localStorage.getItem("access_token");
 
   const headers = new Headers(init?.headers || {});
-  if (accessToken) {
-    headers.set("Authorization", `Bearer ${accessToken}`);
+  if (access_token) {
+    headers.set("Authorization", `Bearer ${access_token}`);
   }
 
   const baseURL = "http://localhost:8080";
@@ -20,7 +20,7 @@ export const fetchWithAuth = async (
     });
 
     if (res.status === 401 && retry) {
-      // accessToken 만료 → 재발급 시도
+      // access_token 만료 → 재발급 시도
       const reissueRes = await fetch("/api/auth/reissue", {
         method: "POST",
         credentials: "include", // 쿠키로 refreshToken 전송
@@ -28,7 +28,7 @@ export const fetchWithAuth = async (
 
       if (reissueRes.ok) {
         const data = await reissueRes.json();
-        const newToken = data.accessToken;
+        const newToken = data.access_token;
         localStorage.setItem("access_token", newToken);
 
         // 재시도

@@ -36,7 +36,7 @@ const ShopItemPage = () => {
   const [item, setItem] = useState<Product | null>(null);
 
   useEffect(() => {
-    const token = localStorage.getItem("accessToken");
+    const token = localStorage.getItem("access_token");
     fetchWithAuth(`/api/products/${itemId}`, {
       method: "GET",
       headers: {

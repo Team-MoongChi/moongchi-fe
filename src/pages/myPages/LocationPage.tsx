@@ -95,7 +95,7 @@ const LocationPage = () => {
   }, [loading, position]);
 
   const handleClick = () => {
-    const token = localStorage.getItem("accessToken");
+    const token = localStorage.getItem("access_token");
     fetchWithAuth("/api/users/location", {
       method: "POST",
       headers: {

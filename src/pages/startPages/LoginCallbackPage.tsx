@@ -21,11 +21,11 @@ const LoginCallbackPage = () => {
         }
 
         const data = await response.json();
-        const accessToken = data.accessToken;
+        const access_token = data.access_token;
 
-        if (accessToken) {
-          localStorage.setItem("access_token", accessToken);
-          console.log(accessToken);
+        if (access_token) {
+          localStorage.setItem("access_token", access_token);
+          console.log(access_token);
           navigate("/"); // 홈 또는 원하는 페이지로 이동
         }
       } catch (error) {

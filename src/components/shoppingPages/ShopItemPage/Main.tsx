@@ -167,7 +167,7 @@ const Main = ({ item }: MainProps) => {
 
   useEffect(() => {
     if (!item) return;
-    const token = localStorage.getItem("accessToken");
+    const token = localStorage.getItem("access_token");
     fetchWithAuth(`/api/products/${item.id}/group-boards`, {
       method: "GET",
       headers: {

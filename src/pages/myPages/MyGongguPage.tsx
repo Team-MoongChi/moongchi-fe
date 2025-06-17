@@ -60,7 +60,7 @@ const MyGongguPage = () => {
   const [gonggus, setGonggus] = useState<Array<GongguItem>>([]);
 
   useEffect(() => {
-    const token = localStorage.getItem("accessToken"); // 또는 sessionStorage, context 등
+    const token = localStorage.getItem("access_token"); // 또는 sessionStorage, context 등
 
     fetchWithAuth("/api/group-boards/me", {
       method: "GET",

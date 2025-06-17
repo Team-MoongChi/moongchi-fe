@@ -46,7 +46,7 @@ const ProfileEditPage = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleClick = () => {
-    const token = localStorage.getItem("accessToken");
+    const token = localStorage.getItem("access_token");
     fetchWithAuth("/api/users", {
       method: "PUT",
       headers: {
@@ -93,7 +93,7 @@ const ProfileEditPage = () => {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("accessToken"); // 또는 sessionStorage, context 등
+    const token = localStorage.getItem("access_token"); // 또는 sessionStorage, context 등
 
     fetchWithAuth("/api/users", {
       method: "GET",
