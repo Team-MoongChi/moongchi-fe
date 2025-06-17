@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-import type { GongguItem } from "../../../types/gongguPage/gongguItem";
+import type { GongguItem } from "../../../types/gongguPages/gongguItem";
 
 import red from "../../../assets/images/gonggu/마감임박.png";
 import blue from "../../../assets/images/gonggu/모집중.png";
@@ -53,7 +53,7 @@ export default function GongguListItem(props: GongguItem) {
     // 링크 수정 필요
     <Link to={`/gonggu/list/${props.id}`}>
       <Wrap>
-        <Img src={props.groupProduct.images}></Img>
+        <Img src={props.image}></Img>
         <Content>
           <Tag
             src={
@@ -67,7 +67,7 @@ export default function GongguListItem(props: GongguItem) {
             }
           ></Tag>
           <div>{props.title}</div>
-          <div>{props.groupProduct.price}원</div>
+          <div>{props.price}원</div>
           {/* {product.participants.map((participants) => {
 
           })} */}
