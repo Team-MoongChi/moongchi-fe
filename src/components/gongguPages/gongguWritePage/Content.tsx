@@ -74,18 +74,24 @@ export type FormData = {
 };
 
 export default function Content() {
+  // 상품 -> 공구 열기 때 필요한 데이터
   const location = useLocation();
   const message = location.state?.message;
   const productId = location.state?.productId;
   const name = location.state?.name;
   const categoryId = location.state?.categoryId;
   const imgUrl = location.state?.imgUrl;
-  console.log(message, name, categoryId, imgUrl);
+  console.log(message, name, categoryId, imgUrl, productId);
 
   const isShop: boolean = message === "shop";
+  console.log("isShop: ", isShop);
 
   const { gongguId } = useParams();
   const isEdit: boolean = gongguId !== undefined;
+  console.log("isEdit: ", isEdit);
+
+  const isShopAndEdit: boolean = isShop && isEdit;
+  console.log("isShopAndEdit: ", isShopAndEdit);
 
   const [formData, setFormData] = useState<FormData>({
     name: isShop ? name : "",
@@ -97,18 +103,21 @@ export default function Content() {
     deadline: "",
     categoryId: undefined,
     productId: isShop ? productId : undefined,
-    images: [],
+    images: undefined,
   });
   const [isAll, setIsAll] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [originUrlList, setOriginUrlList] = useState<string[]>([]);
   const [imgLoading, setImgLoading] = useState<boolean>(false);
 
+  // 수정 시 원래 있던 사진 originUrlList에 저장
   useEffect(() => {
     if (isEdit && formData.images && originUrlList.length === 0) {
       setOriginUrlList(formData.images);
     }
   }, [formData.images, isEdit]);
+
+  // 입력 값 변경 시 formData에 반영
   const changeHandler = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -119,14 +128,13 @@ export default function Content() {
     }));
   };
   const clickHandler = (num: number) => {
-    if (isShop) return;
+    if (isShop || isShopAndEdit) return;
 
     setFormData((prev) => ({
       ...prev,
       categoryId: num,
     }));
   };
-
   const urlHandler = (url: string[]) => {
     setFormData((prev) => ({
       ...prev,
@@ -135,6 +143,7 @@ export default function Content() {
     setImgLoading(false);
   };
 
+  // 수정 시 원래 데이터 가져오기
   useEffect(() => {
     if (isEdit) {
       const token = localStorage.getItem("accessToken");
@@ -161,6 +170,7 @@ export default function Content() {
     }
   }, [isEdit, gongguId]);
 
+  // 수정 및 작성 완료 버튼 disabled 조건 검사
   useEffect(() => {
     console.log("formData 변경:", formData);
 
@@ -174,7 +184,7 @@ export default function Content() {
       deadline: "",
       categoryId: undefined,
       productId: isShop ? productId : undefined,
-      images: [],
+      images: undefined,
     };
     const allInput: boolean =
       formData.name !== initialFormData.name &&
@@ -253,7 +263,7 @@ export default function Content() {
               title="총 가격"
               name="price"
               placeholder="숫자만 입력해주세요."
-              value={isEdit ? formData.price.toLocaleString() : undefined}
+              value={isEdit ? String(formData.price) : undefined}
               onChange={changeHandler}
             />
             <Text fontSize="20px" fontFamily="DunggeunmisoBold" color="#5849d0">
@@ -306,22 +316,46 @@ export default function Content() {
               <CategoryButton
                 category="신선식품"
                 onClick={() => clickHandler(1)}
-                clicked={isShop ? categoryId === 1 : formData.categoryId === 1}
+                clicked={
+                  isShopAndEdit
+                    ? formData.categoryId === 1
+                    : isShop
+                    ? categoryId === 1
+                    : formData.categoryId === 1
+                }
               />
               <CategoryButton
                 category="가공식품"
                 onClick={() => clickHandler(2)}
-                clicked={isShop ? categoryId === 2 : formData.categoryId === 2}
+                clicked={
+                  isShopAndEdit
+                    ? formData.categoryId === 2
+                    : isShop
+                    ? categoryId === 2
+                    : formData.categoryId === 2
+                }
               />
               <CategoryButton
                 category="생활용품"
-                onClick={() => clickHandler(3)}
-                clicked={isShop ? categoryId === 3 : formData.categoryId === 3}
+                onClick={() => clickHandler(4)}
+                clicked={
+                  isShopAndEdit
+                    ? formData.categoryId === 4
+                    : isShop
+                    ? categoryId === 4
+                    : formData.categoryId === 4
+                }
               />
               <CategoryButton
                 category="주방용품"
-                onClick={() => clickHandler(4)}
-                clicked={isShop ? categoryId === 4 : formData.categoryId === 4}
+                onClick={() => clickHandler(3)}
+                clicked={
+                  isShopAndEdit
+                    ? formData.categoryId === 3
+                    : isShop
+                    ? categoryId === 3
+                    : formData.categoryId === 3
+                }
               />
             </Category>
           </CategoryWrap>
