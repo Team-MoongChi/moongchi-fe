@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 import { Img } from "../../common/styled-component/Img";
 import { Text } from "../../common/styled-component/Text";
@@ -36,12 +36,15 @@ const UploadButton = styled.div`
 `;
 
 type ImageItem = {
-  file: File;
+  file?: File;
   url: string;
 };
 
 interface UploadProps {
   urlPost: (url: string[]) => void;
+  originUrlList: string[] | undefined;
+  imgLoading: boolean;
+  setImgLoading: (value: boolean) => void;
 }
 
 export default function ImageUpload(props: UploadProps) {
@@ -76,12 +79,17 @@ export default function ImageUpload(props: UploadProps) {
 
   // onChange Handler
   const storeImages = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (imgList.length === 5) {
+    const image = e.target.files;
+    if (!image) return;
+
+    const selectedFiles = Array.from(image);
+    const currentImgCnt = (props.originUrlList?.length || 0) + imgList.length;
+    if (currentImgCnt + selectedFiles.length > 5) {
       alert("사진은 최대 5개까지 올릴 수 있습니다.");
       return;
     }
-    const image = e.target.files;
-    if (!image) return;
+
+    props.setImgLoading(true);
     const curList = [...imgList];
     for (let i = 0; i < image.length; i++) {
       curList.push({ file: image[i], url: URL.createObjectURL(image[i]) });
@@ -89,8 +97,13 @@ export default function ImageUpload(props: UploadProps) {
     setImgList(curList);
 
     await uploadCloudinary();
-    props.urlPost(imgUrlListRef.current);
+    props.urlPost([...(props.originUrlList ?? []), ...imgUrlListRef.current]);
   };
+
+  useEffect(() => {
+    console.log("imgList: ", imgList);
+    console.log("originList: ", props.originUrlList);
+  }, [imgList]);
 
   // 이미지 업로드 버튼 custom
   const imgInputRef = useRef<HTMLInputElement | null>(null);
@@ -103,12 +116,26 @@ export default function ImageUpload(props: UploadProps) {
         <UploadButton onClick={imgUploadHandler}>
           <Img src={camera} width="35px" height="35px" />
           <Text fontSize="10px" color="#5849d0">
-            {imgList.length}/5
+            {props.originUrlList
+              ? props.originUrlList.length + imgList.length
+              : imgList.length}
+            /5
           </Text>
         </UploadButton>
-        {imgList.map((img, idx) => (
+        {props.originUrlList?.map((img, idx) => (
           <Img
             key={idx}
+            src={img}
+            width="60px"
+            height="60px"
+            $border="1px solid #d8dadc"
+            $borderradious="6px"
+            $flexShrink={0}
+          />
+        ))}
+        {imgList.map((img, idx) => (
+          <Img
+            key={idx + 10}
             src={img.url}
             width="60px"
             height="60px"
