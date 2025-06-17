@@ -1,5 +1,7 @@
 import styled from "styled-components";
+import { useState, useEffect } from "react";
 
+import { fetchWithAuth } from "../../../utils/FetchWithAuth";
 import { Img } from "../../common/styled-component/Img";
 import { Text } from "../../common/styled-component/Text";
 import placeMarker from "../../../assets/images/common/위치아이콘.png";
@@ -36,12 +38,42 @@ const HeaderSearch = styled.input`
 `;
 
 export default function GongguSearchBar() {
+  const [location, setLocation] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    console.log(token);
+
+    fetchWithAuth(`/api/users`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`get failed: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((result) => {
+        setLocation(result.address);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("get failed: ", error);
+      });
+  }, [location]);
+
   return (
     <Header>
       <HeaderTop>
         <PlaceWrap>
           <Img src={placeMarker} width="clamp(20px, 2vw, 23px)"></Img>
-          <Text fontSize="clamp(20px, 2vw, 23px)">사랑시 행복동</Text>
+          <Text fontSize="clamp(20px, 2vw, 23px)">
+            {loading ? "loading..." : location}
+          </Text>
         </PlaceWrap>
         <Img src={alarm} width="clamp(22px, 2vw, 25px)"></Img>
       </HeaderTop>
