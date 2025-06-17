@@ -56,7 +56,7 @@ export default function GongguMainPage() {
   const [loading, setLoading] = useState<boolean>(true);
 
   const fetchAllGongguItem = async () => {
-    const token = localStorage.getItem("access_token");
+    const token = localStorage.getItem("accessToken");
     console.log("token: ", token);
 
     try {
@@ -82,7 +82,7 @@ export default function GongguMainPage() {
   };
 
   const fetchCategory = async () => {
-    const token = localStorage.getItem("access_token");
+    const token = localStorage.getItem("accessToken");
     console.log("token: ", token);
 
     try {
@@ -131,7 +131,7 @@ export default function GongguMainPage() {
             근처에서 열린 공구
           </Text>
           {gongguList.length === 0 ? (
-            <GongguEmpty />
+            <GongguEmpty height="50vh" />
           ) : (
             gongguList.map((gongguItem, idx) => {
               return (
