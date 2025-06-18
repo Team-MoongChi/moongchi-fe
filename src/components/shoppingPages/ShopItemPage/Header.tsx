@@ -24,7 +24,7 @@ const BackButton = styled.button`
   color: white;
 `;
 const BackImg = styled.img`
-  width: 14px;
+  width: 16px;
 `;
 
 interface MainProps {
