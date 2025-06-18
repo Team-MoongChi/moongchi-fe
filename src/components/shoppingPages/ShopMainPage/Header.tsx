@@ -20,20 +20,22 @@ const Wrapper = styled.div`
   z-index: 100;
 `;
 const Title = styled.p`
-  font-size: 22px;
+  font-size: 24px;
   color: white;
   font-family: DunggeunmisoBold;
+  padding-top: 1px;
 `;
 const Insert = styled.form<{ $aiState: number }>`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  width: 90%;
-  height: 46px;
-  padding: 0px 8px 0px 8px;
+  width: 98%;
+  height: 48px;
+  padding: 0px 14px 0px 14px;
   border-radius: 50px;
   background-color: ${(props) => (props.$aiState ? "#EFF3FF" : "white")};
   gap: 20px;
+  margin-bottom: 10px;
 `;
 const SearchIcon = styled.img`
   width: 20px;
