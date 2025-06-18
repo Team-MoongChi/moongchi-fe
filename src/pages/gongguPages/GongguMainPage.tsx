@@ -51,7 +51,7 @@ export default function GongguMainPage() {
 
   const { small } = useDeviceSize();
 
-  const [menuClicked, setMenuClicked] = useState(0);
+  const [menuClicked, setMenuClicked] = useState<number>(0);
   const [gongguList, setGongguList] = useState<GongguItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
