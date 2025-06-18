@@ -61,7 +61,7 @@ export default function Header(props: HeaderProps) {
   };
 
   const deleteFetch = async () => {
-    const token = localStorage.getItem("access_token");
+    const token = localStorage.getItem("accessToken");
     console.log(token);
 
     try {
@@ -91,9 +91,7 @@ export default function Header(props: HeaderProps) {
 
   return (
     <Wrap $issmall={small} $scroll={scroll}>
-      <StyledLink to="/">
-        <IconButton src={back} />
-      </StyledLink>
+      <IconButton src={back} onClick={() => navigate("/")} />
       <Right>
         <IconButton src={share} />
         {props.editable ? (
