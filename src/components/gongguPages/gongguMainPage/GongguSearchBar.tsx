@@ -29,6 +29,7 @@ const PlaceWrap = styled.div`
   display: flex;
   align-items: center;
   gap: 5px;
+  cursor: pointer;
 `;
 const SearchWrap = styled.form`
   display: flex;
@@ -73,7 +74,7 @@ export default function GongguSearchBar() {
 
   const [searchParams] = useSearchParams();
   const keyword = searchParams.get("keyword");
-  const isResult: boolean = keyword !== undefined;
+  const isResult: boolean = keyword !== null;
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -113,13 +114,20 @@ export default function GongguSearchBar() {
   return (
     <Header>
       <HeaderTop>
-        <PlaceWrap>
-          <Img src={placeMarker} width="clamp(20px, 2vw, 23px)"></Img>
+        <PlaceWrap
+          onClick={
+            loading
+              ? undefined
+              : () =>
+                  navigate("/gonggu/map", { state: { userLocation: location } })
+          }
+        >
+          <Img src={placeMarker} width="clamp(20px, 2vw, 23px)" />
           <Text fontSize="clamp(20px, 2vw, 23px)">
             {loading ? "loading..." : location}
           </Text>
         </PlaceWrap>
-        <Img src={alarm} width="clamp(22px, 2vw, 25px)"></Img>
+        <Img src={alarm} width="clamp(22px, 2vw, 25px)" />
       </HeaderTop>
       {isResult ? (
         <SearchResultWrap>
