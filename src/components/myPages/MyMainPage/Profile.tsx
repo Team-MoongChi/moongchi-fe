@@ -7,6 +7,7 @@ import FHeart25 from "../../../assets/images/userScore/팔로워하트25.png";
 import FHeart50 from "../../../assets/images/userScore/팔로워하트50.png";
 import FHeart75 from "../../../assets/images/userScore/팔로워하트75.png";
 import FHeart100 from "../../../assets/images/userScore/팔로워하트100.png";
+import loadingImg from "../../../assets/images/moongchies/로딩중.gif";
 import { useState, useEffect } from "react";
 import { fetchWithAuth } from "../../../utils/FetchWithAuth";
 
@@ -94,6 +95,16 @@ const NotReview = styled.div`
   align-items: center;
   border-radius: 10px;
 `;
+const LoadingWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const Loading = styled.img`
+  width: 200px;
+`;
 
 type UserData = {
   email: string;
@@ -116,9 +127,11 @@ type UserData = {
 const Profile = () => {
   const [userData, setUserData] = useState<UserData | null>(null);
   const [reviews, setReviews] = useState([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken"); // 또는 sessionStorage, context 등
+    setLoading(true);
 
     fetchWithAuth("/api/users", {
       method: "GET",
@@ -136,6 +149,7 @@ const Profile = () => {
       })
       .then((result) => {
         setUserData(result);
+        setLoading(false);
       })
       .catch((error) => {
         console.error("요청 실패:", error);
@@ -214,35 +228,51 @@ const Profile = () => {
 
   return (
     <Wrapper>
-      <InfoWrapper>
-        <Img src={userData?.profileUrl} />
-        <Info>
-          <Nickname>{userData?.nickname}</Nickname>
-          <ReaderGage>
-            <HeartImg src={ReaderHeart(userData?.mannerLeader || 0)} />
-            <p>리더 게이지</p>
-            <p style={{ paddingLeft: "15px", fontFamily: "DunggeunmisoBold" }}>
-              {userData?.mannerLeader}%
-            </p>
-          </ReaderGage>
-          <FollowerGage>
-            <HeartImg src={FollowerHeart(userData?.mannerParticipant || 0)} />
-            <p>팔로워 게이지</p>
-            <p style={{ fontFamily: "DunggeunmisoBold" }}>
-              {userData?.mannerParticipant}%
-            </p>
-          </FollowerGage>
-        </Info>
-      </InfoWrapper>
-      <Tags>
-        {reviews?.length !== 0 ? (
-          reviews?.map((review: string, index) => (
-            <Tag key={index}>#{keywordChange(review)}</Tag>
-          ))
-        ) : (
-          <NotReview>아직 리뷰가 없어요!</NotReview>
-        )}
-      </Tags>
+      {loading ? (
+        <LoadingWrapper>
+          <Loading src={loadingImg} />
+        </LoadingWrapper>
+      ) : (
+        <>
+          {" "}
+          <InfoWrapper>
+            <Img src={userData?.profileUrl} />
+            <Info>
+              <Nickname>{userData?.nickname}</Nickname>
+              <ReaderGage>
+                <HeartImg src={ReaderHeart(userData?.mannerLeader || 0)} />
+                <p>리더 게이지</p>
+                <p
+                  style={{
+                    paddingLeft: "15px",
+                    fontFamily: "DunggeunmisoBold",
+                  }}
+                >
+                  {userData?.mannerLeader}%
+                </p>
+              </ReaderGage>
+              <FollowerGage>
+                <HeartImg
+                  src={FollowerHeart(userData?.mannerParticipant || 0)}
+                />
+                <p>팔로워 게이지</p>
+                <p style={{ fontFamily: "DunggeunmisoBold" }}>
+                  {userData?.mannerParticipant}%
+                </p>
+              </FollowerGage>
+            </Info>
+          </InfoWrapper>
+          <Tags>
+            {reviews?.length !== 0 ? (
+              reviews?.map((review: string, index) => (
+                <Tag key={index}>#{keywordChange(review)}</Tag>
+              ))
+            ) : (
+              <NotReview>아직 리뷰가 없어요!</NotReview>
+            )}
+          </Tags>
+        </>
+      )}
     </Wrapper>
   );
 };

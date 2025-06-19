@@ -14,6 +14,7 @@ const Wrapper = styled.div`
   padding: 3%;
   background-color: #5849d0;
   border-radius: 0 0 15px 15px;
+  padding: 15px 15px 20px 15px;
   position: sticky;
   top: 0;
   gap: 10px;
@@ -23,19 +24,18 @@ const Title = styled.p`
   font-size: 24px;
   color: white;
   font-family: DunggeunmisoBold;
-  padding-top: 1px;
 `;
 const Insert = styled.form<{ $aiState: number }>`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  width: 98%;
+  width: 100%;
+  max-width: 550px;
   height: 48px;
-  padding: 0px 14px 0px 14px;
+  padding: 0px 15px 0px 15px;
   border-radius: 50px;
   background-color: ${(props) => (props.$aiState ? "#EFF3FF" : "white")};
   gap: 20px;
-  margin-bottom: 10px;
 `;
 const SearchIcon = styled.img`
   width: 20px;
