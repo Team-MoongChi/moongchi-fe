@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Header from "../../components/common/Header.tsx";
-import Main from "../../components/shoppingPages/ShopChatbotPage/Main.tsx";
-import Nav from "../../components/shoppingPages/ShopChatbotPage/Nav.tsx";
+import Main from "../../components/shoppingPages/ShopChatBotPage/Main.tsx";
+import Nav from "../../components/shoppingPages/ShopChatBotPage/Nav.tsx";
 import useDeviceSize from "../../useDeviceSize.tsx";
 import { useEffect, useState, useRef } from "react";
 
