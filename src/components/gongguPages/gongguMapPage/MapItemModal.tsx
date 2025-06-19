@@ -40,45 +40,34 @@ interface ModalProps {
 }
 
 export default function MapItemModal(props: ModalProps) {
-  const [isCategoryOpen, setIsCategoryOpen] = useState<boolean>(true);
-  const [isMarkerOpen, setIsMarkerOpen] = useState<boolean>(false);
-
-  const [selectedMarkerItem, setSelectedMarkerItem] = useState<GongguMapItem>({
-    id: 0,
-    title: "",
-    price: 0,
-    location: "",
-    boardStatus: "OPEN",
-    totalUsers: 0,
-    currentUsers: 0,
-    createAt: "",
-    image: "",
-    largeCategoryId: 0,
-    latitude: 0,
-    longitude: 0,
-    participants: [],
-  });
+  // true: 모달 오픈, false: 모달 클로즈
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  // true: 카테고리, false: 마커
+  const [isCategory, setIsCategory] = useState<boolean>(true);
 
   const map = useMap();
+
+  // 카테고리 / 마커의 클릭 상태 구분
   useEffect(() => {
-    const handleClickMap = () => {
-      props.setMarkerClicked(-1);
-      if (isCategoryOpen) {
-        // 카테고리 모달 -> 지도 클릭한 경우 : 카테고리, 마커 둘다 안보이게
-        console.log("카테고리 모달 -> 지도 클릭");
-        setIsCategoryOpen(false);
-        setIsMarkerOpen(false);
+    if (props.markerClicked === -1) {
+      setTimeout(() => setIsCategory(true), 500);
+    } else {
+      if (!isOpen) {
+        setIsCategory(false);
         return;
       }
-      if (isMarkerOpen) {
-        // 마커 모달 -> 지도 클릭한 경우 : 카테고리만 보이게
-        console.log("마커 모달 -> 지도 클릭");
+      setTimeout(() => setIsCategory(false), 500);
+    }
+  }, [props.markerClicked, props.menuClicked]);
 
-        setIsMarkerOpen(false);
-        setTimeout(() => {
-          setIsCategoryOpen(true);
-        }, 500);
-        return;
+  // 지도에 onClick 이벤트 추가
+  useEffect(() => {
+    const handleClickMap = () => {
+      if (!isCategory) {
+        props.setMarkerClicked(-1);
+      } else {
+        setIsOpen(false);
+        props.setMarkerClicked(-1);
       }
     };
 
@@ -88,79 +77,53 @@ export default function MapItemModal(props: ModalProps) {
 
   useEffect(() => {
     console.log("마커 선택 변경: ", props.markerClicked);
+    console.log("카테고리 선택 변경: ", props.menuClicked);
 
-    // 마커가 선택된 경우
-    if (props.markerClicked !== -1) {
-      // 카테고리 모달 -> 마커 선택
-      if (isCategoryOpen) {
-        setIsCategoryOpen(false);
-        setTimeout(() => {
-          setSelectedMarkerItem(props.mapItem);
-          setIsMarkerOpen(true);
-        }, 500);
+    // 모달창 내려가있을 때
+    if (!isOpen) {
+      if (!isCategory && props.markerClicked === -1) {
+        setIsOpen(false);
         return;
       }
-      // 마커 모달 -> 마커 선택
-      if (isMarkerOpen) {
-        setIsMarkerOpen(false);
-        setTimeout(() => {
-          setSelectedMarkerItem(props.mapItem);
-          setIsMarkerOpen(true);
-        }, 500);
-        return;
-      }
-      // 아무것도 안 떠있을 때 -> 마커 선택
-      setSelectedMarkerItem(props.mapItem);
-      setIsMarkerOpen(true);
+      setIsOpen(true);
+    } else {
+      setIsOpen(false);
+      setTimeout(() => setIsOpen(true), 500);
     }
-  }, [props.markerClicked]);
+  }, [props.markerClicked, props.menuClicked]);
 
+  // test
+  useEffect(() => {
+    console.log("마커 선택 변경: ", props.markerClicked);
+  }, [props.markerClicked]);
   useEffect(() => {
     console.log("카테고리 선택 변경: ", props.menuClicked);
-    props.setMarkerClicked(-1);
-
-    // 마커 모달 -> 카테고리 선택
-    if (isMarkerOpen) {
-      setIsMarkerOpen(false);
-      setTimeout(() => {
-        // setSelectedCategoryItem(props.mapItemList);
-        setIsCategoryOpen(true);
-      }, 500);
-      return;
-    }
-    // 카테고리 모달 -> 카테고리 선택
-    if (isCategoryOpen) {
-      setIsCategoryOpen(false);
-      setTimeout(() => {
-        setIsCategoryOpen(true);
-      }, 1000);
-      return;
-    }
-    // 아무것도 안 떠있을 때 -> 카테고리 선택
-    // setSelectedCategoryItem(props.mapItemList);
-    setIsCategoryOpen(true);
   }, [props.menuClicked]);
-
   useEffect(() => {
-    console.log("isMarkerOpen", isMarkerOpen);
-  }, [isMarkerOpen]);
+    console.log("모달 isOpen: ", isOpen);
+  }, [isOpen]);
   useEffect(() => {
-    console.log("isCategoryOpen", isCategoryOpen);
-  }, [isCategoryOpen]);
+    console.log("카테고리 모달인가요?", isCategory);
+  });
 
-  return props.markerClicked === -1 ? (
-    <Wrap $isVisible={isCategoryOpen}>
-      <Body>
-        {props.mapItemList.map((item, idx) => (
-          <GongguListItem key={idx} {...item} />
-        ))}
-      </Body>
-    </Wrap>
-  ) : (
-    <Wrap $isVisible={isMarkerOpen}>
-      <Body>
-        {selectedMarkerItem && <GongguListItem {...selectedMarkerItem} />}
-      </Body>
-    </Wrap>
-  );
+  // 카테고리와 마커 간의 이동은 잘 됨
+  // 카테고리-카테고리 & 마커-마커 간의 이동 시 데이터 업데이트..? 500초씩 늦게 하는 거 필요
+  if (props.mapItemList.length === 0) {
+    return null;
+  } else {
+    return (
+      <Wrap $isVisible={isOpen}>
+        <Body>
+          {/* 카테고리일 때 카테고리 목록, 마커일 때 해당 아이템 렌더링 */}
+          {isCategory ? (
+            props.mapItemList.map((item, idx) => (
+              <GongguListItem key={idx} {...item} />
+            ))
+          ) : (
+            <GongguListItem {...props.mapItem} />
+          )}
+        </Body>
+      </Wrap>
+    );
+  }
 }
