@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useState } from "react";
 import { Text } from "../../common/styled-component/Text";
 import { Img } from "../../common/styled-component/Img";
 import ParticipantsProfile from "../../common/ParticipantsProfile";
@@ -18,12 +19,16 @@ import type { GongguPost } from "../../../types/gongguPages/gongguPost";
 import TradeSpace from "./TradeSpace";
 import GotoShop from "./GotoShop";
 
+import Profile from "../../gongguPages/gongguItemPage/Profile";
+
 const Wrap = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0 3%;
   gap: 15px;
   padding-bottom: 15vh;
+  justify-content: center;
+  width: 100%;
 `;
 
 const Title = styled.div`
@@ -56,7 +61,7 @@ const BodyHeader = styled.div`
   justify-content: space-between;
   align-items: center;
 `;
-const UserProfile = styled.div`
+const UserProfile = styled.button`
   display: flex;
   align-items: center;
   gap: 10px;
@@ -82,8 +87,16 @@ const Place = styled.div`
   display: flex;
   justify-content: space-between;
 `;
+const ProfileWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 export default function Content(props: GongguPost) {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
   const MannerImg = () => {
     const score = Math.floor(props.participants[0].mannerLeader);
 
@@ -102,6 +115,11 @@ export default function Content(props: GongguPost) {
 
   return (
     <Wrap>
+      {isOpen && (
+        <ProfileWrapper>
+          <Profile />
+        </ProfileWrapper>
+      )}
       <Title>
         <Img
           src={
@@ -150,7 +168,7 @@ export default function Content(props: GongguPost) {
       </Title>
       <Body>
         <BodyHeader>
-          <UserProfile>
+          <UserProfile onClick={() => setIsOpen(!isOpen)}>
             <Img
               src={props.participants[0].profileUrl}
               width="40px"
@@ -166,7 +184,6 @@ export default function Content(props: GongguPost) {
             {MannerImg()}
           </UserScore>
         </BodyHeader>
-
         <ContentWrap>
           {props.content.split("\n").map((sentence, idx) => (
             <Text key={idx} fontSize="16px">
