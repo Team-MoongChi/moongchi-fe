@@ -50,6 +50,7 @@ export default function GongguListItem(props: GongguItem) {
           src={props.image}
           width="140px"
           height="140px"
+          $border="2px solid #e8edff"
           $borderradious="10px"
         ></Img>
         <Content>
