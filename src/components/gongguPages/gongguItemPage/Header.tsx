@@ -91,7 +91,7 @@ export default function Header(props: HeaderProps) {
 
   return (
     <Wrap $issmall={small} $scroll={scroll}>
-      <IconButton src={back} onClick={() => navigate("/")} />
+      <IconButton src={back} onClick={() => navigate(-1)} />
       <Right>
         <IconButton src={share} />
         {props.editable ? (
