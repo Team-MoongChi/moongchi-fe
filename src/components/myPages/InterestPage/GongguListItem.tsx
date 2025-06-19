@@ -53,7 +53,7 @@ export default function GongguListItem(props: GongguItem) {
     // 링크 수정 필요
     <Link to={`/gonggu/list/${props.id}`}>
       <Wrap>
-        <Img src={props.groupProduct.images}></Img>
+        <Img src={props.image}></Img>
         <Content>
           <Tag
             src={
@@ -67,7 +67,7 @@ export default function GongguListItem(props: GongguItem) {
             }
           ></Tag>
           <div>{props.title}</div>
-          <div>{props.groupProduct.price}원</div>
+          <div>{props.price}원</div>
           {/* {product.participants.map((participants) => {
 
           })} */}
