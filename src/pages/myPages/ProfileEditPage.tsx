@@ -7,7 +7,6 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchWithAuth } from "../../utils/FetchWithAuth";
 import noProfile from "../../assets/images/common/사진없을때.png";
-import loadingImg from "../../assets/images/moongchies/로딩중.gif";
 
 const Wrapper = styled.div<{ $isSmall: boolean }>`
   background-color: white;
@@ -38,16 +37,6 @@ const Main = styled.div`
   align-items: center;
   gap: 20px;
 `;
-const LoadingWrapper = styled.div`
-  width: 100%;
-  height: 75%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-const Loading = styled.img`
-  width: 200px;
-`;
 
 const ProfileEditPage = () => {
   const { small } = useDeviceSize();
@@ -55,7 +44,6 @@ const ProfileEditPage = () => {
   const [nickname, setNickname] = useState<string>("");
   const [img, setImg] = useState<string>("");
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [loading, setLoading] = useState<boolean>(true);
 
   const handleClick = () => {
     const token = localStorage.getItem("accessToken");
@@ -106,7 +94,6 @@ const ProfileEditPage = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken"); // 또는 sessionStorage, context 등
-    setLoading(true);
 
     fetchWithAuth("/api/users", {
       method: "GET",
@@ -126,7 +113,6 @@ const ProfileEditPage = () => {
         console.log(result);
         setNickname(result.nickname);
         setImg(result.profileUrl);
-        setLoading(false);
       })
       .catch((error) => {
         console.error("요청 실패:", error);
@@ -136,31 +122,24 @@ const ProfileEditPage = () => {
   return (
     <Wrapper $isSmall={small}>
       <Header title="프로필 수정" route="/mypage" />
-      {loading ? (
-        <LoadingWrapper>
-          <Loading src={loadingImg} />
-        </LoadingWrapper>
-      ) : (
-        <Main>
-          <ProfileImg onClick={handleClickInput}>
-            <img src={img || noProfile} />
-          </ProfileImg>
-          <InputBox
-            title="닉네임 (5자 이내)"
-            data={nickname}
-            onChange={setNickname}
-            maxLength={5}
-          />
-          <input
-            type="file"
-            accept="image/*"
-            ref={fileInputRef}
-            style={{ display: "none" }}
-            onChange={handleFileChange}
-          />
-        </Main>
-      )}
-
+      <Main>
+        <ProfileImg onClick={handleClickInput}>
+          <img src={img || noProfile} />
+        </ProfileImg>
+        <InputBox
+          title="닉네임 (5자 이내)"
+          data={nickname}
+          onChange={setNickname}
+          maxLength={5}
+        />
+        <input
+          type="file"
+          accept="image/*"
+          ref={fileInputRef}
+          style={{ display: "none" }}
+          onChange={handleFileChange}
+        />
+      </Main>
       <Button text="완료" onClick={handleClick} disable={true} />
     </Wrapper>
   );
