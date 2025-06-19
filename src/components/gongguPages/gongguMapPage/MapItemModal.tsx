@@ -1,10 +1,10 @@
 import styled from "styled-components";
-import { useRef, useState, useEffect, type RefObject } from "react";
-import { useMap } from "react-kakao-maps-sdk";
+import { useState, useEffect } from "react";
 import type { GongguMapItem } from "../../../types/gongguPages/gongguMapItem";
+import { useMap } from "react-kakao-maps-sdk";
 import GongguListItem from "../common/GongguListItem";
 
-const Wrap = styled.div<{ visible: boolean }>`
+const Wrap = styled.div<{ $isVisible: boolean }>`
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -17,8 +17,8 @@ const Wrap = styled.div<{ visible: boolean }>`
   background-color: white;
   border-radius: 30px 30px 0 0;
   box-shadow: rgba(0, 0, 0, 0.24) 0px -3px 8px;
-  transition: transform 1s ease;
-  transform: translateY(${(props) => (props.visible ? "0%" : "100%")});
+  transition: transform 0.5s ease;
+  transform: translateY(${(props) => (props.$isVisible ? "0%" : "100%")});
   z-index: 1;
 `;
 
@@ -37,105 +37,129 @@ interface ModalProps {
   menuClicked: number;
   mapItemList: GongguMapItem[];
   mapItem: GongguMapItem;
-  anyMarkerClicked: boolean;
-  markerRef: RefObject<kakao.maps.Marker>;
 }
 
 export default function MapItemModal(props: ModalProps) {
-  const modalRef = useRef<HTMLDivElement>(null);
   const [isCategoryOpen, setIsCategoryOpen] = useState<boolean>(true);
   const [isMarkerOpen, setIsMarkerOpen] = useState<boolean>(false);
+
+  const [selectedMarkerItem, setSelectedMarkerItem] = useState<GongguMapItem>({
+    id: 0,
+    title: "",
+    price: 0,
+    location: "",
+    boardStatus: "OPEN",
+    totalUsers: 0,
+    currentUsers: 0,
+    createAt: "",
+    image: "",
+    largeCategoryId: 0,
+    latitude: 0,
+    longitude: 0,
+    participants: [],
+  });
+
+  const map = useMap();
+  useEffect(() => {
+    const handleClickMap = () => {
+      props.setMarkerClicked(-1);
+      if (isCategoryOpen) {
+        // 카테고리 모달 -> 지도 클릭한 경우 : 카테고리, 마커 둘다 안보이게
+        console.log("카테고리 모달 -> 지도 클릭");
+        setIsCategoryOpen(false);
+        setIsMarkerOpen(false);
+        return;
+      }
+      if (isMarkerOpen) {
+        // 마커 모달 -> 지도 클릭한 경우 : 카테고리만 보이게
+        console.log("마커 모달 -> 지도 클릭");
+
+        setIsMarkerOpen(false);
+        setTimeout(() => {
+          setIsCategoryOpen(true);
+        }, 500);
+        return;
+      }
+    };
+
+    kakao.maps.event.addListener(map, "click", handleClickMap);
+    return () => kakao.maps.event.removeListener(map, "click", handleClickMap);
+  }, [map]);
 
   useEffect(() => {
     console.log("마커 선택 변경: ", props.markerClicked);
 
-    // // 마커가 선택된 경우
-    // if (props.markerClicked !== -1) {
-    //   // setIsMarkerOpen(false);
-    //   if (isCategoryOpen) {
-    //     setIsCategoryOpen(false);
-    //   }
-    //   setIsMarkerOpen(true);
-    // }
-    // if (props.markerClicked === -1) {
-    //   // 마커가 선택되어있지 않은 경우. 그러니까 -1로 바뀐 경우.
-    //   setIsCategoryOpen(false);
-    // }
+    // 마커가 선택된 경우
+    if (props.markerClicked !== -1) {
+      // 카테고리 모달 -> 마커 선택
+      if (isCategoryOpen) {
+        setIsCategoryOpen(false);
+        setTimeout(() => {
+          setSelectedMarkerItem(props.mapItem);
+          setIsMarkerOpen(true);
+        }, 500);
+        return;
+      }
+      // 마커 모달 -> 마커 선택
+      if (isMarkerOpen) {
+        setIsMarkerOpen(false);
+        setTimeout(() => {
+          setSelectedMarkerItem(props.mapItem);
+          setIsMarkerOpen(true);
+        }, 500);
+        return;
+      }
+      // 아무것도 안 떠있을 때 -> 마커 선택
+      setSelectedMarkerItem(props.mapItem);
+      setIsMarkerOpen(true);
+    }
   }, [props.markerClicked]);
 
   useEffect(() => {
     console.log("카테고리 선택 변경: ", props.menuClicked);
+    props.setMarkerClicked(-1);
 
-    // if (!isCategoryOpen) {
-    //   if (isMarkerOpen) {
-    //     setIsMarkerOpen(false);
-    //   }
-    //   setIsCategoryOpen(true);
-    // }
+    // 마커 모달 -> 카테고리 선택
+    if (isMarkerOpen) {
+      setIsMarkerOpen(false);
+      setTimeout(() => {
+        // setSelectedCategoryItem(props.mapItemList);
+        setIsCategoryOpen(true);
+      }, 500);
+      return;
+    }
+    // 카테고리 모달 -> 카테고리 선택
+    if (isCategoryOpen) {
+      setIsCategoryOpen(false);
+      setTimeout(() => {
+        setIsCategoryOpen(true);
+      }, 1000);
+      return;
+    }
+    // 아무것도 안 떠있을 때 -> 카테고리 선택
+    // setSelectedCategoryItem(props.mapItemList);
+    setIsCategoryOpen(true);
   }, [props.menuClicked]);
 
   useEffect(() => {
     console.log("isMarkerOpen", isMarkerOpen);
-    console.log("isCategoryOpen", isCategoryOpen);
-  }, [props.markerClicked, isCategoryOpen, isMarkerOpen]);
-
-  // const map = useMap();
-  // const [anyMarkerClicked, setAnyMarkerClicked] = useState<boolean>(false);
-  // useEffect(() => {
-  //   const clickHandler = () => {
-  //     setAnyMarkerClicked(true);
-  //   };
-  //   const clickHandler2 = () => {
-  //     setAnyMarkerClicked(false);
-  //   };
-
-  //   kakao.maps.event.addListener(props.markerRef, "click", clickHandler);
-  //   if (map) {
-  //     kakao.maps.event.addListener(map, "click2", clickHandler2);
-  //   }
-
-  //   console.log("마커 클릭/언클릭", anyMarkerClicked);
-
-  //   return () => {
-  //     kakao.maps.event.removeListener(props.markerRef, "click", clickHandler);
-  //     if (map) {
-  //       kakao.maps.event.removeListener(map, "click", clickHandler2);
-  //     }
-  //   };
-  // }, [props.markerRef]);
-
+  }, [isMarkerOpen]);
   useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
-        if (!props.anyMarkerClicked) {
-          props.setMarkerClicked(-1);
-        }
-        if (isCategoryOpen) {
-          setIsCategoryOpen(false);
-        }
-        if (isMarkerOpen) {
-          setIsMarkerOpen(false);
-        }
-      }
-    };
+    console.log("isCategoryOpen", isCategoryOpen);
+  }, [isCategoryOpen]);
 
-    window.addEventListener("mousedown", handleClickOutside);
-    return () => window.removeEventListener("mousedown", handleClickOutside);
-  }, [modalRef]);
-
-  return (
-    <Wrap
-      ref={modalRef}
-      visible={props.markerClicked === -1 ? isCategoryOpen : isMarkerOpen}
-    >
+  return props.markerClicked === -1 ? (
+    <Wrap $isVisible={isCategoryOpen}>
       <Body>
-        {props.markerClicked === -1 ? (
-          props.mapItemList.map((item, idx) => (
-            <GongguListItem key={idx} {...item} />
-          ))
-        ) : (
-          <GongguListItem {...props.mapItem} />
-        )}
+        {props.mapItemList.map((item, idx) => (
+          <GongguListItem key={idx} {...item} />
+        ))}
+      </Body>
+    </Wrap>
+  ) : (
+    <Wrap $isVisible={isMarkerOpen}>
+      <Body>
+        {selectedMarkerItem && <GongguListItem {...selectedMarkerItem} />}
       </Body>
     </Wrap>
   );
