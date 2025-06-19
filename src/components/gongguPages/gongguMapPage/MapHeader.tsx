@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { Img } from "../../common/styled-component/Img";
 import { Text } from "../../common/styled-component/Text";
-import back from "../../../assets/images/gonggu/뒤로가기.png";
+import back from "../../../assets/images/common/뒤로가기.png";
 import search from "../../../assets/images/gonggu/search_white.png";
 
 const Wrap = styled.div`
