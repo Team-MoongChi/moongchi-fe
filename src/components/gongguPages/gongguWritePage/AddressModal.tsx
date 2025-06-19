@@ -37,10 +37,10 @@ type Props = {
 
 const AddressModal = ({ setIsOpen, setFormData }: Props) => {
   const completeHandler = (data) => {
-    const { address } = data;
+    const { roadAddress } = data;
     setFormData((prev) => ({
       ...prev,
-      location: address,
+      location: roadAddress,
     }));
   };
   const closeHandler = (state: string) => {
