@@ -162,7 +162,7 @@ const Main = ({ item }: MainProps) => {
   const navigate = useNavigate();
 
   const handleButton = (gongguId: number) => {
-    navigate(`/gonggu/list/${gongguId}`);
+    navigate(`/gonggu/list/${gongguId}`, { state: { back: "shop" } });
   };
 
   useEffect(() => {

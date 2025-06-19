@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 import useDeviceSize from "../../../useDeviceSize";
@@ -35,9 +35,6 @@ const IconButton = styled.img.attrs<{ src: string }>((props) => ({
   height: 35px;
   cursor: pointer;
 `;
-const StyledLink = styled(Link)`
-  height: 35px;
-`;
 const Right = styled.div`
   display: flex;
   gap: 20px;
@@ -54,6 +51,10 @@ export default function Header(props: HeaderProps) {
   const { small } = useDeviceSize();
   const { gongguId } = useParams();
   const navigate = useNavigate();
+
+  const location = useLocation();
+  const origin = location.state?.back;
+  console.log(origin);
 
   const [scroll, setScroll] = useState<number>(0);
   const onScroll = () => {
@@ -91,7 +92,16 @@ export default function Header(props: HeaderProps) {
 
   return (
     <Wrap $issmall={small} $scroll={scroll}>
-      <IconButton src={back} onClick={() => navigate(-1)} />
+      <IconButton
+        src={back}
+        onClick={
+          origin === "gonggu"
+            ? () => navigate("/")
+            : origin === "shop"
+            ? () => navigate(-1)
+            : undefined
+        }
+      />
       <Right>
         <IconButton src={share} />
         {props.editable ? (
