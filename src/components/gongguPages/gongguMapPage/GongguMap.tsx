@@ -14,6 +14,7 @@ import clickedProcessed from "../../../assets/images/map/가공식품_클릭.png
 import clickedKitchen from "../../../assets/images/map/주방용품_클릭.png";
 import clickedDailyLife from "../../../assets/images/map/생활용품_클릭.png";
 import type { GongguMapItem } from "../../../types/gongguPages/gongguMapItem";
+import MapItemModal from "./MapItemModal";
 
 interface GongguMapProps {
   mapItemList: GongguMapItem[];
@@ -39,7 +40,21 @@ export default function GongguMap(props: GongguMapProps) {
     lng: 126.570667,
   });
 
-  const [mapItem, setMapItem] = useState<GongguMapItem>();
+  const [mapItem, setMapItem] = useState<GongguMapItem>({
+    id: 0,
+    title: "",
+    price: 0,
+    location: "",
+    boardStatus: "OPEN",
+    totalUsers: 0,
+    currentUsers: 0,
+    createAt: "",
+    image: "",
+    largeCategoryId: 0,
+    latitude: 0,
+    longitude: 0,
+    participants: [],
+  });
 
   useEffect(() => {
     if (loading) return;
@@ -57,7 +72,7 @@ export default function GongguMap(props: GongguMapProps) {
         setChangedCenter(coords);
       }
     });
-  }, [loading]);
+  }, [loading, props.location]);
 
   const selectMarker = (id: number): string => {
     if (id === 1) {
@@ -83,7 +98,7 @@ export default function GongguMap(props: GongguMapProps) {
   };
 
   const markerClickHandler = (id: number) => {
-    props.setIsClicked(id);
+    props.setIsClicked(id); // id에 해당하는 마커가 클릭됨
 
     props.mapItemList.map((item) => {
       if (item.id === id) {
@@ -140,6 +155,13 @@ export default function GongguMap(props: GongguMapProps) {
         curCenter={changedCenter}
         position={props.positionInfo}
         menuClicked={props.menuClicked}
+      />
+      <MapItemModal
+        markerClicked={props.isClicked}
+        setMarkerClicked={props.setIsClicked}
+        menuClicked={props.menuClicked}
+        mapItemList={props.mapItemList}
+        mapItem={mapItem}
       />
     </Map>
   );
