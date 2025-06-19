@@ -18,7 +18,7 @@ const Wrapper = styled.div<{ $isSmall: boolean }>`
 `;
 const Main = styled.div`
   width: 100%;
-  margin-top: 10px;
+  padding: 10px 20px 5px 20px;
 `;
 const ImgNothing = styled.img`
   width: 200px;

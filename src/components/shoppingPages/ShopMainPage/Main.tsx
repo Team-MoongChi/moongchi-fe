@@ -1,19 +1,28 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import ShoppingMenu from "./ShoppingMenu";
-import banner1 from "../../../assets/images/common/banner1.png";
+import MoongchiPick from "./MoongchiPick";
+import banner1 from "../../../assets/images/common/배너1.png";
+import banner2 from "../../../assets/images/common/배너2.png";
+import banner3 from "../../../assets/images/common/배너3.png";
 import bannerButtonLeft from "../../../assets/images/common/배너버튼_왼.png";
 import bannerButtonRight from "../../../assets/images/common/배너버튼_오.png";
 import { useNavigate } from "react-router-dom";
 import { fetchWithAuth } from "../../../utils/FetchWithAuth";
+import AIMoongchii from "../../../assets/images/moongchies/AI뭉치.png";
+import InfiniteScroll from "react-infinite-scroll-component";
+import loadingImg from "../../../assets/images/moongchies/로딩중.gif";
 
-const images = [banner1, banner1, banner1];
+const images = [banner1, banner2, banner3];
 
 const Wrapper = styled.div`
-  padding-top: 4%;
+  padding-top: 10px;
   width: 100%;
   padding-bottom: 100px;
   background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 const SliderWrapper = styled.div`
@@ -49,16 +58,21 @@ const BannerButtonImg = styled.img`
 `;
 const Title = styled.div`
   font-size: 20px;
-  padding: 5% 3% 0 3%;
+  padding: 3% 3% 0 3%;
+
   color: #5849d0;
   font-family: DunggeunmisoBold;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 `;
 const Items = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: start;
   flex-wrap: wrap;
   width: 100%;
+  padding: 0px 10px 0px 10px;
 `;
 const Item = styled.button`
   display: flex;
@@ -75,17 +89,34 @@ const Img = styled.img`
   border: none;
   border-radius: 10px;
   object-fit: cover;
-  border: 2px solid #eff3ff;
+  border: 3px solid #eff3ff;
+  background-color: white;
 `;
 const ItemName = styled.div`
+  width: 100%;
   font-size: 15px;
   padding-left: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
 `;
 const Price = styled.div`
   font-size: 15px;
   font-family: DunggeunmisoBold;
   color: #5849d0;
   padding-left: 2px;
+`;
+const Moongchi = styled.img`
+  width: 25px;
+`;
+const Loading = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+`;
+const LoadingImg = styled.img`
+  width: 170px;
 `;
 
 type Product = {
@@ -105,7 +136,9 @@ const Main = () => {
   const [products, setProducts] = useState<Array<Product>>([]);
   const navigate = useNavigate();
   const [menuClicked, setMenuClicked] = useState<number>(0);
-  const menuOrder = [-1, 0, 1, 2, 4, 3];
+  const menuOrder = [0, 1, 2, 3, 4];
+  //const [lastItemId, setLastItemId] = useState<number>(0);
+  const [hasMore, setHasMore] = useState<boolean>(true);
 
   const nextSlide = () => setIndex((prev) => (prev + 1) % images.length);
   const prevSlide = () =>
@@ -124,12 +157,14 @@ const Main = () => {
     return () => clearInterval(interval);
   }, []);
 
-  useEffect(() => {
+  const fetchData = async () => {
+    if (menuClicked === 0) return;
+    const lastItemId = products[products.length - 1]?.id ?? 0;
+
     const token = localStorage.getItem("accessToken"); // 또는 sessionStorage, context 등
-    const url =
-      menuClicked === menuOrder[1]
-        ? "/api/products"
-        : `/api/products/categories/${menuClicked}`;
+    const url = `/api/products/categories/${menuClicked}/scroll${
+      lastItemId !== 0 ? `?lastId=${lastItemId}` : ""
+    }`;
 
     fetchWithAuth(url, {
       method: "GET",
@@ -146,27 +181,40 @@ const Main = () => {
         return response.json();
       })
       .then((result) => {
-        console.log(result);
-        setProducts(result);
+        setProducts([...products, ...result]);
+        if (result.length === 0) setHasMore(false);
       })
       .catch((error) => {
         console.error("요청 실패:", error);
       });
+  };
+
+  useEffect(() => {
+    setProducts([]); // 상품 초기화
+    setHasMore(true); // hasMore 초기화
+    const timeout = setTimeout(() => {
+      fetchData();
+    }, 50); // 최소한의 딜레이로 동시 호출 방지
+
+    return () => clearTimeout(timeout);
   }, [menuClicked]);
 
   const title = () => {
     if (menuClicked === menuOrder[0]) {
-      return <Title>공구 열기 좋은 물건을 찾아 왔어요!</Title>;
+      return (
+        <Title>
+          <Moongchi src={AIMoongchii} />
+          공동구매에 딱 맞는 추천템이에요 :)
+        </Title>
+      );
     } else if (menuClicked === menuOrder[1]) {
-      return <Title>전체</Title>;
-    } else if (menuClicked === menuOrder[2]) {
       return <Title>신선식품</Title>;
-    } else if (menuClicked === menuOrder[3]) {
+    } else if (menuClicked === menuOrder[2]) {
       return <Title>가공식품</Title>;
+    } else if (menuClicked === menuOrder[3]) {
+      return <Title>주방용품</Title>;
     } else if (menuClicked === menuOrder[4]) {
       return <Title>생활용품</Title>;
-    } else if (menuClicked === menuOrder[5]) {
-      return <Title>주방용품</Title>;
     }
   };
 
@@ -185,17 +233,40 @@ const Main = () => {
           <BannerButtonImg src={bannerButtonRight} alt="" />
         </NavButton>
       </SliderWrapper>
-      <ShoppingMenu menuClicked={menuClicked} setMenuClicked={setMenuClicked} />
+      <ShoppingMenu
+        menuClicked={menuClicked}
+        setMenuClicked={setMenuClicked}
+        setHasMore={setHasMore}
+        setProducts={setProducts}
+      />
       {title()}
-      <Items>
-        {products.map((product) => (
-          <Item key={product.id} onClick={() => handleItemClick(product.id)}>
-            <Img src={product.imgUrl}></Img>
-            <ItemName>{product.name}</ItemName>
-            <Price>{product.price.toLocaleString()}원</Price>
-          </Item>
-        ))}
-      </Items>
+      {menuClicked === 0 ? (
+        <MoongchiPick />
+      ) : (
+        <InfiniteScroll
+          dataLength={products?.length}
+          next={fetchData}
+          hasMore={hasMore}
+          loader={
+            <Loading>
+              <LoadingImg src={loadingImg} />
+            </Loading>
+          }
+        >
+          <Items>
+            {products.map((product) => (
+              <Item
+                key={product.id}
+                onClick={() => handleItemClick(product.id)}
+              >
+                <Img src={product.imgUrl}></Img>
+                <ItemName>{product.name}</ItemName>
+                <Price>{product.price.toLocaleString()}원</Price>
+              </Item>
+            ))}
+          </Items>
+        </InfiniteScroll>
+      )}
     </Wrapper>
   );
 };

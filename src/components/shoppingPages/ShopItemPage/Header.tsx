@@ -1,14 +1,15 @@
 import styled from "styled-components";
 import backButton from "../../../assets/images/common/뒤로가기.png";
 import { useNavigate } from "react-router-dom";
+import useDeviceSize from "../../../useDeviceSize";
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ $isSmall: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
+  width: ${(props) => (props.$isSmall ? "100%" : "50%")};
   padding: 20px;
-  position: absolute;
+  position: fixed;
   z-index: 1;
   background-color: #5849d0;
   border-radius: 0 0 15px 15px;
@@ -23,7 +24,7 @@ const BackButton = styled.button`
   color: white;
 `;
 const BackImg = styled.img`
-  width: 14px;
+  width: 16px;
 `;
 
 interface MainProps {
@@ -33,6 +34,7 @@ interface MainProps {
 
 const Header = (props: MainProps) => {
   const navigate = useNavigate();
+  const { small } = useDeviceSize();
 
   const handleBackButton = () => {
     if (typeof props.route === "string") {
@@ -43,7 +45,7 @@ const Header = (props: MainProps) => {
   };
 
   return (
-    <Wrapper>
+    <Wrapper $isSmall={small}>
       <BackButton onClick={handleBackButton}>
         <BackImg src={backButton} alt="" />
       </BackButton>

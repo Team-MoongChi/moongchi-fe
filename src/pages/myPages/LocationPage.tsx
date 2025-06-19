@@ -141,7 +141,7 @@ const LocationPage = () => {
           />
           <Circle
             center={position} // 원 중심 좌표
-            radius={500} // 반경 (미터 단위)
+            radius={750} // 반경 (미터 단위)
             strokeWeight={0} // 테두리 두께
             fillColor={"#5849D0"} // 원 안쪽 색
             fillOpacity={0.15} // 원 안쪽 투명도

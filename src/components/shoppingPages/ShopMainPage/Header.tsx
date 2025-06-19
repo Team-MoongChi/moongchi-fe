@@ -14,32 +14,34 @@ const Wrapper = styled.div`
   padding: 3%;
   background-color: #5849d0;
   border-radius: 0 0 15px 15px;
+  padding: 15px 15px 20px 15px;
   position: sticky;
   top: 0;
   gap: 10px;
   z-index: 100;
 `;
 const Title = styled.p`
-  font-size: 22px;
+  font-size: 24px;
   color: white;
   font-family: DunggeunmisoBold;
 `;
 const Insert = styled.form<{ $aiState: number }>`
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
-  width: 90%;
-  height: 46px;
-  padding: 0px 8px 0px 8px;
+  width: 100%;
+  max-width: 550px;
+  height: 48px;
+  padding: 0px 15px 0px 15px;
   border-radius: 50px;
   background-color: ${(props) => (props.$aiState ? "#EFF3FF" : "white")};
-  gap: 20px;
+  gap: 5px;
 `;
 const SearchIcon = styled.img`
   width: 20px;
 `;
 const Search = styled.input<{ $aiState: number }>`
-  width: 75%;
+  width: 82%;
   height: 40px;
   border: none;
   font-size: 18px;
@@ -67,8 +69,13 @@ const Header = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    console.log(aiState);
     if (keyword.trim() !== "") {
-      navigate(`/shopping/result?keyword=${encodeURIComponent(keyword)}`);
+      if (aiState === 1) {
+        navigate(`/shopping/chatbot?keyword=${encodeURIComponent(keyword)}`);
+      } else {
+        navigate(`/shopping/result?keyword=${encodeURIComponent(keyword)}`);
+      }
     }
   };
 
@@ -89,7 +96,7 @@ const Header = () => {
           onChange={(e) => setKeyword(e.target.value)}
           $aiState={aiState}
         ></Search>
-        <AiButton onClick={aiOnOff}>
+        <AiButton onClick={() => aiOnOff()} type="button">
           <Ai src={aiState === 1 ? AiOn : AiOff} />
         </AiButton>
       </Insert>

@@ -22,7 +22,7 @@ export default function GongguItemPage() {
   const isShop: boolean = gongguItem?.productName ? true : false;
 
   const fetchGongguItem = async () => {
-    const token = localStorage.getItem("access_token");
+    const token = localStorage.getItem("accessToken");
     console.log(token);
 
     try {
