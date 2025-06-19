@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { useState } from "react";
 import freshItem from "../../../assets/images/map/신선식품.png";
 import processedItem from "../../../assets/images/map/가공식품.png";
 import lifeItem from "../../../assets/images/map/생활용품.png";

@@ -15,7 +15,7 @@ const BlurContainer = styled.div`
   overflow: hidden;
 `;
 
-const style = {
+const style: React.CSSProperties = {
   position: "absolute",
   top: "35%",
   left: "50%",
@@ -33,8 +33,58 @@ type Props = {
   setFormData: React.Dispatch<React.SetStateAction<FormData>>;
 };
 
+type FormData = {
+  name: string;
+  totalUsers: number;
+  quantity: string;
+  price: number;
+  location: string;
+  content: string;
+  deadLine: string;
+  categoryId: number;
+  images: string[];
+};
+
+type AddressData = {
+  zonecode: string;
+  address: string;
+  addressEnglish: string;
+  addressType: string;
+  userSelectedType: string;
+  noSelected: string;
+  userLanguageType: string;
+  roadAddress: string;
+  roadAddressEnglish: string;
+  jibunAddress: string;
+  jibunAddressEnglish: string;
+  autoRoadAddress: string;
+  autoRoadAddressEnglish: string;
+  autoJibunAddress: string;
+  autoJibunAddressEnglish: string;
+  buildingCode: string;
+  buildingName: string;
+  apartment: string;
+  sido: string;
+  sidoEnglish: string;
+  sigungu: string;
+  sigunguEnglish: string;
+  sigunguCode: string;
+  roadnameCode: string;
+  bcode: string;
+  roadname: string;
+  roadnameEnglish: string;
+  bname: string;
+  bnameEnglish: string;
+  bname1: string;
+  bname1English: string;
+  bname2: string;
+  bname2English: string;
+  hname: string;
+  query: string;
+};
+
 const AddressModal = ({ setIsOpen, setFormData }: Props) => {
-  const completeHandler = (data) => {
+  const completeHandler = (data: AddressData) => {
     const { address } = data;
     setFormData((prev) => ({
       ...prev,

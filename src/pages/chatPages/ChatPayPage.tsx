@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import useDeviceSize from "../../useDeviceSize";
 import { useState, useEffect } from "react";

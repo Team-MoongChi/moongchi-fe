@@ -33,7 +33,7 @@ const Input = styled.input`
 interface InputBoxProps {
   title: string;
   data: string;
-  onChange: (value: string) => void;
+  onChange?: (value: string) => void;
   maxLength?: number;
 }
 

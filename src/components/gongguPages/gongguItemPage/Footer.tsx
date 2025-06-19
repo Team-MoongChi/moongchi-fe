@@ -6,7 +6,7 @@ import { fetchWithAuth } from "../../../utils/FetchWithAuth";
 
 import { Text } from "../../common/styled-component/Text";
 import { Img } from "../../common/styled-component/Img";
-import clickedHeart from "../../../assets/images/common/누른하트.png";
+// import clickedHeart from "../../../assets/images/common/누른하트.png";
 import unclickedHeart from "../../../assets/images/common/안누른하트.png";
 
 const Wrap = styled.div<{ $isSmall: boolean }>`
@@ -52,8 +52,8 @@ export default function Footer(props: FooterProp) {
   const { gongguId } = useParams();
   const navigate = useNavigate();
 
-  const [clicked, setClicked] = useState<boolean>(false);
-  const [clickCnt, setClickCnt] = useState<number>(props.likeCount || 0);
+  // const [clicked, setClicked] = useState<boolean>(false);
+  const [clickCnt] = useState<number>(props.likeCount || 0);
 
   const GotoChat = async () => {
     const token = localStorage.getItem("accessToken");

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-import type { GongguItem } from "../../../types/gongguPage/gongguItem";
+import type { GongguItem } from "../../../types/gongguPages/gongguItem";
 
 import red from "../../../assets/images/gonggu/마감임박.png";
 import blue from "../../../assets/images/gonggu/모집중.png";

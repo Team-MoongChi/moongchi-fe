@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-import type { ChatRoom } from "../../../types/chatListPage/chatRoom";
+import type { ChatRoomList } from "../../../types/chatPages/chatRoomList";
 
 const Wrap = styled.div`
   display: flex;
@@ -52,7 +52,7 @@ const StyledLink = styled(Link)`
   text-decoration: none;
 `;
 
-export default function ChatListItem(props: ChatRoom) {
+export default function ChatListItem(props: ChatRoomList) {
   return (
     <StyledLink to={`/chat/list/${props.id}`}>
       <Wrap>

@@ -33,7 +33,11 @@ export default function GotoShop(props: GotoShopProps) {
   const navigate = useNavigate();
 
   return (
-    <Wrap onClick={() => navigate(props.productUrl)}>
+    <Wrap
+      onClick={() => {
+        if (props.productUrl) navigate(props.productUrl);
+      }}
+    >
       <ProductInfo>
         <Img
           src="https://image.utoimage.com/preview/cp872722/2022/12/202212008462_500.jpg"

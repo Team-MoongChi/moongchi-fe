@@ -60,7 +60,7 @@ const Header = ({ keyword }: { keyword: string }) => {
     navigate(-1);
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (keyword2.trim() !== "") {
       navigate(`/shopping/result?keyword=${encodeURIComponent(keyword2)}`);
