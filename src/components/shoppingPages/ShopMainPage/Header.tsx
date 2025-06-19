@@ -35,13 +35,13 @@ const Insert = styled.form<{ $aiState: number }>`
   padding: 0px 15px 0px 15px;
   border-radius: 50px;
   background-color: ${(props) => (props.$aiState ? "#EFF3FF" : "white")};
-  gap: 20px;
+  gap: 5px;
 `;
 const SearchIcon = styled.img`
   width: 20px;
 `;
 const Search = styled.input<{ $aiState: number }>`
-  width: 75%;
+  width: 82%;
   height: 40px;
   border: none;
   font-size: 18px;
