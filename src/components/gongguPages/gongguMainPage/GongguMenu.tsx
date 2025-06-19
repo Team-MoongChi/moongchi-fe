@@ -47,14 +47,14 @@ export default function GongguMenu(props: MenuProps) {
         clicked={menuClicked === menuOrder[2]}
       ></MenuButton>
       <MenuButton
-        src={dailyLife}
-        text="생활용품"
+        src={kitchen}
+        text="주방용품"
         onClick={() => clickMenu(3)}
         clicked={menuClicked === menuOrder[3]}
       ></MenuButton>
       <MenuButton
-        src={kitchen}
-        text="주방용품"
+        src={dailyLife}
+        text="생활용품"
         onClick={() => clickMenu(4)}
         clicked={menuClicked === menuOrder[4]}
       ></MenuButton>

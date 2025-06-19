@@ -4,6 +4,7 @@ import { Img } from "../../common/styled-component/Img";
 
 import arrow from "../../../assets/images/gonggu/backarrow.png";
 import { useNavigate } from "react-router-dom";
+import useDeviceSize from "../../../useDeviceSize";
 
 const Wrap = styled.div`
   display: flex;
@@ -12,39 +13,50 @@ const Wrap = styled.div`
   background-color: #e8edff;
   border-radius: 8px;
   padding: 3% 4%;
+  cursor: pointer;
 `;
 const ProductInfo = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
 `;
-const ProductText = styled.div`
+const ProductText = styled.div<{ $isSmall: boolean }>`
   display: flex;
   flex-direction: column;
   gap: 5px;
+  max-width: ${(props) => (props.$isSmall ? "50vw" : "30vw")};
+`;
+const Title = styled(Text)`
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 interface GotoShopProps {
-  // productUrl: string;
-  productUrl?: string;
+  productUrl: string;
+  productImage: string;
+  name: string | undefined;
+  price: number | undefined;
 }
 
 export default function GotoShop(props: GotoShopProps) {
   const navigate = useNavigate();
+  const { small } = useDeviceSize();
 
   return (
     <Wrap onClick={() => navigate(props.productUrl)}>
       <ProductInfo>
         <Img
-          src="https://image.utoimage.com/preview/cp872722/2022/12/202212008462_500.jpg"
+          src={props.productImage}
           $borderradious="8px"
           width="65px"
           height="65px"
         />
-        <ProductText>
-          <Text fontSize="20px">상품 이름</Text>
+        <ProductText $isSmall={small}>
+          <Title fontSize="20px">{props.name}</Title>
           <Text fontSize="20px" fontFamily="DunggeunmisoBold">
-            20,000원
+            {props.price?.toLocaleString()}원
           </Text>
         </ProductText>
       </ProductInfo>

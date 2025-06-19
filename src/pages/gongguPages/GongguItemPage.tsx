@@ -19,6 +19,8 @@ export default function GongguItemPage() {
 
   const { gongguId } = useParams();
 
+  const isShop: boolean = gongguItem?.productName ? true : false;
+
   const fetchGongguItem = async () => {
     const token = localStorage.getItem("accessToken");
     console.log(token);
@@ -53,7 +55,11 @@ export default function GongguItemPage() {
 
   return (
     <Wrap $issmall={small} $gap="15px">
-      <Header editable={gongguItem?.editable} />
+      <Header
+        editable={gongguItem?.editable}
+        isShop={isShop ? "shop" : undefined}
+        imgUrl={isShop ? gongguItem?.images[0] : undefined}
+      />
       <ImageSlide images={gongguItem?.images} />
       {gongguItem ? <Content {...gongguItem}></Content> : null}
       <Footer

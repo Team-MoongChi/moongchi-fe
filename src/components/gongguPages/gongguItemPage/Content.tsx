@@ -23,7 +23,7 @@ const Wrap = styled.div`
   flex-direction: column;
   padding: 0 3%;
   gap: 15px;
-  padding-bottom: 100vh;
+  padding-bottom: 15vh;
 `;
 
 const Title = styled.div`
@@ -139,8 +139,14 @@ export default function Content(props: GongguPost) {
             participants={props.participants}
           ></ParticipantsProfile>
         </TitleFooter>
-        {/* {props.productUrl ? <GotoShop productUrl={props.productUrl} /> : null} */}
-        <GotoShop />
+        {props.productId ? (
+          <GotoShop
+            productUrl={`/shopping/item?itemId=${props.productId}`}
+            productImage={props.images[0]}
+            name={props.productName}
+            price={props.productPrice}
+          />
+        ) : null}
       </Title>
       <Body>
         <BodyHeader>

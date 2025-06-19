@@ -59,9 +59,9 @@ const HeartImg = styled.img`
 interface Props {
   link: string | undefined;
   itemId: number | undefined;
-  imgUrl: string | undefined;
-  name: string | undefined;
-  category: string | undefined;
+  imgUrl: string;
+  name: string;
+  category: string;
 }
 
 const Nav = ({ link, itemId, imgUrl, name, category }: Props) => {
@@ -74,16 +74,17 @@ const Nav = ({ link, itemId, imgUrl, name, category }: Props) => {
     if (category === "신선식품") {
       categoryId = 1;
     } else if (category === "가공식품") {
-      categoryId = 25;
+      categoryId = 2;
     } else if (category === "주방용품") {
-      categoryId = 43;
+      categoryId = 3;
     } else if (category === "생활용품") {
-      categoryId = 58;
+      categoryId = 4;
     }
 
     navigate("/gonggu/write", {
       state: {
         message: "shop",
+        productId: itemId,
         imgUrl: imgUrl,
         name: name,
         categoryId: categoryId,

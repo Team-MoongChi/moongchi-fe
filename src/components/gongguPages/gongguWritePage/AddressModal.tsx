@@ -1,5 +1,7 @@
 import DaumPostcode from "react-daum-postcode";
 import styled from "styled-components";
+import type { FormData } from "./Content";
+import type { CSSProperties } from "styled-components";
 import { useEffect } from "react";
 
 const BlurContainer = styled.div`
@@ -15,7 +17,7 @@ const BlurContainer = styled.div`
   overflow: hidden;
 `;
 
-const style = {
+const style: CSSProperties = {
   position: "absolute",
   top: "35%",
   left: "50%",
@@ -35,10 +37,10 @@ type Props = {
 
 const AddressModal = ({ setIsOpen, setFormData }: Props) => {
   const completeHandler = (data) => {
-    const { address } = data;
+    const { roadAddress } = data;
     setFormData((prev) => ({
       ...prev,
-      location: address,
+      location: roadAddress,
     }));
   };
   const closeHandler = (state: string) => {

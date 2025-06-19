@@ -1,30 +1,23 @@
 type BoardStatus = "OPEN" | "CLOSING_SOON" | "CLOSED" | "COMPLETED";
-type Role = "LEADER" | "MEMBER";
-
 interface Participant {
   userId: number;
   nickname: string;
   profileUrl: string;
   mannerLeader: number;
-  role: Role;
+  role: "LEADER" | "MEMBER";
 }
-export interface GongguPost {
+export interface GongguMapItem {
   id: number;
   title: string;
   price: number;
-  content: string;
   location: string;
   boardStatus: BoardStatus;
-  deadline: string;
-  totalUser: number;
+  totalUsers: number;
   currentUsers: number;
-  likeCount: number;
-  editable: boolean;
-  chatRoomId: number;
-  categoryId: number;
-  images: string[];
+  createAt: string;
+  image: string;
+  largeCategoryId: number;
+  latitude: number;
+  longitude: number;
   participants: Participant[];
-  productId?: number;
-  productName?: string;
-  productPrice?: number;
 }

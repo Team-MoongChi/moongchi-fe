@@ -4,12 +4,12 @@ import { Img } from "../../common/styled-component/Img";
 import { Text } from "../../common/styled-component/Text";
 import emptyBox from "../../../assets/images/gonggu/emptyBox.png";
 
-const EmptyList = styled.div`
+const EmptyList = styled.div<{ $height: string }>`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 50vh;
+  height: ${(props) => props.$height};
   background-color: #e8edff;
   border-radius: 6px;
 `;
@@ -24,9 +24,12 @@ const Div = styled.div<{ $paddingbottom?: string }>`
   display: flex;
 `;
 
-export default function GongguEmpty() {
+interface GongguEmptyProps {
+  height: string;
+}
+export default function GongguEmpty(props: GongguEmptyProps) {
   return (
-    <EmptyList>
+    <EmptyList $height={props.height}>
       <Div $paddingbottom="2vh">
         <Text fontSize="50px" fontFamily="DunggeunmisoBold" color="#5849d0">
           텅~

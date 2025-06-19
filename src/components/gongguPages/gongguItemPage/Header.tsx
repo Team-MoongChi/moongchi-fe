@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 import useDeviceSize from "../../../useDeviceSize";
@@ -7,6 +7,7 @@ import back from "../../../assets/images/common/뒤로가기.png";
 import edit from "../../../assets/images/gonggu/공구수정아이콘.png";
 import share from "../../../assets/images/gonggu/공구공유아이콘.png";
 import del from "../../../assets/images/gonggu/공구삭제아이콘.png";
+import { fetchWithAuth } from "../../../utils/FetchWithAuth";
 
 const Wrap = styled.div<{
   $issmall: boolean;
@@ -45,14 +46,40 @@ const Right = styled.div`
 
 interface HeaderProps {
   editable: boolean | undefined;
+  isShop: string | undefined;
+  imgUrl: string | undefined;
 }
 
 export default function Header(props: HeaderProps) {
   const { small } = useDeviceSize();
+  const { gongguId } = useParams();
+  const navigate = useNavigate();
 
   const [scroll, setScroll] = useState<number>(0);
   const onScroll = () => {
     setScroll(window.scrollY);
+  };
+
+  const deleteFetch = async () => {
+    const token = localStorage.getItem("accessToken");
+    console.log(token);
+
+    try {
+      const response = await fetchWithAuth(`/api/group-boards/${gongguId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (response.ok) {
+        alert("글 삭제 성공");
+        navigate("/");
+      }
+    } catch (error) {
+      console.log("post failed: ", error);
+      alert("글 삭제 실패");
+      throw error;
+    }
   };
 
   useEffect(() => {
@@ -64,13 +91,23 @@ export default function Header(props: HeaderProps) {
 
   return (
     <Wrap $issmall={small} $scroll={scroll}>
-      <StyledLink to="/">
-        <IconButton src={back} />
-      </StyledLink>
+      <IconButton src={back} onClick={() => navigate(-1)} />
       <Right>
         <IconButton src={share} />
-        {props.editable ? <IconButton src={edit} /> : null}
-        {props.editable ? <IconButton src={del} /> : null}
+        {props.editable ? (
+          <IconButton
+            src={edit}
+            onClick={() =>
+              navigate(`/gonggu/edit/${gongguId}`, {
+                state: {
+                  message: props.isShop,
+                  imgUrl: props.imgUrl,
+                },
+              })
+            }
+          />
+        ) : null}
+        {props.editable ? <IconButton src={del} onClick={deleteFetch} /> : null}
       </Right>
     </Wrap>
   );

@@ -1,17 +1,17 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
+
+import { fetchWithAuth } from "../../../utils/FetchWithAuth";
 import SubmitButton from "./SubmitButton";
 import CategoryButton from "./CategoryButton";
-import { Img } from "../../common/styled-component/Img";
-import { Text } from "../../common/styled-component/Text";
-import { fetchWithAuth } from "../../../utils/FetchWithAuth";
-
 import Input from "./Input";
 import GuideTitle from "./GuideTitle";
 import ImageUpload from "./ImageUpload";
 import SetLocation from "./SetLocation";
 import AddressModal from "./AddressModal";
+import { Img } from "../../common/styled-component/Img";
+import { Text } from "../../common/styled-component/Text";
 
 const Wrap = styled.div`
   padding: 0 5%;
@@ -60,44 +60,64 @@ const Category = styled.div`
   gap: 7px;
 `;
 
-type FormData = {
+export type FormData = {
   name: string;
-  totalUsers: number;
+  totalUser: number;
   quantity: string;
   price: number;
   location: string;
   content: string;
-  deadLine: string;
-  categoryId: number;
-  images: string[];
+  deadline: string;
+  categoryId?: number;
+  productId?: number;
+  images?: string[];
 };
 
 export default function Content() {
-  const navigate = useNavigate();
-
+  // 상품 -> 공구 열기 때 필요한 데이터
   const location = useLocation();
   const message = location.state?.message;
+  const productId = location.state?.productId;
   const name = location.state?.name;
   const categoryId = location.state?.categoryId;
   const imgUrl = location.state?.imgUrl;
-  console.log(message, name, categoryId, imgUrl);
+  console.log(message, name, categoryId, imgUrl, productId);
 
   const isShop: boolean = message === "shop";
+  console.log("isShop: ", isShop);
+
+  const { gongguId } = useParams();
+  const isEdit: boolean = gongguId !== undefined;
+  console.log("isEdit: ", isEdit);
+
+  const isShopAndEdit: boolean = isShop && isEdit;
+  console.log("isShopAndEdit: ", isShopAndEdit);
 
   const [formData, setFormData] = useState<FormData>({
-    name: "",
-    totalUsers: 0,
+    name: isShop ? name : "",
+    totalUser: 0,
     quantity: "",
     price: 0,
     location: "",
     content: "",
-    deadLine: "",
-    categoryId: 0,
-    images: [],
+    deadline: "",
+    categoryId: undefined,
+    productId: isShop ? productId : undefined,
+    images: undefined,
   });
   const [isAll, setIsAll] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [originUrlList, setOriginUrlList] = useState<string[]>([]);
+  const [imgLoading, setImgLoading] = useState<boolean>(false);
 
+  // 수정 시 원래 있던 사진 originUrlList에 저장
+  useEffect(() => {
+    if (isEdit && formData.images && originUrlList.length === 0) {
+      setOriginUrlList(formData.images);
+    }
+  }, [formData.images, isEdit]);
+
+  // 입력 값 변경 시 formData에 반영
   const changeHandler = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -108,51 +128,80 @@ export default function Content() {
     }));
   };
   const clickHandler = (num: number) => {
-    if (isShop) return;
+    if (isShop || isShopAndEdit) return;
 
     setFormData((prev) => ({
       ...prev,
       categoryId: num,
     }));
   };
-
   const urlHandler = (url: string[]) => {
     setFormData((prev) => ({
       ...prev,
       images: url,
     }));
+    setImgLoading(false);
   };
 
+  // 수정 시 원래 데이터 가져오기
+  useEffect(() => {
+    if (isEdit) {
+      const token = localStorage.getItem("accessToken");
+      console.log(token);
+
+      fetchWithAuth(`/api/group-boards/${gongguId}/edit`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`get failed: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then((result) => {
+          setFormData(result);
+        })
+        .catch((error) => {
+          console.error("요청 실패:", error);
+        });
+    }
+  }, [isEdit, gongguId]);
+
+  // 수정 및 작성 완료 버튼 disabled 조건 검사
   useEffect(() => {
     console.log("formData 변경:", formData);
 
     const initialFormData: FormData = {
-      name: "",
-      totalUsers: 0,
+      name: isShop ? name : "",
+      totalUser: 0,
       quantity: "",
       price: 0,
       location: "",
       content: "",
-      deadLine: "",
-      categoryId: 0,
-      images: [],
+      deadline: "",
+      categoryId: undefined,
+      productId: isShop ? productId : undefined,
+      images: undefined,
     };
     const allInput: boolean =
       formData.name !== initialFormData.name &&
-      Number(formData.totalUsers) !== initialFormData.totalUsers &&
+      Number(formData.totalUser) !== initialFormData.totalUser &&
       formData.quantity !== initialFormData.quantity &&
       Number(formData.price) !== initialFormData.price &&
       formData.location !== initialFormData.location &&
-      formData.deadLine !== initialFormData.deadLine &&
+      formData.deadline !== initialFormData.deadline &&
       formData.categoryId !== initialFormData.categoryId &&
-      formData.images.length !== 0;
+      formData.images?.length !== 0;
 
     const allInputShop: boolean =
-      Number(formData.totalUsers) !== initialFormData.totalUsers &&
+      Number(formData.totalUser) !== initialFormData.totalUser &&
       formData.quantity !== initialFormData.quantity &&
       Number(formData.price) !== initialFormData.price &&
       formData.location !== initialFormData.location &&
-      formData.deadLine !== initialFormData.deadLine;
+      formData.deadline !== initialFormData.deadline;
 
     if (isShop) {
       setIsAll(allInputShop);
@@ -162,30 +211,6 @@ export default function Content() {
 
     console.log("isAll: ", isAll);
   }, [formData]);
-
-  const submitHandler = async () => {
-    const token = localStorage.getItem("accessToken");
-    console.log(token);
-
-    try {
-      const response = await fetchWithAuth("/api/group-boards", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-      if (response.ok) {
-        alert("글쓰기 성공");
-        console.log(formData);
-        navigate("/");
-      }
-    } catch (error) {
-      console.error("post failed: ", error);
-      alert("글쓰기 실패");
-      throw error;
-    }
-  };
 
   return (
     <>
@@ -199,7 +224,12 @@ export default function Content() {
             $borderradious="6px"
           />
         ) : (
-          <ImageUpload urlPost={urlHandler} />
+          <ImageUpload
+            urlPost={urlHandler}
+            originUrlList={isEdit ? originUrlList : []}
+            imgLoading={false}
+            setImgLoading={setImgLoading}
+          />
         )}
         <GuideTitle name={formData.name} quantity={formData.quantity} />
         <Form>
@@ -209,19 +239,22 @@ export default function Content() {
               name="name"
               placeholder="ex) 딸기"
               onChange={changeHandler}
-              value={isShop ? name : undefined}
-              disabled={isShop ? true : false}
+              value={
+                isShop ? formData.name : isEdit ? formData.name : undefined
+              }
             />
             <Input
               title="총원"
-              name="totalUsers"
+              name="totalUser"
               placeholder="ex) 3"
+              value={isEdit ? String(formData.totalUser) : undefined}
               onChange={changeHandler}
             />
             <Input
               title="총 수량"
               name="quantity"
-              placeholder="ex) 6kg"
+              placeholder={isShop ? "ex) 3세트" : "ex) 6kg"}
+              value={isEdit ? formData.quantity : undefined}
               onChange={changeHandler}
             />
           </CountWrap>
@@ -230,12 +263,13 @@ export default function Content() {
               title="총 가격"
               name="price"
               placeholder="숫자만 입력해주세요."
+              value={isEdit ? String(formData.price) : undefined}
               onChange={changeHandler}
             />
             <Text fontSize="20px" fontFamily="DunggeunmisoBold" color="#5849d0">
               예상 1/N 가격 :{" "}
-              {formData.price > 0 && formData.totalUsers > 0
-                ? (formData.price / formData.totalUsers).toLocaleString()
+              {formData.price > 0 && formData.totalUser > 0
+                ? (formData.price / formData.totalUser).toLocaleString()
                 : "-"}
               원
             </Text>
@@ -260,8 +294,9 @@ export default function Content() {
           )}
           <Input
             title="모집 마감 날짜"
-            name="deadLine"
+            name="deadline"
             type="date"
+            value={isEdit ? formData.deadline : undefined}
             onChange={changeHandler}
           />
           <CategoryWrap>
@@ -281,22 +316,46 @@ export default function Content() {
               <CategoryButton
                 category="신선식품"
                 onClick={() => clickHandler(1)}
-                clicked={isShop ? categoryId === 1 : formData.categoryId === 1}
+                clicked={
+                  isShopAndEdit
+                    ? formData.categoryId === 1
+                    : isShop
+                    ? categoryId === 1
+                    : formData.categoryId === 1
+                }
               />
               <CategoryButton
                 category="가공식품"
                 onClick={() => clickHandler(2)}
-                clicked={isShop ? categoryId === 2 : formData.categoryId === 2}
+                clicked={
+                  isShopAndEdit
+                    ? formData.categoryId === 2
+                    : isShop
+                    ? categoryId === 2
+                    : formData.categoryId === 2
+                }
               />
               <CategoryButton
                 category="생활용품"
-                onClick={() => clickHandler(3)}
-                clicked={isShop ? categoryId === 3 : formData.categoryId === 3}
+                onClick={() => clickHandler(4)}
+                clicked={
+                  isShopAndEdit
+                    ? formData.categoryId === 4
+                    : isShop
+                    ? categoryId === 4
+                    : formData.categoryId === 4
+                }
               />
               <CategoryButton
                 category="주방용품"
-                onClick={() => clickHandler(4)}
-                clicked={isShop ? categoryId === 4 : formData.categoryId === 4}
+                onClick={() => clickHandler(3)}
+                clicked={
+                  isShopAndEdit
+                    ? formData.categoryId === 3
+                    : isShop
+                    ? categoryId === 3
+                    : formData.categoryId === 3
+                }
               />
             </Category>
           </CategoryWrap>
@@ -308,14 +367,15 @@ export default function Content() {
               id="content"
               name="content"
               placeholder="추가 설명을 입력해주세요."
+              value={isEdit ? formData.content : undefined}
               onChange={changeHandler}
             />
           </InputWrap>
         </Form>
       </Wrap>
       <SubmitButton
-        onClick={!isAll ? undefined : submitHandler}
-        disabled={!isAll}
+        formData={formData}
+        disabled={!isAll || imgLoading}
       ></SubmitButton>
     </>
   );

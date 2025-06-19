@@ -51,7 +51,7 @@ export default function GongguMainPage() {
 
   const { small } = useDeviceSize();
 
-  const [menuClicked, setMenuClicked] = useState(0);
+  const [menuClicked, setMenuClicked] = useState<number>(0);
   const [gongguList, setGongguList] = useState<GongguItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -131,7 +131,7 @@ export default function GongguMainPage() {
             근처에서 열린 공구
           </Text>
           {gongguList.length === 0 ? (
-            <GongguEmpty />
+            <GongguEmpty height="50vh" />
           ) : (
             gongguList.map((gongguItem, idx) => {
               return (

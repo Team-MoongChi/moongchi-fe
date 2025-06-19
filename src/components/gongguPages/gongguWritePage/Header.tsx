@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 import { Text } from "../../common/styled-component/Text";
@@ -24,13 +25,16 @@ const CloseBUtton = styled.img.attrs({
 `;
 
 export default function Header() {
+  const { gongguId } = useParams();
+  const isEdit: boolean = gongguId !== undefined;
+
   return (
     <Wrap>
-      <Link to="/">
+      <Link to={isEdit ? `/gonggu/list/${gongguId}` : "/"}>
         <CloseBUtton />
       </Link>
       <Text fontSize="30px" fontFamily="Dunggeunmisobold" color="#5849d0">
-        공구 열기
+        공구 {isEdit ? "수정하기" : "열기"}
       </Text>
       <CloseBUtton visibility="hidden" />
     </Wrap>
