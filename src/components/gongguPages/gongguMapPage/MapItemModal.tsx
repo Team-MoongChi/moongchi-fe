@@ -13,7 +13,7 @@ const Wrap = styled.div<{ $isVisible: boolean }>`
   width: 100%;
   height: auto;
   max-height: 50%;
-  padding: 6% 0;
+  padding: 5% 0 2% 0;
   background-color: white;
   border-radius: 30px 30px 0 0;
   box-shadow: rgba(0, 0, 0, 0.24) 0px -3px 8px;
@@ -44,6 +44,16 @@ export default function MapItemModal(props: ModalProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   // true: 카테고리, false: 마커
   const [isCategory, setIsCategory] = useState<boolean>(true);
+
+  const [localMapItemList, setLocalMapItemList] = useState(props.mapItemList);
+  const [localMapItem, setLocalMapItem] = useState(props.mapItem);
+
+  useEffect(() => {
+    if (isOpen) {
+      setLocalMapItemList(props.mapItemList);
+      setTimeout(() => setLocalMapItem(props.mapItem), 500);
+    }
+  }, [isOpen, props.mapItemList, props.mapItem]);
 
   const map = useMap();
 
@@ -116,11 +126,11 @@ export default function MapItemModal(props: ModalProps) {
         <Body>
           {/* 카테고리일 때 카테고리 목록, 마커일 때 해당 아이템 렌더링 */}
           {isCategory ? (
-            props.mapItemList.map((item, idx) => (
+            localMapItemList.map((item, idx) => (
               <GongguListItem key={idx} {...item} />
             ))
           ) : (
-            <GongguListItem {...props.mapItem} />
+            <GongguListItem {...localMapItem} />
           )}
         </Body>
       </Wrap>
