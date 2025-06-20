@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import useDeviceSize from "../../useDeviceSize";
+import useDeviceSize from "../../hooks/useDeviceSize";
 import Header from "../../components/common/Header";
 import GongguListItem from "../../components/gongguPages/common/GongguListItem";
 import { useEffect, useState } from "react";

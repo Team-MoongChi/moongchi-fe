@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import useDeviceSize from "../../useDeviceSize";
+import useDeviceSize from "../../hooks/useDeviceSize";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 

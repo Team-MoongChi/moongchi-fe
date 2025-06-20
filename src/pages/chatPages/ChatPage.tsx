@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import useDeviceSize from "../../useDeviceSize";
+import useDeviceSize from "../../hooks/useDeviceSize";
 import { Wrap } from "../../components/common/styled-component/Wrap";
 import Header from "../../components/common/Header";
 import FetchButton from "../../components/chatPages/chatPage/FetchButton";

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Map, MapMarker, Circle } from "react-kakao-maps-sdk";
 
-import useKakaoMap from "../../../useKakaoMap";
+import useKakaoMap from "../../../hooks/useKakaoMap";
 import Target from "./Target";
 import type { GongguLocation } from "../../../types/gongguPages/gongguLocation";
 

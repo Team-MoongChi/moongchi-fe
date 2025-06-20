@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Text } from "../../common/styled-component/Text";
 import { Img } from "../../common/styled-component/Img";
 import ParticipantsProfile from "../../common/ParticipantsProfile";
-import { useCalDay } from "../../../useTimeStamp";
+import { useCalDay } from "../../../hooks/useTimeStamp";
 
 import red from "../../../assets/images/gonggu/마감임박.png";
 import blue from "../../../assets/images/gonggu/모집중.png";

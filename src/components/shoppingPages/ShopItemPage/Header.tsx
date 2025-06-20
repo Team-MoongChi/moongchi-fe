@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import backButton from "../../../assets/images/common/뒤로가기.png";
 import { useNavigate } from "react-router-dom";
-import useDeviceSize from "../../../useDeviceSize";
+import useDeviceSize from "../../../hooks/useDeviceSize";
 
 const Wrapper = styled.div<{ $isSmall: boolean }>`
   display: flex;

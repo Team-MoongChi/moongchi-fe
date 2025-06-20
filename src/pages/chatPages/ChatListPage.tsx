@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 
-import useDeviceSize from "../../useDeviceSize";
+import useDeviceSize from "../../hooks/useDeviceSize";
 import Header from "../../components/chatPages/chatListPage/Header";
 import ChatListItem from "../../components/chatPages/chatListPage/ChatListItem";
 import Nav from "../../components/common/Nav";

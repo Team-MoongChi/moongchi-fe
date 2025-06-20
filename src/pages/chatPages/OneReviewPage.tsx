@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 
-import useDeviceSize from "../../useDeviceSize";
+import useDeviceSize from "../../hooks/useDeviceSize";
 import Header from "../../components/common/Header";
 import { Wrap } from "../../components/common/styled-component/Wrap";
 import { Text } from "../../components/common/styled-component/Text";

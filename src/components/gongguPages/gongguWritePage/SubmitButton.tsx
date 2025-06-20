@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchWithAuth } from "../../../utils/FetchWithAuth";
-import useDeviceSize from "../../../useDeviceSize";
+import useDeviceSize from "../../../hooks/useDeviceSize";
 import type { FormData } from "./Content";
 
 const Footer = styled.div<{ $isSmall: boolean }>`
