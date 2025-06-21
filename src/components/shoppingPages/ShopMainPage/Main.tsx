@@ -166,7 +166,7 @@ const Main = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // 1. 마운트 시 복원
+  // 마운트 시 복원
   useEffect(() => {
     const raw = sessionStorage.getItem(SHOPPING_STATE_KEY);
     if (raw) {
@@ -174,6 +174,8 @@ const Main = () => {
       if (saved.menuClicked) setMenuClicked(saved.menuClicked);
       setTimeout(() => {
         if (saved.scrollY) window.scrollTo(0, saved.scrollY);
+
+        sessionStorage.removeItem(SHOPPING_STATE_KEY);
       }, 100);
     }
   }, []);
