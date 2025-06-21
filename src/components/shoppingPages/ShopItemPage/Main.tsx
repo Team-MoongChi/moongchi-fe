@@ -16,7 +16,7 @@ const Wrapper = styled.div`
 `;
 const Img = styled.img`
   width: 100%;
-  height: 42%;
+  height: 40%;
   background-color: lightgray;
   object-fit: cover;
   margin-top: 50px;
