@@ -4,6 +4,7 @@ import ParticipantsProfile from "../../common/ParticipantsProfile";
 import { fetchWithAuth } from "../../../utils/FetchWithAuth";
 import sadYellow from "../../../assets/images/moongchies/우는노란뭉치.png";
 import { useNavigate } from "react-router-dom";
+import GongguCountdown from "./GongguCountdown";
 
 const Wrapper = styled.div`
   display: flex;
@@ -40,7 +41,7 @@ const GongguList = styled.div`
   justify-content: center;
   align-items: start;
   flex-direction: column;
-  gap: 5%;
+  gap: 5px;
   width: 100%;
   padding: 7px 18px 18px 18px;
 `;
@@ -59,17 +60,16 @@ const User = styled.div`
   display: flex;
   justify-content: start;
   align-items: center;
-  width: 50%;
+  width: 40%;
   gap: 3%;
 `;
 const Profile = styled.img`
-  width: 50px;
-  height: 50px;
+  width: 30%;
   border-radius: 200px;
   object-fit: cover;
 `;
 const UserName = styled.div`
-  font-size: 16px;
+  font-size: clamp(15px, 2vw, 16px);
 `;
 const JoinButton = styled.button`
   display: flex;
@@ -86,6 +86,18 @@ const JoinButton = styled.button`
   line-height: 1;
   gap: 2px;
   margin-left: 5px;
+
+  &:disabled {
+    background-color: #b9b9b9;
+
+    p {
+      color: white;
+    }
+  }
+`;
+const Deadline = styled.p`
+  font-size: 10px;
+  color: pink;
 `;
 const GongguP = styled.div`
   font-size: 14px;
@@ -160,10 +172,47 @@ interface Gonggu {
 const Main = ({ item }: MainProps) => {
   const [gonggus, setGonggus] = useState<Array<Gonggu>>([]);
   const navigate = useNavigate();
+  const [userId, setUserId] = useState<number>(0);
 
   const handleButton = (gongguId: number) => {
     navigate(`/gonggu/list/${gongguId}`);
   };
+
+  const handleDeadline = (deadline: string, readerId: number) => {
+    const end = new Date(deadline);
+    const now = new Date();
+    const diff = end.getTime() - now.getTime();
+
+    if (diff <= 0 || readerId === userId) {
+      return true;
+    } else return false;
+  };
+
+  useEffect(() => {
+    if (!item) return;
+    const token = localStorage.getItem("accessToken");
+    fetchWithAuth(`/api/users`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          // 예: 401, 404, 500 등일 때
+          throw new Error(`서버 오류: ${response.status}`);
+        }
+        return response.json();
+      })
+
+      .then((result) => {
+        setUserId(result.id);
+      })
+      .catch((error) => {
+        console.error("요청 실패:", error);
+      });
+  }, [item]);
 
   useEffect(() => {
     if (!item) return;
@@ -211,11 +260,17 @@ const Main = ({ item }: MainProps) => {
                     <UserName>{gonggu.participants[0].nickname}</UserName>
                   </User>
                   <ParticipantsProfile {...gonggu} />
-                  <JoinButton onClick={() => handleButton(gonggu.id)}>
+                  <JoinButton
+                    onClick={() => handleButton(gonggu.id)}
+                    disabled={handleDeadline(
+                      gonggu.deadline,
+                      gonggu.participants[0].userId
+                    )}
+                  >
                     <p style={{ fontFamily: "DunggeunmisoBold" }}>참여</p>
-                    <p style={{ fontSize: "10px", color: "pink" }}>
-                      {gonggu.deadline}
-                    </p>
+                    <Deadline>
+                      <GongguCountdown deadline={gonggu.deadline} />
+                    </Deadline>
                   </JoinButton>
                 </Gonggu>
               ))}
