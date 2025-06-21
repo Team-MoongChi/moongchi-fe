@@ -13,14 +13,11 @@ import { fetchWithAuth } from "../../../utils/FetchWithAuth";
 
 const Wrapper = styled.div`
   width: 90%;
-  height: 28%;
-  min-height: 200px;
+  height: 60%;
+  min-height: 180px;
   max-height: 220px;
   background-color: #e8edff;
-  margin-top: 90px;
-  border-radius: 20px;
-  z-index: 1;
-  position: absolute;
+  border-radius: 0px 20px 20px 20px;
 `;
 const InfoWrapper = styled.div`
   display: flex;
@@ -28,12 +25,12 @@ const InfoWrapper = styled.div`
   justify-content: center;
   gap: 3%;
   padding: 15px;
-  padding-top: 30px;
-  padding-bottom: 25px;
+  padding-top: 20px;
+  padding-bottom: 10px;
 `;
 const Img = styled.img`
-  width: 100px;
-  height: 100px;
+  width: 30%;
+  max-width: 100px;
   background-color: white;
   border-radius: 50px;
   object-fit: cover;
@@ -43,7 +40,7 @@ const Info = styled.div`
   flex-direction: column;
 `;
 const Nickname = styled.p`
-  font-size: 20px;
+  font-size: clamp(18px, 2vw, 20px);
   font-family: DunggeunmisoBold;
   color: #5849d0;
   padding-bottom: 10px;
@@ -52,6 +49,7 @@ const ReaderGage = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
+  font-size: clamp(13px, 2vw, 16px);
 
   p {
     color: #ff6f6f;
@@ -61,6 +59,7 @@ const FollowerGage = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
+  font-size: clamp(13px, 2vw, 16px);
 
   p {
     color: #3d84ff;
@@ -72,19 +71,19 @@ const HeartImg = styled.img`
 const Tags = styled.div`
   display: flex;
   justify-content: center;
-  gap: 4%;
+  gap: 2%;
 `;
 const Tag = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 74px;
+  width: 22%;
   height: 30px;
   background-color: #5849d0;
-  border-radius: 20px;
+  border-radius: 15px;
   color: white;
   font-family: DunggeunmisoBold;
-  font-size: 13px;
+  font-size: 0.7em;
 `;
 const NotReview = styled.div`
   color: #8c8cd9;
@@ -119,14 +118,14 @@ type UserData = {
   profileUrl: string;
 };
 
-// const review = [
-//   "친절해요",
-//   "설명과 같아요",
-//   "또 거래하고 싶어요",
-//   "믿을 수 있어요",
-// ];
+const review = [
+  "친절해요",
+  "설명과 같아요",
+  "또 거래하고 싶어요",
+  "믿을 수 있어요",
+];
 
-const Profile = () => {
+const Profile = ({ readerId }: { readerId: number }) => {
   const [userData, setUserData] = useState<UserData | null>(null);
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -135,7 +134,7 @@ const Profile = () => {
     const token = localStorage.getItem("accessToken"); // 또는 sessionStorage, context 등
     setLoading(true);
 
-    fetchWithAuth("/api/users", {
+    fetchWithAuth(`/api/users/${readerId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -152,31 +151,7 @@ const Profile = () => {
       .then((result) => {
         setUserData(result);
         setLoading(false);
-      })
-      .catch((error) => {
-        console.error("요청 실패:", error);
-      });
-  }, []);
-
-  useEffect(() => {
-    const token = localStorage.getItem("accessToken"); // 또는 sessionStorage, context 등
-
-    fetchWithAuth("/api/users/reviews", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          // 예: 401, 404, 500 등일 때
-          throw new Error(`서버 오류: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((result) => {
-        setReviews(result.keywords);
+        setReviews(result.reviewKeywordDto.keywords);
       })
       .catch((error) => {
         console.error("요청 실패:", error);
@@ -219,7 +194,7 @@ const Profile = () => {
         return "설명일치";
       case "믿을 수 있어요":
         return "신뢰해요";
-      case "가격 수량이 확실해요":
+      case "가격∙수량이 확실해요":
         return "물건확실";
       case "또 거래하고 싶어요":
         return "매우만족";
@@ -236,7 +211,6 @@ const Profile = () => {
         </LoadingWrapper>
       ) : (
         <>
-          {" "}
           <InfoWrapper>
             <Img src={userData?.profileUrl} />
             <Info>

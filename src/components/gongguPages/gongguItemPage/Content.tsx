@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Text } from "../../common/styled-component/Text";
 import { Img } from "../../common/styled-component/Img";
 import ParticipantsProfile from "../../common/ParticipantsProfile";
@@ -53,7 +53,6 @@ const TitleFooter = styled.div`
 const Body = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 30px;
 `;
 
 const BodyHeader = styled.div`
@@ -76,6 +75,8 @@ const ContentWrap = styled.div`
   display: flex;
   flex-direction: column;
   gap: 5px;
+  margin-bottom: 30px;
+  margin-top: 30px;
 `;
 
 const MapWrap = styled.div`
@@ -87,15 +88,25 @@ const Place = styled.div`
   display: flex;
   justify-content: space-between;
 `;
-const ProfileWrapper = styled.div`
-  width: 100%;
+const ProfileWrapper = styled.div<{ $isOpen: boolean; $height: number }>`
+  max-width: 440px;
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
+  max-height: ${({ $isOpen, $height }) => ($isOpen ? `${$height}px` : "0")};
+  opacity: ${({ $isOpen }) => ($isOpen ? 1 : 0)};
+  transform: ${({ $isOpen }) =>
+    $isOpen ? "translateY(0)" : "translateY(-20px)"};
+  transition: all 0.5s ease;
+  margin-top: 5px;
+  padding-left: 30px;
 `;
 
 export default function Content(props: GongguPost) {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [height, setHeight] = useState(0);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   const MannerImg = () => {
     const score = Math.floor(props.participants[0].mannerLeader);
@@ -111,15 +122,18 @@ export default function Content(props: GongguPost) {
     }
   };
 
+  useEffect(() => {
+    if (isOpen && contentRef.current) {
+      setHeight(contentRef.current.scrollHeight);
+    } else {
+      setHeight(0);
+    }
+  }, [isOpen]);
+
   const calDay = useCalDay(props.deadline);
 
   return (
     <Wrap>
-      {isOpen && (
-        <ProfileWrapper>
-          <Profile />
-        </ProfileWrapper>
-      )}
       <Title>
         <Img
           src={
@@ -184,6 +198,13 @@ export default function Content(props: GongguPost) {
             {MannerImg()}
           </UserScore>
         </BodyHeader>
+        {isOpen && (
+          <ProfileWrapper $isOpen={isOpen} $height={height}>
+            <div ref={contentRef} style={{ width: "100%" }}>
+              <Profile readerId={props.participants[0].userId} />
+            </div>
+          </ProfileWrapper>
+        )}
         <ContentWrap>
           {props.content.split("\n").map((sentence, idx) => (
             <Text key={idx} fontSize="16px">
