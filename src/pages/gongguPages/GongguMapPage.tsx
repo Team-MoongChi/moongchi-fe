@@ -32,8 +32,7 @@ export default function GongguMapPage() {
   const [markerClicked, setMarkerClicked] = useState<number>(-1);
 
   // 사용자 주소 받아오기
-  const location = useLocation();
-  const userLocation = location.state.userLocation;
+  const userLocation = sessionStorage.getItem("GONGGU_MAP_STATE");
   console.log(userLocation);
 
   const [loading, setLoading] = useState<boolean>(false);

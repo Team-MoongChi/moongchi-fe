@@ -5,6 +5,7 @@ import { Img } from "../../common/styled-component/Img";
 import arrow from "../../../assets/images/gonggu/backarrow.png";
 import { useNavigate } from "react-router-dom";
 import useDeviceSize from "../../../useDeviceSize";
+import { useHistoryStack } from "../../../utils/useHistoryStack";
 
 const Wrap = styled.div`
   display: flex;
@@ -43,9 +44,15 @@ interface GotoShopProps {
 export default function GotoShop(props: GotoShopProps) {
   const navigate = useNavigate();
   const { small } = useDeviceSize();
+  const { push } = useHistoryStack();
+
+  const handleButton = () => {
+    push(); // 현재 경로 저장
+    navigate(props.productUrl);
+  };
 
   return (
-    <Wrap onClick={() => navigate(props.productUrl)}>
+    <Wrap onClick={handleButton}>
       <ProductInfo>
         <Img
           src={props.productImage}

@@ -7,6 +7,7 @@ import { fetchWithAuth } from "../../utils/FetchWithAuth";
 import pink from "../../assets/images/moongchies/빨간뭉치.png";
 import mint from "../../assets/images/moongchies/초록뭉치.png";
 import { useNavigate } from "react-router-dom";
+import { useHistoryStack } from "../../utils/useHistoryStack";
 
 const Wrapper = styled.div<{ $isSmall: boolean }>`
   background-color: white;
@@ -20,7 +21,10 @@ const Wrapper = styled.div<{ $isSmall: boolean }>`
 `;
 const Main1 = styled.div`
   width: 100%;
-  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 15px;
 `;
 const Main2 = styled.div`
   width: 100%;
@@ -148,6 +152,7 @@ const InterestPage = () => {
   const [items, setItems] = useState<Array<ShoppingItem>>([]);
   const [state, setState] = useState<boolean>(true);
   const navigate = useNavigate();
+  const { push } = useHistoryStack();
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken"); // 또는 sessionStorage, context 등
@@ -185,6 +190,7 @@ const InterestPage = () => {
   };
 
   const itemInfo = (itemId: number) => {
+    push();
     navigate(`/shopping/item?itemId=${itemId}`);
   };
 

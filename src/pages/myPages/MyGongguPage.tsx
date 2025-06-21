@@ -18,7 +18,10 @@ const Wrapper = styled.div<{ $isSmall: boolean }>`
 `;
 const Main = styled.div`
   width: 100%;
-  padding: 10px 20px 5px 20px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 `;
 const ImgNothing = styled.img`
   width: 200px;

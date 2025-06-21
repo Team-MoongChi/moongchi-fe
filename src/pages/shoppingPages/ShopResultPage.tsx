@@ -24,7 +24,7 @@ type Product = {
   rating: number;
   largeCategory: string;
   mediumCategory: string;
-  smallCategory: string | null;
+  smallCategory: string;
 };
 
 const ShopResultPage = () => {

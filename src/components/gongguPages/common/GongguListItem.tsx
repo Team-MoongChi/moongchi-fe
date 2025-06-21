@@ -1,10 +1,11 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Text } from "../../common/styled-component/Text";
 import { Img } from "../../common/styled-component/Img";
 import ParticipantsProfile from "../../common/ParticipantsProfile";
 import useTimeStamp from "../../../useTimeStamp";
 import type { GongguItem } from "../../../types/gongguPages/gongguItem";
+import { useHistoryStack } from "../../../utils/useHistoryStack";
 
 import red from "../../../assets/images/gonggu/마감임박.png";
 import blue from "../../../assets/images/gonggu/모집중.png";
@@ -17,6 +18,7 @@ const Wrap = styled.div`
   padding-bottom: 10px;
   border-bottom: 2px solid #e8edff;
   gap: 3%;
+  cursor: pointer;
 `;
 
 const Content = styled.div`
@@ -43,56 +45,62 @@ const Details = styled.div`
 `;
 
 export default function GongguListItem(props: GongguItem) {
+  const navigate = useNavigate();
+  const { push } = useHistoryStack();
+
+  const handleClick = () => {
+    push(); // 현재 경로 저장
+    navigate(`/gonggu/list/${props.id}`);
+  };
+
   return (
-    <Link to={`/gonggu/list/${props.id}`}>
-      <Wrap>
+    <Wrap onClick={handleClick}>
+      <Img
+        src={props.image}
+        width="140px"
+        height="140px"
+        $border="2px solid #e8edff"
+        $borderradious="10px"
+      ></Img>
+      <Content>
         <Img
-          src={props.image}
-          width="140px"
-          height="140px"
-          $border="2px solid #e8edff"
-          $borderradious="10px"
+          src={
+            props.boardStatus == "CLOSING_SOON"
+              ? red
+              : props.boardStatus == "OPEN"
+              ? blue
+              : props.boardStatus == "CLOSED"
+              ? gray
+              : green
+          }
+          width="70px"
         ></Img>
-        <Content>
-          <Img
-            src={
-              props.boardStatus == "CLOSING_SOON"
-                ? red
-                : props.boardStatus == "OPEN"
-                ? blue
-                : props.boardStatus == "CLOSED"
-                ? gray
-                : green
-            }
-            width="70px"
-          ></Img>
-          <Text fontSize="17px">{props.title}</Text>
-          <Text fontSize="14px" fontFamily="DunggeunmisoBold">
-            {props.price.toLocaleString()}원
-          </Text>
-          <Participants>
-            <ParticipantsProfile
-              totalUser={props.totalUsers}
-              currentUsers={props.currentUsers}
-              participants={props.participants}
-            ></ParticipantsProfile>
-            <ParticipantsCnt>
-              <Img src={person} width="13px" height="13px"></Img>
-              <Text fontSize="12px" color="#a7a7a7">
-                {props.currentUsers}/{props.totalUsers}
-              </Text>
-            </ParticipantsCnt>
-          </Participants>
-          <Details>
-            <Text fontSize="12px" fontWeight="bold" color="#a7a7a7">
-              {props.location}
-            </Text>
+        <Text fontSize="17px">{props.title}</Text>
+        <Text fontSize="14px" fontFamily="DunggeunmisoBold">
+          {props.price.toLocaleString()}원
+        </Text>
+        <Participants>
+          <ParticipantsProfile
+            totalUser={props.totalUsers}
+            currentUsers={props.currentUsers}
+            participants={props.participants}
+          ></ParticipantsProfile>
+          <ParticipantsCnt>
+            <Img src={person} width="13px" height="13px"></Img>
             <Text fontSize="12px" color="#a7a7a7">
-              {useTimeStamp(props.createAt)}
+              {props.currentUsers}/{props.totalUsers}
             </Text>
-          </Details>
-        </Content>
-      </Wrap>
-    </Link>
+          </ParticipantsCnt>
+        </Participants>
+        <Details>
+          <Text fontSize="12px" fontWeight="bold" color="#a7a7a7">
+            {props.location}
+          </Text>
+          <Text fontSize="12px" color="#a7a7a7">
+            {useTimeStamp(props.createAt)}
+          </Text>
+        </Details>
+      </Content>
+    </Wrap>
   );
 }

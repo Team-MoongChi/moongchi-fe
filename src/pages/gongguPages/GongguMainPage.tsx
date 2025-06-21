@@ -14,6 +14,7 @@ import { fetchWithAuth } from "../../utils/FetchWithAuth";
 import type { GongguItem } from "../../types/gongguPages/gongguItem";
 import writeIcon from "../../assets/images/common/공구생성아이콘.png";
 import GongguEmpty from "../../components/gongguPages/gongguMainPage/GongguEmpty";
+import Loading from "../../components/common/Loading";
 
 const Body = styled.div`
   background-color: white;
@@ -117,7 +118,7 @@ export default function GongguMainPage() {
     }
   }, [menuClicked]);
 
-  if (loading) return <div>loading 중...</div>;
+  if (loading) return <Loading />;
 
   return (
     <Wrap $issmall={small}>
