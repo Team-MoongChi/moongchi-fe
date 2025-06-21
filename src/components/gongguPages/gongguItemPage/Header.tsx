@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+const { Kakao } = window;
 
 import useDeviceSize from "../../../useDeviceSize";
 import back from "../../../assets/images/common/뒤로가기.png";
@@ -48,12 +49,50 @@ interface HeaderProps {
   editable: boolean | undefined;
   isShop: string | undefined;
   imgUrl: string | undefined;
+  title: string | undefined;
+  content: string | undefined;
 }
 
 export default function Header(props: HeaderProps) {
   const { small } = useDeviceSize();
   const { gongguId } = useParams();
   const navigate = useNavigate();
+  const resultUrl = window.location.href;
+
+  // 재랜더링시에 실행되게 해준다.
+  useEffect(() => {
+    // init 해주기 전에 clean up 을 해준다.
+    Kakao.cleanup();
+    // 자신의 js 키를 넣어준다.
+    Kakao.init(import.meta.env.VITE_KAKAOMAP_KEY);
+    // 잘 적용되면 true 를 뱉는다.
+    console.log(Kakao.isInitialized());
+  }, []);
+
+  const shareKakao = () => {
+    console.log(resultUrl);
+    Kakao.Share.sendDefault({
+      objectType: "feed",
+      content: {
+        title: props.title,
+        description: props.content,
+        imageUrl: props.imgUrl,
+        link: {
+          mobileWebUrl: resultUrl,
+          webUrl: resultUrl,
+        },
+      },
+      buttons: [
+        {
+          title: "공구하러 가기",
+          link: {
+            mobileWebUrl: resultUrl,
+            webUrl: resultUrl,
+          },
+        },
+      ],
+    });
+  };
 
   const [scroll, setScroll] = useState<number>(0);
   const onScroll = () => {
@@ -93,7 +132,7 @@ export default function Header(props: HeaderProps) {
     <Wrap $issmall={small} $scroll={scroll}>
       <IconButton src={back} onClick={() => navigate(-1)} />
       <Right>
-        <IconButton src={share} />
+        <IconButton src={share} onClick={shareKakao} />
         {props.editable ? (
           <IconButton
             src={edit}

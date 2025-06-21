@@ -58,7 +58,9 @@ export default function GongguItemPage() {
       <Header
         editable={gongguItem?.editable}
         isShop={isShop ? "shop" : undefined}
-        imgUrl={isShop ? gongguItem?.images[0] : undefined}
+        imgUrl={gongguItem?.images[0]}
+        title={gongguItem?.title}
+        content={gongguItem?.content}
       />
       <ImageSlide images={gongguItem?.images} />
       {gongguItem ? <Content {...gongguItem}></Content> : null}
