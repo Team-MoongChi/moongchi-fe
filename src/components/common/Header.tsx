@@ -17,7 +17,7 @@ const Wrapper = styled.div`
 const Title = styled.p`
   font-size: 28px;
   color: white;
-  font-weight: 800;
+  font-weight: bold;
 `;
 const BackButton = styled.button`
   color: white;

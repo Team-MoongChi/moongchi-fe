@@ -5,6 +5,7 @@ import { fetchWithAuth } from "../../../utils/FetchWithAuth";
 import sadYellow from "../../../assets/images/moongchies/우는노란뭉치.png";
 import { useNavigate } from "react-router-dom";
 import GongguCountdown from "./GongguCountdown";
+import { useHistoryStack } from "../../../utils/useHistoryStack";
 
 const Wrapper = styled.div`
   display: flex;
@@ -173,8 +174,10 @@ const Main = ({ item }: MainProps) => {
   const [gonggus, setGonggus] = useState<Array<Gonggu>>([]);
   const navigate = useNavigate();
   const [userId, setUserId] = useState<number>(0);
+  const { push } = useHistoryStack();
 
   const handleButton = (gongguId: number) => {
+    push();
     navigate(`/gonggu/list/${gongguId}`);
   };
 

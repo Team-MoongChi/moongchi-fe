@@ -17,6 +17,7 @@ const Button = styled.div<{ $backgroundcolor: string }>`
   border-radius: 6px;
   aspect-ratio: 1/1;
   padding: clamp(5px, 2vw, 15px);
+  transition: background-color 0.3s ease;
 `;
 
 interface MenuProps {

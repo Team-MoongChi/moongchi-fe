@@ -9,6 +9,7 @@ import edit from "../../../assets/images/gonggu/공구수정아이콘.png";
 import share from "../../../assets/images/gonggu/공구공유아이콘.png";
 import del from "../../../assets/images/gonggu/공구삭제아이콘.png";
 import { fetchWithAuth } from "../../../utils/FetchWithAuth";
+import { useHistoryStack } from "../../../utils/useHistoryStack";
 
 const Wrap = styled.div<{
   $issmall: boolean;
@@ -58,6 +59,7 @@ export default function Header(props: HeaderProps) {
   const { gongguId } = useParams();
   const navigate = useNavigate();
   const resultUrl = window.location.href;
+  const { pop } = useHistoryStack();
 
   // 재랜더링시에 실행되게 해준다.
   useEffect(() => {
@@ -128,9 +130,14 @@ export default function Header(props: HeaderProps) {
     };
   });
 
+  const handleBackButton = () => {
+    const backPath = pop() || "/";
+    navigate(backPath);
+  };
+
   return (
     <Wrap $issmall={small} $scroll={scroll}>
-      <IconButton src={back} onClick={() => navigate(-1)} />
+      <IconButton src={back} onClick={handleBackButton} />
       <Right>
         <IconButton src={share} onClick={shareKakao} />
         {props.editable ? (

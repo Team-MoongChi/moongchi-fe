@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { useHistoryStack } from "../../../utils/useHistoryStack";
 
 const Wrapper = styled.div`
   padding-top: 10px;
@@ -64,13 +65,15 @@ interface Result {
 }
 
 interface MainProps {
-  results?: Result[];
+  results: Result[];
 }
 
 const Main = ({ results = [] }: MainProps) => {
   const navigate = useNavigate();
+  const { push } = useHistoryStack();
 
   const itemInfo = (itemId: number) => {
+    push();
     navigate(`/shopping/item?itemId=${itemId}`);
   };
 

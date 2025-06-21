@@ -11,19 +11,18 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  padding: 3%;
   background-color: #5849d0;
   border-radius: 0 0 15px 15px;
-  padding: 15px 15px 20px 15px;
+  padding: 15px 15px 18px 15px;
   position: sticky;
   top: 0;
-  gap: 10px;
+  gap: 9px;
   z-index: 100;
 `;
 const Title = styled.p`
-  font-size: 24px;
+  font-size: 28px;
   color: white;
-  font-family: DunggeunmisoBold;
+  font-weight: bold;
 `;
 const Insert = styled.form<{ $aiState: number }>`
   display: flex;

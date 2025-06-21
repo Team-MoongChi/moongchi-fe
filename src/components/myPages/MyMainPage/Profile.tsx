@@ -229,12 +229,9 @@ const Profile = () => {
   return (
     <Wrapper>
       {loading ? (
-        <LoadingWrapper>
-          <Loading src={loadingImg} />
-        </LoadingWrapper>
+        ""
       ) : (
         <>
-          {" "}
           <InfoWrapper>
             <Img src={userData?.profileUrl} />
             <Info>
