@@ -87,6 +87,7 @@ export default function AllReviewPage() {
   }, []);
 
   if (loading) return <div>loading...</div>;
+  if (!chatRoom?.id) return <div>채팅방이 존재하지 않습니다.</div>;
 
   return (
     <Wrap $issmall={small} $gap="20px">
