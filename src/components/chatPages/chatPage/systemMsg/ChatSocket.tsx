@@ -39,6 +39,9 @@ interface ChatSocketProps {
   token: string;
   newMessages: Message[];
   setNewMessages: React.Dispatch<React.SetStateAction<Message[]>>;
+  setParticipantMap: React.Dispatch<
+    React.SetStateAction<Map<number, { nickname: string; profileUrl: string }>>
+  >;
 }
 
 export default function ChatSocket({
@@ -47,6 +50,7 @@ export default function ChatSocket({
   token,
   newMessages,
   setNewMessages,
+  setParticipantMap,
 }: ChatSocketProps) {
   const { small } = useDeviceSize();
 
@@ -118,6 +122,23 @@ export default function ChatSocket({
             (msg: Frame) => {
               try {
                 const newMsg: Message = JSON.parse(msg.body);
+                if (
+                  newMsg.messageType === "ENTER" &&
+                  newMsg.participantId &&
+                  setParticipantMap
+                ) {
+                  setParticipantMap((prev) => {
+                    const updated = new Map(prev);
+                    updated.set(newMsg.participantId!, {
+                      nickname: newMsg.senderNickname || "알 수 없음",
+                      profileUrl:
+                        newMsg.senderProfileUrl ||
+                        "/images/default-profile.png",
+                    });
+                    return updated;
+                  });
+                }
+
                 setNewMessages((prev) => {
                   if (
                     newMsg.messageType === "ENTER" ||
