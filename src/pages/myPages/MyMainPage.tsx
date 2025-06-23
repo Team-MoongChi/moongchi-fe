@@ -16,10 +16,10 @@ const Wrapper = styled.div<{ $isSmall: boolean }>`
   align-items: center;
 `;
 const Line = styled.div`
-  width: 95%;
+  width: 91%;
   height: 1px;
   background-color: #e8edff;
-  margin: 3%;
+  margin: 10px;
 `;
 
 const MyMainPage = () => {
