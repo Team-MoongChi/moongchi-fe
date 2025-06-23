@@ -12,7 +12,7 @@ const Wrapper = styled.div`
 `;
 const Blank = styled.div`
   width: 100%;
-  height: 80px;
+  height: 70px;
 `;
 
 type Chat = {
@@ -33,7 +33,9 @@ const Main = ({
 
   useEffect(() => {
     if (bottomRef.current) {
-      bottomRef.current.scrollIntoView({ behavior: "smooth" });
+      setTimeout(() => {
+        bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+      }, 30);
     }
   }, [chattings]);
 
