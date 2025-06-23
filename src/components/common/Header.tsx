@@ -27,8 +27,8 @@ const BackImg = styled.img`
 `;
 
 interface MainProps {
-  title: string;
-  route: string | number;
+  title?: string;
+  route?: string | number;
 }
 
 const Header = (props: MainProps) => {

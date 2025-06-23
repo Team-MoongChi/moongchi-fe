@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Marker from "../../../assets/images/common/위치마커.png";
 import { Map, MapMarker, useKakaoLoader, Circle } from "react-kakao-maps-sdk";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
 const Wrapper = styled.div`
   display: flex;
@@ -60,7 +60,7 @@ const Main = ({
 }: MainProps) => {
   // const [address, setAddress] = useState("");
 
-  const [loading, error] = useKakaoLoader({
+  const [loading] = useKakaoLoader({
     appkey: import.meta.env.VITE_KAKAOMAP_KEY,
     libraries: ["services", "clusterer", "drawing"],
   });

@@ -51,7 +51,7 @@ const LocationPage = () => {
   const navigate = useNavigate();
   const [address, setAddress] = useState("");
 
-  const [loading, error] = useKakaoLoader({
+  const [loading] = useKakaoLoader({
     appkey: import.meta.env.VITE_KAKAOMAP_KEY,
     libraries: ["services", "clusterer", "drawing"],
   });

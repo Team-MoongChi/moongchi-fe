@@ -58,7 +58,7 @@ const InputBox = ({ title, data, onChange, maxLength }: InputBoxProps) => {
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const formatted = formatPhoneNumber(e.target.value);
-    onChange(formatted);
+    onChange?.(formatted);
   };
 
   return (

@@ -156,10 +156,10 @@ interface MainProps {
 
 interface Participant {
   userId: number;
-  role?: string;
-  mannerLeader?: number;
-  nickname?: number;
+  nickname: string;
   profileUrl: string;
+  mannerLeader: number;
+  role: "LEADER" | "MEMBER";
 }
 
 interface Gonggu {

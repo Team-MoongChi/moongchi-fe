@@ -18,11 +18,18 @@ const Wrapper = styled.div<{ $isSmall: boolean }>`
   flex-direction: column;
 `;
 
+interface User {
+  name: string;
+  email: string;
+}
+
 const UserDataPage = () => {
   const { small } = useDeviceSize();
   const navigate = useNavigate();
-  const [userData, setUserData] = useState([]);
-
+  const [userData, setUserData] = useState<User>({
+    name: "",
+    email: "",
+  });
   const [nickname, setNickname] = useState("");
   const [phone, setPhone] = useState("");
   const [birth, setBirth] = useState("");
@@ -99,6 +106,8 @@ const UserDataPage = () => {
     else if (value === "남성") setGender("MALE");
     else setGender(value);
   };
+
+  if (!userData) return <div></div>;
 
   return (
     <Wrapper $isSmall={small}>

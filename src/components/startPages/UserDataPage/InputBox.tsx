@@ -33,7 +33,7 @@ const Input = styled.input`
 interface InputBoxProps {
   title: string;
   data: string;
-  onChange: (value: string) => void;
+  onChange?: (value: string) => void;
   maxLength?: number;
 }
 
@@ -58,7 +58,7 @@ const InputBox = ({ title, data, onChange, maxLength }: InputBoxProps) => {
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const formatted = formatPhoneNumber(e.target.value);
-    onChange(formatted);
+    onChange?.(formatted);
   };
 
   return (

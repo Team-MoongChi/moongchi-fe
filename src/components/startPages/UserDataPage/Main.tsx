@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import InputBox from "./InputBox";
 import InputBoxHalf from "./InputBoxHalf";
 import styled from "styled-components";
@@ -36,9 +35,7 @@ const Main = ({
   setNickname,
   phone,
   setPhone,
-  birth,
   setBirth,
-  gender,
   setGender,
 }: MainProps) => {
   return (
