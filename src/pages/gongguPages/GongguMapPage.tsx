@@ -6,6 +6,7 @@ import useDeviceSize from "../../useDeviceSize";
 import MapHeader from "../../components/gongguPages/gongguMapPage/MapHeader";
 import MapMenu from "../../components/gongguPages/gongguMapPage/MapMenu";
 import GongguMap from "../../components/gongguPages/gongguMapPage/GongguMap";
+import loadingM from "../../assets/images/moongchies/로딩중.gif";
 import type { GongguMapItem } from "../../types/gongguPages/gongguMapItem";
 import type { GongguLocation } from "../../types/gongguPages/gongguLocation";
 
@@ -22,6 +23,31 @@ const Body = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
+`;
+const Overlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(255, 255, 255, 0.5); // 반투명 검정
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+
+  overflow: hidden;
+  touch-action: none;
+  overscroll-behavior: none;
+
+  img {
+    width: 200px;
+  }
+  p {
+    color: #5849d0;
+    font-family: DunggeunmisoBold;
+  }
 `;
 
 export default function GongguMapPage() {
@@ -40,6 +66,7 @@ export default function GongguMapPage() {
 
   // 전체 조회
   const fetchAllMapItem = async () => {
+    setLoading(true);
     const token = localStorage.getItem("accessToken");
     console.log("token: ", token);
 
@@ -72,6 +99,7 @@ export default function GongguMapPage() {
   };
   // 카테고리별 조회
   const fetchCategory = async () => {
+    setLoading(true);
     const token = localStorage.getItem("accessToken");
     console.log("token: ", token);
 
@@ -118,10 +146,16 @@ export default function GongguMapPage() {
     console.log("position", position);
   }, [mapList, position]);
 
-  if (loading) return <div>loading...</div>;
+  // if (loading) return <div>loading...</div>;
 
   return (
     <Wrap $issmall={small}>
+      {loading && (
+        <Overlay>
+          <img src={loadingM} />
+          <p>로딩중...</p>
+        </Overlay>
+      )}
       <MapHeader />
       <Body>
         <MapMenu
