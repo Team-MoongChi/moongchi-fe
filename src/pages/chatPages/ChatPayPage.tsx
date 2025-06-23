@@ -243,7 +243,7 @@ export default function ChatPayPage() {
                 />
                 <UserCost
                   cost={participant.perPersonPrice.toLocaleString()}
-                  isPayed={participant.payStatement === "PAID"}
+                  isPaid={participant.payStatement === "PAID"}
                   width="clamp(38px, 2vw, 38px)"
                 />
               </UserWrap>

@@ -28,7 +28,7 @@ const UserImg = styled.img`
 
 interface UserCostProps {
   cost: string;
-  isPayed: boolean;
+  isPaid: boolean;
   width: string;
 }
 export default function UserCost(props: UserCostProps) {
@@ -37,7 +37,7 @@ export default function UserCost(props: UserCostProps) {
       <Text fontSize="18px" fontFamily="DunggeunmisoBold" color="#5849d0">
         {props.cost}원
       </Text>
-      {props.isPayed ? (
+      {props.isPaid ? (
         <UserImg src={payed} width={props.width}></UserImg>
       ) : (
         <UserImg src={unpayed} width={props.width}></UserImg>
