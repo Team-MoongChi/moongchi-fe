@@ -118,12 +118,12 @@ type UserData = {
   profileUrl: string;
 };
 
-const review = [
-  "친절해요",
-  "설명과 같아요",
-  "또 거래하고 싶어요",
-  "믿을 수 있어요",
-];
+// const review = [
+//   "친절해요",
+//   "설명과 같아요",
+//   "또 거래하고 싶어요",
+//   "믿을 수 있어요",
+// ];
 
 const Profile = ({ readerId }: { readerId: number }) => {
   const [userData, setUserData] = useState<UserData | null>(null);

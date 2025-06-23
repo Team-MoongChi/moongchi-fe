@@ -7,7 +7,6 @@ import FHeart25 from "../../../assets/images/userScore/팔로워하트25.png";
 import FHeart50 from "../../../assets/images/userScore/팔로워하트50.png";
 import FHeart75 from "../../../assets/images/userScore/팔로워하트75.png";
 import FHeart100 from "../../../assets/images/userScore/팔로워하트100.png";
-import loadingImg from "../../../assets/images/moongchies/로딩중.gif";
 import { useState, useEffect } from "react";
 import { fetchWithAuth } from "../../../utils/FetchWithAuth";
 
@@ -94,16 +93,6 @@ const NotReview = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 10px;
-`;
-const LoadingWrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-const Loading = styled.img`
-  width: 200px;
 `;
 
 type UserData = {

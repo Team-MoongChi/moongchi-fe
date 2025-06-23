@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 const { Kakao } = window;
 
@@ -36,9 +36,6 @@ const IconButton = styled.img.attrs<{ src: string }>((props) => ({
 }))`
   height: 35px;
   cursor: pointer;
-`;
-const StyledLink = styled(Link)`
-  height: 35px;
 `;
 const Right = styled.div`
   display: flex;

@@ -1,7 +1,5 @@
 import DaumPostcode from "react-daum-postcode";
 import styled from "styled-components";
-import type { FormData } from "./Content";
-import type { CSSProperties } from "styled-components";
 import { useEffect } from "react";
 
 const BlurContainer = styled.div`
@@ -37,14 +35,15 @@ type Props = {
 
 type FormData = {
   name: string;
-  totalUsers: number;
+  totalUser: number;
   quantity: string;
   price: number;
   location: string;
   content: string;
-  deadLine: string;
-  categoryId: number;
-  images: string[];
+  deadline: string;
+  categoryId?: number;
+  productId?: number;
+  images?: string[];
 };
 
 type AddressData = {

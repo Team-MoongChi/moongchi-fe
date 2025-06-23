@@ -18,7 +18,7 @@ import MapItemModal from "./MapItemModal";
 
 interface GongguMapProps {
   mapItemList: GongguMapItem[];
-  location: string;
+  location: string | null;
   positionInfo: GongguLocation[];
   isClicked: number;
   setIsClicked: (value: number) => void;
@@ -61,17 +61,19 @@ export default function GongguMap(props: GongguMapProps) {
 
     const geocoder = new kakao.maps.services.Geocoder();
 
-    geocoder.addressSearch(props.location, function (result, status) {
-      if (status === kakao.maps.services.Status.OK) {
-        const coords = {
-          lat: parseFloat(result[0].y),
-          lng: parseFloat(result[0].x),
-        };
+    if (props.location) {
+      geocoder.addressSearch(props.location, function (result, status) {
+        if (status === kakao.maps.services.Status.OK) {
+          const coords = {
+            lat: parseFloat(result[0].y),
+            lng: parseFloat(result[0].x),
+          };
 
-        setCenter(coords);
-        setChangedCenter(coords);
-      }
-    });
+          setCenter(coords);
+          setChangedCenter(coords);
+        }
+      });
+    }
   }, [loading, props.location]);
 
   const selectMarker = (id: number): string => {
