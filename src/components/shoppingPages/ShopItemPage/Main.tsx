@@ -66,6 +66,8 @@ const User = styled.div`
 `;
 const Profile = styled.img`
   width: 30%;
+  min-width: 50px;
+  max-width: 60px;
   border-radius: 200px;
   object-fit: cover;
 `;
