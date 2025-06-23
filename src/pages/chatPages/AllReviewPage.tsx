@@ -1,11 +1,12 @@
 import styled from "styled-components";
 import useDeviceSize from "../../hooks/useDeviceSize";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 import Header from "../../components/common/Header";
 import UserProfile from "../../components/chatPages/common/UserProfile";
 import { Wrap } from "../../components/common/styled-component/Wrap";
+import { Text } from "../../components/common/styled-component/Text";
 import type { ChatRoomItem } from "../../types/chatPages/chatRoomItem";
 import { fetchWithAuth } from "../../utils/FetchWithAuth";
 import ReviewButton from "../../components/chatPages/allReviewPage/ReviewButton";
@@ -14,7 +15,13 @@ const Body = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
+  height: 60dvh;
   padding: 0 5%;
+`;
+const ReviewInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 `;
 const Button = styled.div`
   background-color: #5849d0;
@@ -24,6 +31,8 @@ const Button = styled.div`
   font-size: 20px;
   text-align: center;
   padding: 20px;
+  margin: 0 5%;
+  cursor: pointer;
 `;
 const ReviewWrap = styled.div`
   display: flex;
@@ -42,8 +51,9 @@ const UserWrap = styled.div`
 export default function AllReviewPage() {
   const { small } = useDeviceSize();
   const { chatRoomId } = useParams();
+  const navigate = useNavigate();
 
-  const [userInfo, setUserInfo] = useState<ChatRoomItem>();
+  const [chatRoom, setChatRoom] = useState<ChatRoomItem>();
   const [loading, setLoading] = useState<boolean>(true);
 
   const fetchUserInfo = async () => {
@@ -63,7 +73,7 @@ export default function AllReviewPage() {
 
       const data: ChatRoomItem = await response.json();
       console.log(data);
-      setUserInfo(data);
+      setChatRoom(data);
       setLoading(false);
     } catch (error) {
       console.error("get failed: ", error);
@@ -80,10 +90,20 @@ export default function AllReviewPage() {
 
   return (
     <Wrap $issmall={small} $gap="20px">
-      <Header title="리뷰 작성" />
+      <Header title="리뷰 작성" route={`/chat/list/${chatRoomId}`} />
       <Body>
+        <Text fontSize="22px">공동 구매는 어떠셨나요?</Text>
+        <ReviewInfo>
+          <Text fontSize="16px" color="#767676">
+            리더 또는 팔로워에게
+          </Text>
+          <Text fontSize="28px" color="#5849d0" fontFamily="DunggeunmisoBold">
+            리뷰를 작성해 주세요.
+          </Text>
+        </ReviewInfo>
+
         <ReviewWrap>
-          {userInfo?.participants.map((participant, idx) => {
+          {chatRoom?.participants.map((participant, idx) => {
             return (
               <UserWrap key={idx}>
                 <UserProfile
@@ -97,18 +117,21 @@ export default function AllReviewPage() {
                     backgroundColor="#c7d2fe"
                     content="본인"
                     reviewed={true}
+                    cursor="default"
                   ></ReviewButton>
                 ) : participant.reviewed ? (
                   <ReviewButton
                     backgroundColor="#c7d2fe"
                     content="작성완료"
                     reviewed={true}
+                    cursor="default"
                   ></ReviewButton>
                 ) : (
                   <ReviewButton
                     backgroundColor="#5849d0"
                     content="작성하기"
                     reviewed={false}
+                    cursor="pointer"
                     chatRoomId={chatRoomId}
                     targetParticipantId={participant.participantId}
                     nickname={participant.nickname}
@@ -118,8 +141,8 @@ export default function AllReviewPage() {
             );
           })}
         </ReviewWrap>
-        <Button>완료</Button>
       </Body>
+      <Button onClick={() => navigate(`/chat/list/${chatRoomId}`)}>완료</Button>
     </Wrap>
   );
 }
