@@ -10,7 +10,6 @@ import PurchasedFollower from "./systemMsg/PurchasedFollower";
 import Completed from "./systemMsg/Completed";
 import SpeechBubble from "./SpeechBubble";
 import { Text } from "../../common/styled-component/Text";
-import { truncate } from "lodash";
 
 const Enter = styled.div`
   background-color: #e9f0ff;

@@ -93,10 +93,6 @@ export default function Header(props: HeaderProps) {
     });
   };
 
-  const location = useLocation();
-  const origin = location.state?.back;
-  console.log(origin);
-
   const [scroll, setScroll] = useState<number>(0);
   const onScroll = () => {
     setScroll(window.scrollY);
