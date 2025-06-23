@@ -19,12 +19,23 @@ const Wrapper = styled.div<{ $isSmall: boolean }>`
 type Chat = {
   status: number; //0이면 AI, 1이면 유저
   text: string;
+  imgUrls?: string[];
+  productIds?: number[];
 };
 
 type User = {
   name: string;
   birth: string;
   gender: string;
+};
+
+type Item = {
+  category_name: string;
+  img_url: string;
+  name: string;
+  price: number;
+  product_id: number;
+  product_url: string;
 };
 
 const ShopChatbotPage = () => {
@@ -61,9 +72,16 @@ const ShopChatbotPage = () => {
     })
       .then((res) => res.json())
       .then((result) => {
+        console.log(result);
+        const products = result.recommended_products || []; // 혹시 없을 수도 있으니 기본값 줘
+
+        const imgUrls = products.map((item: Item) => item.img_url);
+        const productIds = products.map((item: Item) => item.product_id);
         const newChatAI: Chat = {
           status: 0,
           text: result.bot_response,
+          imgUrls,
+          productIds,
         };
         setChattings((prev) => {
           const updated = [...prev];
@@ -80,6 +98,9 @@ const ShopChatbotPage = () => {
 
   useEffect(() => {
     if (keyword.trim() === "" || keywordInserted.current) return;
+
+    keywordInserted.current = true;
+
     const token = localStorage.getItem("accessToken"); // 또는 sessionStorage, context 등
 
     fetchWithAuth("/api/users", {
@@ -108,14 +129,14 @@ const ShopChatbotPage = () => {
           status: 1,
           text: keyword.trim(),
         };
-        keywordInserted.current = true;
         setChattings((prev: Chat[]) => [...prev, newChat]);
         sendToAI(keyword.trim(), userInfo);
       })
       .catch((error) => {
         console.error("요청 실패:", error);
+        keywordInserted.current = false;
       });
-  }, [chattings]);
+  }, []);
 
   console.log(chattings);
 

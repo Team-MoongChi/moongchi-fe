@@ -18,6 +18,8 @@ const Blank = styled.div`
 type Chat = {
   status: number; //0이면 AI, 1이면 유저
   text: string;
+  imgUrls?: string[];
+  productIds?: number[];
 };
 
 const Main = ({
@@ -40,7 +42,7 @@ const Main = ({
       {chattings?.map((chat, index) =>
         chat.status === 0 ? (
           <AIChat
-            text={chat.text}
+            chat={chat}
             key={index}
             Key={index}
             loading={loading}

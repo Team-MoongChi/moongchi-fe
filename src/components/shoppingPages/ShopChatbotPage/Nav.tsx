@@ -74,7 +74,6 @@ const Nav = ({
 
     setChattings((prev: Chat[]) => [...prev, newChat]);
 
-    console.log("[Nav] sendToAI 호출됨:", inputText, user);
     sendToAI(inputText.trim(), user);
     setInputText("");
   };

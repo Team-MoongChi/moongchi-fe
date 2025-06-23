@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import moongchi from "../../../assets/images/moongchies/AI뭉치.png";
 import loadingM from "../../../assets/images/moongchies/로딩중.gif";
+import Markdown from "markdown-to-jsx";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -35,15 +36,22 @@ const Loading = styled.div`
   }
 `;
 
-type Props = {
+type Chat = {
+  status: number; //0이면 AI, 1이면 유저
   text: string;
+  imgUrls?: string[];
+  productIds?: number[];
+};
+
+type Props = {
+  chat: Chat;
   loading: boolean;
   Key: number;
   length: number;
 };
 
-const AIChat = ({ text, loading, Key, length }: Props) => {
-  console.log("키와", Key, "길이", length);
+const AIChat = ({ chat, loading, Key, length }: Props) => {
+  console.log(chat);
 
   return (
     <Wrapper>
@@ -56,12 +64,7 @@ const AIChat = ({ text, loading, Key, length }: Props) => {
           </Loading>
         ) : (
           <>
-            {text.split("\n").map((line, idx) => (
-              <span key={idx}>
-                {line}
-                <br />
-              </span>
-            ))}
+            <Markdown>{chat.text}</Markdown>
           </>
         )}
       </Chat>
