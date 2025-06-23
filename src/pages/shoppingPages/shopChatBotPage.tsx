@@ -4,6 +4,7 @@ import Main from "../../components/shoppingPages/ShopChatbotPage/Main.tsx";
 import Nav from "../../components/shoppingPages/ShopChatbotPage/Nav.tsx";
 import useDeviceSize from "../../useDeviceSize.tsx";
 import { useEffect, useState, useRef } from "react";
+import { fetchWithAuth } from "../../utils/FetchWithAuth.tsx";
 
 //isSmall에 $ 붙이는 이유: styled-components에서 $가 붙은 props는 DOM에 넘기지 않음
 //styled 내부에서만 쓸 값이면 꼭 $ 붙이기
@@ -20,32 +21,109 @@ type Chat = {
   text: string;
 };
 
+type User = {
+  name: string;
+  birth: string;
+  gender: string;
+};
+
 const ShopChatbotPage = () => {
   const { small } = useDeviceSize();
   const [chattings, setChattings] = useState<Chat[]>([]);
   const queryParams = new URLSearchParams(location.search);
   const keyword = queryParams.get("keyword") ?? "";
   const keywordInserted = useRef(false);
+  const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState<User>({
+    name: "",
+    birth: "",
+    gender: "",
+  });
+
+  const sendToAI = (text: string, user: User) => {
+    setLoading(true);
+
+    const loadingChat: Chat = {
+      status: 0,
+      text: "",
+    };
+    setChattings((prev) => [...prev, loadingChat]);
+
+    fetch("http://api-victus.registry-hj.site:8080/api/v1/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        message: text,
+        user_profile: user,
+      }),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        const newChatAI: Chat = {
+          status: 0,
+          text: result.bot_response,
+        };
+        setChattings((prev) => {
+          const updated = [...prev];
+          const idx = updated.findIndex((c) => c.text === "");
+          if (idx !== -1) updated[idx] = newChatAI;
+          return updated;
+        });
+      })
+      .catch((err) => console.error("AI 응답 실패:", err))
+      .finally(() => {
+        setLoading(false);
+      });
+  };
 
   useEffect(() => {
     if (keyword.trim() === "" || keywordInserted.current) return;
+    const token = localStorage.getItem("accessToken"); // 또는 sessionStorage, context 등
 
-    const newChat: Chat = {
-      status: 1,
-      text: keyword.trim(),
-    };
+    fetchWithAuth("/api/users", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          // 예: 401, 404, 500 등일 때
+          throw new Error(`서버 오류: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((result) => {
+        const userInfo = {
+          name: result.name,
+          birth: result.birth,
+          gender: result.gender,
+        };
+        setUser(userInfo);
 
-    setChattings((prev: Chat[]) => [...prev, newChat]);
-    keywordInserted.current = true;
-  }, [keyword]);
+        const newChat: Chat = {
+          status: 1,
+          text: keyword.trim(),
+        };
+        keywordInserted.current = true;
+        setChattings((prev: Chat[]) => [...prev, newChat]);
+        sendToAI(keyword.trim(), userInfo);
+      })
+      .catch((error) => {
+        console.error("요청 실패:", error);
+      });
+  }, [chattings]);
 
   console.log(chattings);
 
   return (
     <Wrapper $isSmall={small}>
       <Header title="AI 뭉치" route="/shopping" />
-      <Main chattings={chattings} />
-      <Nav setChattings={setChattings} />
+      <Main chattings={chattings} loading={loading} />
+      <Nav setChattings={setChattings} user={user} sendToAI={sendToAI} />
     </Wrapper>
   );
 };

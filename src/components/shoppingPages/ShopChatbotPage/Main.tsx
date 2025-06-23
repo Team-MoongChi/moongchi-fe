@@ -20,7 +20,13 @@ type Chat = {
   text: string;
 };
 
-const Main = ({ chattings }: { chattings: Chat[] }) => {
+const Main = ({
+  chattings,
+  loading,
+}: {
+  chattings: Chat[];
+  loading: boolean;
+}) => {
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -33,7 +39,13 @@ const Main = ({ chattings }: { chattings: Chat[] }) => {
     <Wrapper>
       {chattings?.map((chat, index) =>
         chat.status === 0 ? (
-          <AIChat text={chat.text} key={index} />
+          <AIChat
+            text={chat.text}
+            key={index}
+            Key={index}
+            loading={loading}
+            length={chattings.length}
+          />
         ) : (
           <IChat text={chat.text} key={index} />
         )
