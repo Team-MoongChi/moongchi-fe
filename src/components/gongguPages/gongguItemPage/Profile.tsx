@@ -9,7 +9,6 @@ import FHeart75 from "../../../assets/images/userScore/팔로워하트75.png";
 import FHeart100 from "../../../assets/images/userScore/팔로워하트100.png";
 import loadingImg from "../../../assets/images/moongchies/로딩중.gif";
 import { useState, useEffect } from "react";
-import { fetchWithAuth } from "../../../utils/FetchWithAuth";
 
 const Wrapper = styled.div`
   width: 90%;
@@ -131,14 +130,14 @@ const Profile = ({ readerId }: { readerId: number }) => {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const token = localStorage.getItem("accessToken"); // 또는 sessionStorage, context 등
-    setLoading(true);
+    // const token = localStorage.getItem("accessToken"); // 또는 sessionStorage, context 등
+    // setLoading(true);
 
-    fetchWithAuth(`/api/users/${readerId}`, {
+    fetch(`http://localhost:8080/api/users/${readerId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        // Authorization: `Bearer ${token}`,
       },
     })
       .then((response) => {

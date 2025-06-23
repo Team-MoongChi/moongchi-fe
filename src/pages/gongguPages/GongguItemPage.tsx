@@ -9,7 +9,6 @@ import { Wrap } from "../../components/common/styled-component/Wrap";
 
 import { useParams } from "react-router-dom";
 import type { GongguPost } from "../../types/gongguPages/gongguPost";
-import { fetchWithAuth } from "../../utils/FetchWithAuth";
 
 export default function GongguItemPage() {
   const { small } = useDeviceSize();
@@ -22,16 +21,19 @@ export default function GongguItemPage() {
   const isShop: boolean = gongguItem?.productName ? true : false;
 
   const fetchGongguItem = async () => {
-    const token = localStorage.getItem("accessToken");
-    console.log(token);
+    // const token = localStorage.getItem("accessToken");
+    // console.log(token);
 
     try {
-      const response = await fetchWithAuth(`/api/group-boards/${gongguId}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `http://localhost:8080/api/group-boards/${gongguId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
