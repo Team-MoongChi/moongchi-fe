@@ -14,9 +14,19 @@ const Highlight = styled.span`
   font-family: DunggeunmisoBold;
 `;
 
-export default function Recruiting() {
+interface RecruitingProps {
+  sendAt: string;
+}
+
+export default function Recruiting(props: RecruitingProps) {
   return (
-    <SpeechBubble profileUrl={ai} isMe={false}>
+    <SpeechBubble
+      profileUrl={ai}
+      isMe={false}
+      displayProfile={true}
+      displayTime={true}
+      sendAt={props.sendAt}
+    >
       <Wrap>
         <Text fontSize="16px">안녕하세요!</Text>
 

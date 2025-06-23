@@ -1,6 +1,5 @@
 import styled from "styled-components";
 
-import FetchButton from "../FetchButton";
 import { Text } from "../../../common/styled-component/Text";
 import SpeechBubble from "../SpeechBubble";
 import ai from "../../../../assets/images/moongchies/AI뭉치.png";
@@ -24,11 +23,19 @@ const Hr = styled.hr`
 interface PurchasedProps {
   chatRoomId: number;
   address: string;
+  sendAt: string;
+  isLeader: boolean;
 }
 
 export default function Purchased(props: PurchasedProps) {
   return (
-    <SpeechBubble profileUrl={ai} isMe={false}>
+    <SpeechBubble
+      profileUrl={ai}
+      isMe={false}
+      displayProfile={true}
+      displayTime={props.isLeader ? true : false}
+      sendAt={props.sendAt}
+    >
       <Wrap>
         <Text fontSize="16px">
           <Highlight>구매가 완료되었어요!</Highlight>

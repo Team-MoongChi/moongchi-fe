@@ -21,6 +21,7 @@ interface PurchasedFollowerProps {
   chatRoomId: number;
   chatRoomStatus: string;
   tradeCompleted: boolean;
+  sendAt: string;
 }
 
 export default function PurchasedFollower(props: PurchasedFollowerProps) {
@@ -62,7 +63,13 @@ export default function PurchasedFollower(props: PurchasedFollowerProps) {
   };
 
   return (
-    <SpeechBubble profileUrl={ai} isMe={false}>
+    <SpeechBubble
+      profileUrl={ai}
+      isMe={false}
+      displayProfile={false}
+      displayTime={true}
+      sendAt={props.sendAt}
+    >
       <Wrap>
         <Text fontSize="16px">
           물건을 받으면 <Highlight>거래 완료</Highlight> 버튼을 눌러주세요.

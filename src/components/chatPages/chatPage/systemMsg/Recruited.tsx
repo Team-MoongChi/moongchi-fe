@@ -17,11 +17,18 @@ const Highlight = styled.span`
 
 interface RecruitedProps {
   chatRoomId: number;
+  sendAt: string;
 }
 
 export default function Recruited(props: RecruitedProps) {
   return (
-    <SpeechBubble profileUrl={ai} isMe={false}>
+    <SpeechBubble
+      profileUrl={ai}
+      isMe={false}
+      displayProfile={true}
+      displayTime={true}
+      sendAt={props.sendAt}
+    >
       <Wrap>
         <Text fontSize="16px">모집이 완료되었어요!</Text>
         <Text fontSize="16px">

@@ -21,6 +21,7 @@ interface PayingProps {
   chatRoomId: number;
   chatRoomStatus: string;
   isLeader: boolean;
+  sendAt: string;
 }
 
 export default function Paying(props: PayingProps) {
@@ -63,7 +64,13 @@ export default function Paying(props: PayingProps) {
   };
 
   return (
-    <SpeechBubble profileUrl={ai} isMe={false}>
+    <SpeechBubble
+      profileUrl={ai}
+      isMe={false}
+      displayProfile={true}
+      displayTime={true}
+      sendAt={props.sendAt}
+    >
       {props.isLeader ? (
         <Wrap>
           <Text fontSize="16px">결제가 모두 완료되었어요.</Text>

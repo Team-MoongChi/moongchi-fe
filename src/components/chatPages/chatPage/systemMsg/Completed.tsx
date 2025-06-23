@@ -17,11 +17,18 @@ const Highlight = styled.span`
 
 interface PurchasedProps {
   chatRoomId: number;
+  sendAt: string;
 }
 
 export default function Completed(props: PurchasedProps) {
   return (
-    <SpeechBubble profileUrl={ai} isMe={false}>
+    <SpeechBubble
+      profileUrl={ai}
+      isMe={false}
+      displayProfile={true}
+      displayTime={true}
+      sendAt={props.sendAt}
+    >
       <Wrap>
         <Text fontSize="16px">
           <Highlight>공구가 완료</Highlight>되었습니다.
