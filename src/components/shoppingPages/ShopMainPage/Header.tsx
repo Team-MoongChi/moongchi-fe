@@ -66,7 +66,7 @@ const Header = () => {
   const navigate = useNavigate();
   const [aiState, setAiState] = useState<number>(1); //1: ON, 0: OFF
 
-  const onSubmit = (e) => {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(aiState);
     if (keyword.trim() !== "") {

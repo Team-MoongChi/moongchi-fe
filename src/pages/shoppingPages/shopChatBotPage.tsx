@@ -20,7 +20,7 @@ type Chat = {
   text: string;
 };
 
-const ShopChatBotPage = () => {
+const ShopChatbotPage = () => {
   const { small } = useDeviceSize();
   const [chattings, setChattings] = useState<Chat[]>([]);
   const queryParams = new URLSearchParams(location.search);
@@ -50,4 +50,4 @@ const ShopChatBotPage = () => {
   );
 };
 
-export default ShopChatBotPage;
+export default ShopChatbotPage;
