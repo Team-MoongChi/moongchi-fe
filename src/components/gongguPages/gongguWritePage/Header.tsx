@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
 
 import { Text } from "../../common/styled-component/Text";
 import close from "../../../assets/images/gonggu/closeButton.png";

@@ -61,7 +61,9 @@ export default function ChatSocket({
   const subscriptionRef = useRef<any>(null);
 
   const reconnectAttemptsRef = useRef(0);
-  const reconnectTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const reconnectTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
+    null
+  ); //타입 수정
   const reconnectInterval = useRef(1000); // 초기 재연결 간격 (1초)
   const maxReconnectInterval = 30000; // 최대 재연결 간격 (30초)
   const maxReconnectAttempts = 10; // 최대 재연결 시도 횟수
