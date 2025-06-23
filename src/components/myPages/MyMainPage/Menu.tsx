@@ -48,6 +48,7 @@ const Menu = () => {
       }
       console.log("로그아웃 성공!", response);
       alert("로그아웃 되었습니다.");
+      localStorage.removeItem("accessToken");
       navigate("/start");
     });
   };
