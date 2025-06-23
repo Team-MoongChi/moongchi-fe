@@ -3,6 +3,7 @@ import useDeviceSize from "../../../hooks/useDeviceSize";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchWithAuth } from "../../../utils/FetchWithAuth";
+import boxMoongchi from "../../../assets/images/start/뭉치박스.gif";
 
 import { Text } from "../../common/styled-component/Text";
 import { Img } from "../../common/styled-component/Img";
@@ -43,6 +44,58 @@ const Button = styled.div`
   text-align: center;
   padding: 20px 0;
   border-radius: 15px;
+  cursor: pointer;
+`;
+
+const Overlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5); // 반투명 검정
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  z-index: 1000;
+
+  overflow: hidden;
+  touch-action: none;
+  overscroll-behavior: none;
+`;
+
+const ModalWrapper = styled.div<{ $isSmall: boolean }>`
+  background: white;
+  width: ${(props) => (props.$isSmall ? "100%" : "50%")};
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  padding: 20px;
+  animation: slideUp 0.3s ease-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+
+  @keyframes slideUp {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0%);
+    }
+  }
+`;
+const ChatButton = styled.button`
+  width: 60%;
+  min-width: 330px;
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #5849d0;
+  font-size: 20px;
+  color: white;
+  border-radius: 15px;
+  font-family: DunggeunmisoBold;
 `;
 
 interface FooterProp {
@@ -56,15 +109,16 @@ export default function Footer(props: FooterProp) {
   const { gongguId } = useParams();
   const itemId = Number(gongguId);
   const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const [clickCnt, setClickCnt] = useState<number>(props.likeCount || 0);
   const [isLike, setIsLike] = useState<boolean>(false);
 
   useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-    console.log(token);
+    // const token = localStorage.getItem("accessToken");
+    // console.log(token);
 
-    fetchWithAuth(`/api/group-boards/like`, {
+    fetch(`http://localhost:8080/api/group-boards/like`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -183,7 +237,33 @@ export default function Footer(props: FooterProp) {
           채팅방 바로 가기
         </Button>
       ) : (
-        <Button onClick={gotoChat}>공구 참여하기</Button>
+        <Button onClick={() => setIsOpen(!isOpen)}>공구 참여하기</Button>
+      )}
+      {isOpen && (
+        <Overlay onClick={() => setIsOpen(false)}>
+          <ModalWrapper onClick={(e) => e.stopPropagation()} $isSmall={small}>
+            <img src={boxMoongchi} style={{ width: "200px" }} />
+            <p
+              style={{
+                fontFamily: "DunggeunmisoBold",
+                fontSize: "24px",
+                color: "#5849D0",
+              }}
+            >
+              채팅방에 입장합니다!
+            </p>
+            <div
+              style={{ display: "flex", flexDirection: "column", gap: "5px" }}
+            >
+              <p style={{ marginTop: "10px" }}>
+                채팅방에 입장하면, 참여가 확정되어 나갈 수 없어요!
+              </p>
+              <p>참여자들과 함께 공구에 대한 대화를 나눠 보세요.</p>
+            </div>
+
+            <ChatButton onClick={gotoChat}>확인</ChatButton>
+          </ModalWrapper>
+        </Overlay>
       )}
     </Wrap>
   );

@@ -22,9 +22,9 @@ type Product = {
   imgUrl: string;
   productUrl: string;
   rating: number;
-  largeCategory: string;
-  mediumCategory: string;
-  smallCategory: string | null;
+  largeCategory?: string;
+  mediumCategory?: string;
+  smallCategory?: string;
 };
 
 const ShopResultPage = () => {

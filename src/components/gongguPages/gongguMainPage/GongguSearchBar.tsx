@@ -9,6 +9,7 @@ import placeMarker from "../../../assets/images/common/위치아이콘.png";
 import alarm from "../../../assets/images/common/알람아이콘.png";
 import search from "../../../assets/images/common/검색아이콘.png";
 import back from "../../../assets/images/common/뒤로가기.png";
+import { useHistoryStack } from "../../../utils/useHistoryStack";
 
 const Header = styled.div`
   position: sticky;
@@ -75,10 +76,12 @@ export default function GongguSearchBar() {
   const [searchParams] = useSearchParams();
   const keyword = searchParams.get("keyword");
   const isResult: boolean = keyword !== null;
+  const { push, pop } = useHistoryStack();
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (searchKeyword.trim() !== "") {
+      push();
       navigate(`/gonggu/search?keyword=${encodeURIComponent(searchKeyword)}`);
       if (isResult) {
         window.location.reload();
@@ -111,17 +114,20 @@ export default function GongguSearchBar() {
       });
   }, [location]);
 
+  const handleToMap = () => {
+    sessionStorage.setItem("GONGGU_MAP_STATE", JSON.stringify(location));
+    navigate("/gonggu/map");
+  };
+
+  const handleToBack = () => {
+    const backPath = pop() || "/";
+    navigate(backPath);
+  };
+
   return (
     <Header>
       <HeaderTop>
-        <PlaceWrap
-          onClick={
-            loading
-              ? undefined
-              : () =>
-                  navigate("/gonggu/map", { state: { userLocation: location } })
-          }
-        >
+        <PlaceWrap onClick={loading ? undefined : () => handleToMap()}>
           <Img src={placeMarker} width="clamp(20px, 2vw, 23px)" />
           <Text fontSize="clamp(20px, 2vw, 23px)">
             {loading ? "loading..." : location}
@@ -135,7 +141,7 @@ export default function GongguSearchBar() {
             src={back}
             width="clamp(15px, 2vw, 20px)"
             height="clamp(30px, 2vw, 40px)"
-            onClick={() => navigate(-1)}
+            onClick={handleToBack}
           />
           <SearchWrap onSubmit={onSubmit}>
             <Img

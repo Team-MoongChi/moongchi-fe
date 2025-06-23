@@ -59,9 +59,21 @@ const HeartImg = styled.img`
 interface Props {
   link: string | undefined;
   itemId: number | undefined;
+  imgUrl: string | undefined;
+  name: string | undefined;
+  category: string | undefined;
+}
+
+interface LikeItem {
+  id: number;
   imgUrl: string;
+  largeCategory: string;
+  mediumCategory: string;
   name: string;
-  category: string;
+  price: number;
+  productUrl: string;
+  rating: number;
+  smallCategory: string;
 }
 
 const Nav = ({ link, itemId, imgUrl, name, category }: Props) => {
@@ -111,7 +123,7 @@ const Nav = ({ link, itemId, imgUrl, name, category }: Props) => {
       })
       .then((result) => {
         console.log(result);
-        setIsLike(result.some((item) => item.id === itemId));
+        setIsLike(result.some((item: LikeItem) => item.id === itemId));
       })
       .catch((error) => {
         console.error("요청 실패:", error);

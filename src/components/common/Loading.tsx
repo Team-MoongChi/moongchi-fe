@@ -17,6 +17,7 @@ const Wrapper = styled.div`
 `;
 const Img = styled.img`
   width: 60%;
+  max-width: 300px;
 `;
 
 const Loading = () => {

@@ -1,6 +1,7 @@
 import styled from "styled-components";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+const { Kakao } = window;
 
 import useDeviceSize from "../../../hooks/useDeviceSize";
 import back from "../../../assets/images/common/뒤로가기.png";
@@ -8,6 +9,7 @@ import edit from "../../../assets/images/gonggu/공구수정아이콘.png";
 import share from "../../../assets/images/gonggu/공구공유아이콘.png";
 import del from "../../../assets/images/gonggu/공구삭제아이콘.png";
 import { fetchWithAuth } from "../../../utils/FetchWithAuth";
+import { useHistoryStack } from "../../../utils/useHistoryStack";
 
 const Wrap = styled.div<{
   $issmall: boolean;
@@ -45,12 +47,51 @@ interface HeaderProps {
   editable: boolean | undefined;
   isShop: string | undefined;
   imgUrl: string | undefined;
+  title: string | undefined;
+  content: string | undefined;
 }
 
 export default function Header(props: HeaderProps) {
   const { small } = useDeviceSize();
   const { gongguId } = useParams();
   const navigate = useNavigate();
+  const resultUrl = window.location.href;
+  const { pop } = useHistoryStack();
+
+  // 재랜더링시에 실행되게 해준다.
+  useEffect(() => {
+    // init 해주기 전에 clean up 을 해준다.
+    Kakao.cleanup();
+    // 자신의 js 키를 넣어준다.
+    Kakao.init(import.meta.env.VITE_KAKAOMAP_KEY);
+    // 잘 적용되면 true 를 뱉는다.
+    console.log(Kakao.isInitialized());
+  }, []);
+
+  const shareKakao = () => {
+    console.log(resultUrl);
+    Kakao.Share.sendDefault({
+      objectType: "feed",
+      content: {
+        title: props.title,
+        description: props.content,
+        imageUrl: props.imgUrl,
+        link: {
+          mobileWebUrl: resultUrl,
+          webUrl: resultUrl,
+        },
+      },
+      buttons: [
+        {
+          title: "공구하러 가기",
+          link: {
+            mobileWebUrl: resultUrl,
+            webUrl: resultUrl,
+          },
+        },
+      ],
+    });
+  };
 
   const location = useLocation();
   const origin = location.state?.back;
@@ -90,20 +131,16 @@ export default function Header(props: HeaderProps) {
     };
   });
 
+  const handleBackButton = () => {
+    const backPath = pop() || "/";
+    navigate(backPath);
+  };
+
   return (
     <Wrap $issmall={small} $scroll={scroll}>
-      <IconButton
-        src={back}
-        onClick={
-          origin === "gonggu"
-            ? () => navigate("/")
-            : origin === "shop"
-            ? () => navigate(-1)
-            : undefined
-        }
-      />
+      <IconButton src={back} onClick={handleBackButton} />
       <Right>
-        <IconButton src={share} />
+        <IconButton src={share} onClick={shareKakao} />
         {props.editable ? (
           <IconButton
             src={edit}

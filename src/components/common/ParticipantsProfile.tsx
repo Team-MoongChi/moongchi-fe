@@ -62,7 +62,7 @@ export default function ParticipantsProfile(props: Props) {
 
   return (
     <Wrap>
-      {participants?.map((participant, idx) => {
+      {participants?.slice(0, 4).map((participant, idx) => {
         return (
           <Img
             key={idx}

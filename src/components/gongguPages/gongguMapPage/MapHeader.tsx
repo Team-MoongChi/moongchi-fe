@@ -15,6 +15,7 @@ const Wrap = styled.div`
   padding: 15px;
   background-color: #5849d0;
   border-radius: 0 0 15px 15px;
+  z-index: 1001;
 `;
 const Icon = styled(Img)<{ $visible?: string }>`
   cursor: pointer;

@@ -1,12 +1,12 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
 
 import { fetchWithAuth } from "../../utils/FetchWithAuth";
 import useDeviceSize from "../../hooks/useDeviceSize";
 import MapHeader from "../../components/gongguPages/gongguMapPage/MapHeader";
 import MapMenu from "../../components/gongguPages/gongguMapPage/MapMenu";
 import GongguMap from "../../components/gongguPages/gongguMapPage/GongguMap";
+import loadingM from "../../assets/images/moongchies/로딩중.gif";
 import type { GongguMapItem } from "../../types/gongguPages/gongguMapItem";
 import type { GongguLocation } from "../../types/gongguPages/gongguLocation";
 
@@ -24,6 +24,31 @@ const Body = styled.div`
   width: 100%;
   height: 100%;
 `;
+const Overlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(255, 255, 255, 0.5); // 반투명 검정
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+
+  overflow: hidden;
+  touch-action: none;
+  overscroll-behavior: none;
+
+  img {
+    width: 200px;
+  }
+  p {
+    color: #5849d0;
+    font-family: DunggeunmisoBold;
+  }
+`;
 
 export default function GongguMapPage() {
   const { small } = useDeviceSize();
@@ -32,8 +57,7 @@ export default function GongguMapPage() {
   const [markerClicked, setMarkerClicked] = useState<number>(-1);
 
   // 사용자 주소 받아오기
-  const location = useLocation();
-  const userLocation = location.state.userLocation;
+  const userLocation = sessionStorage.getItem("GONGGU_MAP_STATE");
   console.log(userLocation);
 
   const [loading, setLoading] = useState<boolean>(false);
@@ -42,6 +66,7 @@ export default function GongguMapPage() {
 
   // 전체 조회
   const fetchAllMapItem = async () => {
+    setLoading(true);
     const token = localStorage.getItem("accessToken");
     console.log("token: ", token);
 
@@ -74,6 +99,7 @@ export default function GongguMapPage() {
   };
   // 카테고리별 조회
   const fetchCategory = async () => {
+    setLoading(true);
     const token = localStorage.getItem("accessToken");
     console.log("token: ", token);
 
@@ -120,10 +146,16 @@ export default function GongguMapPage() {
     console.log("position", position);
   }, [mapList, position]);
 
-  if (loading) return <div>loading...</div>;
+  // if (loading) return <div>loading...</div>;
 
   return (
     <Wrap $issmall={small}>
+      {loading && (
+        <Overlay>
+          <img src={loadingM} />
+          <p>로딩중...</p>
+        </Overlay>
+      )}
       <MapHeader />
       <Body>
         <MapMenu

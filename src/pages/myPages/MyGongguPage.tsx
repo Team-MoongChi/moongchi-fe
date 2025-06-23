@@ -18,7 +18,10 @@ const Wrapper = styled.div<{ $isSmall: boolean }>`
 `;
 const Main = styled.div`
   width: 100%;
-  padding: 10px 20px 5px 20px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 `;
 const ImgNothing = styled.img`
   width: 200px;
@@ -40,7 +43,10 @@ const NWrapper = styled.div`
 type BoardStatus = "OPEN" | "CLOSING_SOON" | "CLOSED" | "COMPLETED";
 interface Participant {
   userId: number;
+  nickname: string;
   profileUrl: string;
+  mannerLeader: number;
+  role: "LEADER" | "MEMBER";
 }
 export interface GongguItem {
   id: number;

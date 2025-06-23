@@ -28,8 +28,8 @@ const BackImg = styled.img`
 `;
 
 interface MainProps {
-  title: string | undefined;
-  route: string | number;
+  title?: string | undefined;
+  route?: string | number;
   $fontSize?: string;
 }
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import ShoppingMenu from "./ShoppingMenu";
 import MoongchiPick from "./MoongchiPick";
@@ -12,6 +12,9 @@ import { fetchWithAuth } from "../../../utils/FetchWithAuth";
 import AIMoongchii from "../../../assets/images/moongchies/AI뭉치.png";
 import InfiniteScroll from "react-infinite-scroll-component";
 import loadingImg from "../../../assets/images/moongchies/로딩중.gif";
+import { useHistoryStack } from "../../../utils/useHistoryStack";
+
+const SHOPPING_STATE_KEY = "shoppingPageState";
 
 const images = [banner1, banner2, banner3];
 
@@ -137,14 +140,20 @@ const Main = () => {
   const navigate = useNavigate();
   const [menuClicked, setMenuClicked] = useState<number>(0);
   const menuOrder = [0, 1, 2, 3, 4];
-  //const [lastItemId, setLastItemId] = useState<number>(0);
   const [hasMore, setHasMore] = useState<boolean>(true);
+  const { push } = useHistoryStack();
 
   const nextSlide = () => setIndex((prev) => (prev + 1) % images.length);
   const prevSlide = () =>
     setIndex((prev) => (prev - 1 + images.length) % images.length);
 
   const handleItemClick = (itemId: number) => {
+    push();
+    const state = {
+      menuClicked,
+      scrollY: window.scrollY,
+    };
+    sessionStorage.setItem(SHOPPING_STATE_KEY, JSON.stringify(state));
     navigate(`/shopping/item?itemId=${itemId}`);
   };
 
@@ -155,6 +164,20 @@ const Main = () => {
     }, 7000); // 3초마다 전환
 
     return () => clearInterval(interval);
+  }, []);
+
+  // 마운트 시 복원
+  useEffect(() => {
+    const raw = sessionStorage.getItem(SHOPPING_STATE_KEY);
+    if (raw) {
+      const saved = JSON.parse(raw);
+      if (saved.menuClicked) setMenuClicked(saved.menuClicked);
+      setTimeout(() => {
+        if (saved.scrollY) window.scrollTo(0, saved.scrollY);
+
+        sessionStorage.removeItem(SHOPPING_STATE_KEY);
+      }, 100);
+    }
   }, []);
 
   const fetchData = async () => {
@@ -192,11 +215,7 @@ const Main = () => {
   useEffect(() => {
     setProducts([]); // 상품 초기화
     setHasMore(true); // hasMore 초기화
-    const timeout = setTimeout(() => {
-      fetchData();
-    }, 50); // 최소한의 딜레이로 동시 호출 방지
-
-    return () => clearTimeout(timeout);
+    fetchData();
   }, [menuClicked]);
 
   const title = () => {

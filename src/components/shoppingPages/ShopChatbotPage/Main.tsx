@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import AIChat from "./AIChat";
 import IChat from "./IChat";
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 const Wrapper = styled.div`
   width: 100%;

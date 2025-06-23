@@ -9,10 +9,12 @@ import GongguListItem from "../../components/gongguPages/common/GongguListItem";
 import { Wrap } from "../../components/common/styled-component/Wrap";
 import type { GongguItem } from "../../types/gongguPages/gongguItem";
 import GongguEmpty from "../../components/gongguPages/gongguMainPage/GongguEmpty";
+import Loading from "../../components/common/Loading";
 
 const Body = styled.div`
   padding: 3% 5%;
   background-color: white;
+  height: 100vh;
 `;
 
 export default function GongguSearchPage() {
@@ -51,7 +53,7 @@ export default function GongguSearchPage() {
       });
   }, [keyword]);
 
-  if (loading) return <div>loading...</div>;
+  if (loading) return <Loading />;
   return (
     <Wrap $issmall={small}>
       <GongguSearchBar />

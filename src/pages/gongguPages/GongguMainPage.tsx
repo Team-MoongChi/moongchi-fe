@@ -56,6 +56,7 @@ export default function GongguMainPage() {
   const [loading, setLoading] = useState<boolean>(true);
 
   const fetchAllGongguItem = async () => {
+    setLoading(true);
     const token = localStorage.getItem("accessToken");
     console.log("token: ", token);
 
@@ -82,6 +83,7 @@ export default function GongguMainPage() {
   };
 
   const fetchCategory = async () => {
+    setLoading(true);
     const token = localStorage.getItem("accessToken");
     console.log("token: ", token);
 
@@ -117,7 +119,7 @@ export default function GongguMainPage() {
     }
   }, [menuClicked]);
 
-  if (loading) return <div>loading 중...</div>;
+  if (loading) return <div>loading...</div>;
 
   return (
     <Wrap $issmall={small}>

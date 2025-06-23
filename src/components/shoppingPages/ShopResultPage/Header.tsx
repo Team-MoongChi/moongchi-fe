@@ -9,17 +9,17 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  padding: 3%;
+  padding: 15px 15px 20px 15px;
   background-color: #5849d0;
   position: sticky;
   top: 0;
-  gap: 10px;
+  gap: 9px;
   border-radius: 0 0 15px 15px;
 `;
 const Title = styled.p`
-  font-size: 22px;
+  font-size: 28px;
   color: white;
-  font-family: DunggeunmisoBold;
+  font-weight: bold;
 `;
 const Insert = styled.input`
   display: flex;
@@ -57,10 +57,10 @@ const Header = ({ keyword }: { keyword: string }) => {
   const [keyword2, setKeyword2] = useState<string>("");
 
   const handleBackButton = () => {
-    navigate(-1);
+    navigate("/shopping");
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (keyword2.trim() !== "") {
       navigate(`/shopping/result?keyword=${encodeURIComponent(keyword2)}`);

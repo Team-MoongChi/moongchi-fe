@@ -1,7 +1,5 @@
 import DaumPostcode from "react-daum-postcode";
 import styled from "styled-components";
-import type { FormData } from "./Content";
-import type { CSSProperties } from "styled-components";
 import { useEffect } from "react";
 
 const BlurContainer = styled.div`
@@ -17,7 +15,7 @@ const BlurContainer = styled.div`
   overflow: hidden;
 `;
 
-const style: CSSProperties = {
+const style: React.CSSProperties = {
   position: "absolute",
   top: "35%",
   left: "50%",
@@ -35,8 +33,59 @@ type Props = {
   setFormData: React.Dispatch<React.SetStateAction<FormData>>;
 };
 
+type FormData = {
+  name: string;
+  totalUser: number;
+  quantity: string;
+  price: number;
+  location: string;
+  content: string;
+  deadline: string;
+  categoryId?: number;
+  productId?: number;
+  images?: string[];
+};
+
+type AddressData = {
+  zonecode: string;
+  address: string;
+  addressEnglish: string;
+  addressType: string;
+  userSelectedType: string;
+  noSelected: string;
+  userLanguageType: string;
+  roadAddress: string;
+  roadAddressEnglish: string;
+  jibunAddress: string;
+  jibunAddressEnglish: string;
+  autoRoadAddress: string;
+  autoRoadAddressEnglish: string;
+  autoJibunAddress: string;
+  autoJibunAddressEnglish: string;
+  buildingCode: string;
+  buildingName: string;
+  apartment: string;
+  sido: string;
+  sidoEnglish: string;
+  sigungu: string;
+  sigunguEnglish: string;
+  sigunguCode: string;
+  roadnameCode: string;
+  bcode: string;
+  roadname: string;
+  roadnameEnglish: string;
+  bname: string;
+  bnameEnglish: string;
+  bname1: string;
+  bname1English: string;
+  bname2: string;
+  bname2English: string;
+  hname: string;
+  query: string;
+};
+
 const AddressModal = ({ setIsOpen, setFormData }: Props) => {
-  const completeHandler = (data) => {
+  const completeHandler = (data: AddressData) => {
     const { roadAddress } = data;
     setFormData((prev) => ({
       ...prev,

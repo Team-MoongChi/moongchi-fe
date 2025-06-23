@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { useState } from "react";
 import freshItem from "../../../assets/images/map/신선식품.png";
 import processedItem from "../../../assets/images/map/가공식품.png";
 import lifeItem from "../../../assets/images/map/생활용품.png";
@@ -61,52 +60,52 @@ const Main = ({ selected, setSelected }: MainProps) => {
       <WrapperSub>
         <CustomRadio
           type="radio"
-          id="option1"
+          id="신선식품"
           name="radio"
-          value="option1"
-          checked={selected === "option1"}
-          onChange={() => setSelected("option1")}
+          value="신선식품"
+          checked={selected === "신선식품"}
+          onChange={() => setSelected("신선식품")}
         />
-        <RadioLabel htmlFor="option1" checked={selected === "option1"}>
-          <img src={freshItem} alt="옵션1" />
+        <RadioLabel htmlFor="신선식품" checked={selected === "신선식품"}>
+          <img src={freshItem} alt="신선식품" />
           <p>신선식품</p>
         </RadioLabel>
         <CustomRadio
           type="radio"
-          id="option2"
+          id="가공식품"
           name="radio"
-          value="option2"
-          checked={selected === "option2"}
-          onChange={() => setSelected("option2")}
+          value="가공식품"
+          checked={selected === "가공식품"}
+          onChange={() => setSelected("가공식품")}
         />
-        <RadioLabel htmlFor="option2" checked={selected === "option2"}>
-          <img src={processedItem} alt="옵션2" />
+        <RadioLabel htmlFor="가공식품" checked={selected === "가공식품"}>
+          <img src={processedItem} alt="가공식품" />
           <p>가공식품</p>
         </RadioLabel>
       </WrapperSub>
       <WrapperSub>
         <CustomRadio
           type="radio"
-          id="option3"
+          id="생활용품"
           name="radio"
-          value="option3"
-          checked={selected === "option3"}
-          onChange={() => setSelected("option3")}
+          value="생활용품"
+          checked={selected === "생활용품"}
+          onChange={() => setSelected("생활용품")}
         />
-        <RadioLabel htmlFor="option3" checked={selected === "option3"}>
-          <img src={lifeItem} alt="옵션3" />
+        <RadioLabel htmlFor="생활용품" checked={selected === "생활용품"}>
+          <img src={lifeItem} alt="생활용품" />
           <p>생활용품</p>
         </RadioLabel>
         <CustomRadio
           type="radio"
-          id="option4"
+          id="주방용품"
           name="radio"
-          value="option4"
-          checked={selected === "option4"}
-          onChange={() => setSelected("option4")}
+          value="주방용품"
+          checked={selected === "주방용품"}
+          onChange={() => setSelected("주방용품")}
         />
-        <RadioLabel htmlFor="option4" checked={selected === "option4"}>
-          <img src={kitchenItem} alt="옵션4" style={{ width: "110px" }} />
+        <RadioLabel htmlFor="주방용품" checked={selected === "주방용품"}>
+          <img src={kitchenItem} alt="주방용품" style={{ width: "110px" }} />
           <p>주방용품</p>
         </RadioLabel>
       </WrapperSub>

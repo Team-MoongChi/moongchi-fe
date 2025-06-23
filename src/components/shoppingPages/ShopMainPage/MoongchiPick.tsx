@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { fetchWithAuth } from "../../../utils/FetchWithAuth";
 import { useNavigate } from "react-router-dom";
+import { useHistoryStack } from "../../../utils/useHistoryStack";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -105,6 +106,7 @@ const MoongchiPick = () => {
   const [kitchenItems, setKitchenItems] = useState<Product[]>([]);
   const [livingItems, setLivingItems] = useState<Product[]>([]);
   const navigate = useNavigate();
+  const { push } = useHistoryStack();
 
   useEffect(() => {
     fetchWithAuth("/api/products/main", {
@@ -133,6 +135,7 @@ const MoongchiPick = () => {
   }, []);
 
   const handleItemClick = (itemId: number) => {
+    push();
     navigate(`/shopping/item?itemId=${itemId}`);
   };
 

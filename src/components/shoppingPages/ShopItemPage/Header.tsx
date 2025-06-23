@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import backButton from "../../../assets/images/common/뒤로가기.png";
 import { useNavigate } from "react-router-dom";
-import useDeviceSize from "../../../hooks/useDeviceSize";
+import useDeviceSize from "../../../useDeviceSize";
+import { useHistoryStack } from "../../../utils/useHistoryStack";
 
 const Wrapper = styled.div<{ $isSmall: boolean }>`
   display: flex;
@@ -35,13 +36,11 @@ interface MainProps {
 const Header = (props: MainProps) => {
   const navigate = useNavigate();
   const { small } = useDeviceSize();
+  const { pop } = useHistoryStack();
 
   const handleBackButton = () => {
-    if (typeof props.route === "string") {
-      navigate(props.route); // 경로 이동
-    } else {
-      navigate(-1); // 숫자면 뒤로가기
-    }
+    const backPath = pop() || "/";
+    navigate(backPath);
   };
 
   return (

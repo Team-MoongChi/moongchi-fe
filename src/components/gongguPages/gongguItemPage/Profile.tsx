@@ -7,17 +7,16 @@ import FHeart25 from "../../../assets/images/userScore/팔로워하트25.png";
 import FHeart50 from "../../../assets/images/userScore/팔로워하트50.png";
 import FHeart75 from "../../../assets/images/userScore/팔로워하트75.png";
 import FHeart100 from "../../../assets/images/userScore/팔로워하트100.png";
+import loadingImg from "../../../assets/images/moongchies/로딩중.gif";
 import { useState, useEffect } from "react";
-import { fetchWithAuth } from "../../../utils/FetchWithAuth";
 
 const Wrapper = styled.div`
   width: 90%;
-  height: 28%;
-  min-height: 200px;
+  height: 60%;
+  min-height: 180px;
   max-height: 220px;
   background-color: #e8edff;
-  margin-top: 90px;
-  border-radius: 20px;
+  border-radius: 0px 20px 20px 20px;
 `;
 const InfoWrapper = styled.div`
   display: flex;
@@ -25,12 +24,12 @@ const InfoWrapper = styled.div`
   justify-content: center;
   gap: 3%;
   padding: 15px;
-  padding-top: 30px;
-  padding-bottom: 25px;
+  padding-top: 20px;
+  padding-bottom: 10px;
 `;
 const Img = styled.img`
-  width: 100px;
-  height: 100px;
+  width: 30%;
+  max-width: 100px;
   background-color: white;
   border-radius: 50px;
   object-fit: cover;
@@ -40,7 +39,7 @@ const Info = styled.div`
   flex-direction: column;
 `;
 const Nickname = styled.p`
-  font-size: 20px;
+  font-size: clamp(18px, 2vw, 20px);
   font-family: DunggeunmisoBold;
   color: #5849d0;
   padding-bottom: 10px;
@@ -49,6 +48,7 @@ const ReaderGage = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
+  font-size: clamp(13px, 2vw, 16px);
 
   p {
     color: #ff6f6f;
@@ -58,6 +58,7 @@ const FollowerGage = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
+  font-size: clamp(13px, 2vw, 16px);
 
   p {
     color: #3d84ff;
@@ -69,19 +70,19 @@ const HeartImg = styled.img`
 const Tags = styled.div`
   display: flex;
   justify-content: center;
-  gap: 4%;
+  gap: 2%;
 `;
 const Tag = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 74px;
+  width: 22%;
   height: 30px;
   background-color: #5849d0;
-  border-radius: 20px;
+  border-radius: 15px;
   color: white;
   font-family: DunggeunmisoBold;
-  font-size: 13px;
+  font-size: 0.7em;
 `;
 const NotReview = styled.div`
   color: #8c8cd9;
@@ -93,6 +94,16 @@ const NotReview = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 10px;
+`;
+const LoadingWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const Loading = styled.img`
+  width: 200px;
 `;
 
 type UserData = {
@@ -113,20 +124,20 @@ type UserData = {
 //   "믿을 수 있어요",
 // ];
 
-const Profile = () => {
+const Profile = ({ readerId }: { readerId: number }) => {
   const [userData, setUserData] = useState<UserData | null>(null);
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const token = localStorage.getItem("accessToken"); // 또는 sessionStorage, context 등
-    setLoading(true);
+    // const token = localStorage.getItem("accessToken"); // 또는 sessionStorage, context 등
+    // setLoading(true);
 
-    fetchWithAuth("/api/users", {
+    fetch(`http://localhost:8080/api/users/${readerId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        // Authorization: `Bearer ${token}`,
       },
     })
       .then((response) => {
@@ -139,31 +150,7 @@ const Profile = () => {
       .then((result) => {
         setUserData(result);
         setLoading(false);
-      })
-      .catch((error) => {
-        console.error("요청 실패:", error);
-      });
-  }, []);
-
-  useEffect(() => {
-    const token = localStorage.getItem("accessToken"); // 또는 sessionStorage, context 등
-
-    fetchWithAuth("/api/users/reviews", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          // 예: 401, 404, 500 등일 때
-          throw new Error(`서버 오류: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((result) => {
-        setReviews(result.keywords);
+        setReviews(result.reviewKeywordDto.keywords);
       })
       .catch((error) => {
         console.error("요청 실패:", error);
@@ -218,7 +205,9 @@ const Profile = () => {
   return (
     <Wrapper>
       {loading ? (
-        ""
+        <LoadingWrapper>
+          <Loading src={loadingImg} />
+        </LoadingWrapper>
       ) : (
         <>
           <InfoWrapper>

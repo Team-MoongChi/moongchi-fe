@@ -5,6 +5,7 @@ import { Img } from "../../common/styled-component/Img";
 import ParticipantsProfile from "../../common/ParticipantsProfile";
 import useTimeStamp from "../../../hooks/useTimeStamp";
 import type { GongguItem } from "../../../types/gongguPages/gongguItem";
+import { useHistoryStack } from "../../../utils/useHistoryStack";
 
 import red from "../../../assets/images/gonggu/마감임박.png";
 import blue from "../../../assets/images/gonggu/모집중.png";
@@ -45,15 +46,15 @@ const Details = styled.div`
 
 export default function GongguListItem(props: GongguItem) {
   const navigate = useNavigate();
+  const { push } = useHistoryStack();
+
+  const handleClick = () => {
+    push(); // 현재 경로 저장
+    navigate(`/gonggu/list/${props.id}`);
+  };
 
   return (
-    <Wrap
-      onClick={() =>
-        navigate(`/gonggu/list/${props.id}`, {
-          state: { back: "gonggu" },
-        })
-      }
-    >
+    <Wrap onClick={handleClick}>
       <Img
         src={props.image}
         width="140px"
