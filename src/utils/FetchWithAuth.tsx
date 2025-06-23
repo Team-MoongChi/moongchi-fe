@@ -43,7 +43,14 @@ export const fetchWithAuth = async (
       } else {
         // 재발급 실패 → 로그인 페이지로 리다이렉트
         localStorage.removeItem("accessToken");
-        window.location.href = "/start";
+        const currentPath = window.location.pathname;
+        if (currentPath === "/") {
+          window.location.href = "/start";
+        } else {
+          window.location.href = "/start";
+          alert("로그인을 진행해주세요.");
+        }
+
         throw new Error("Token reissue failed");
       }
     }
