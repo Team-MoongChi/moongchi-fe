@@ -1,4 +1,4 @@
-import useDeviceSize from "../../useDeviceSize";
+import useDeviceSize from "../../hooks/useDeviceSize";
 import { useEffect, useState } from "react";
 
 import Header from "../../components/gongguPages/gongguItemPage/Header";

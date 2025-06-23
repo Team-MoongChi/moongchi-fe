@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Map, MapMarker, Circle } from "react-kakao-maps-sdk";
 
-import useKakaoMap from "../../../useKakaoMap";
+import useKakaoMap from "../../../hooks/useKakaoMap";
 import Target from "./Target";
 import type { GongguLocation } from "../../../types/gongguPages/gongguLocation";
 
@@ -152,7 +152,15 @@ export default function GongguMap(props: GongguMapProps) {
           onClick={() => markerClickHandler(item.id)}
         ></MapMarker>
       ))}
-      <Circle center={center} radius={750}></Circle>
+      <Circle
+        center={center}
+        radius={750}
+        strokeWeight={5}
+        strokeColor="#5849d0"
+        strokeStyle="dashed"
+        // fillColor="#5849d0"
+        // fillOpacity={0.1}
+      ></Circle>
       <Target
         curCenter={changedCenter}
         position={props.positionInfo}

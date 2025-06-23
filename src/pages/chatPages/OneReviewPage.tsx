@@ -2,19 +2,25 @@ import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 
-import useDeviceSize from "../../useDeviceSize";
+import useDeviceSize from "../../hooks/useDeviceSize";
 import Header from "../../components/common/Header";
 import { Wrap } from "../../components/common/styled-component/Wrap";
 import { Text } from "../../components/common/styled-component/Text";
 import { fetchWithAuth } from "../../utils/FetchWithAuth";
+import StarRating from "../../components/chatPages/oneReviewPage/StarRating";
 
 const Body = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  padding: 0 5%;
+  gap: 30px;
+  height: 60dvh;
+  padding: 20px 5%;
 `;
-const Button = styled.div`
+const Highlight = styled.span`
+  color: #5849d0;
+  font-family: DunggeunmisoBold;
+`;
+const Button = styled.button`
   background-color: #5849d0;
   border-radius: 15px;
   color: white;
@@ -22,6 +28,13 @@ const Button = styled.div`
   font-size: 20px;
   text-align: center;
   padding: 20px;
+  margin: 0 5%;
+
+  &:disabled {
+    background-color: #e8edff;
+    color: #aeb8db;
+    cursor: default;
+  }
 `;
 const TagWrap = styled.div`
   display: flex;
@@ -33,6 +46,18 @@ const Tag = styled.div<{ $backgroundcolor: string }>`
   background-color: ${(props) => props.$backgroundcolor};
   border-radius: 15px;
   padding: 3% 5%;
+`;
+const TextArea = styled.textarea`
+  width: 100%;
+  height: 20vh;
+  background-color: #e8edff;
+  border: none;
+  border-radius: 8px;
+  resize: none;
+  padding: 15px;
+  &:focus {
+    outline: none;
+  }
 `;
 
 type Review = {
@@ -48,13 +73,15 @@ export default function OneReviewPage() {
   const [searchParams] = useSearchParams();
   const nickname = searchParams.get("nickname");
 
+  const [star, setStar] = useState<number>(0);
+
   const keywordsList = [
     "친절해요",
     "약속 시간을 지켰어요",
-    "응답이 빨라요",
+    "채팅 응답이 빨라요",
     "설명과 같아요",
     "믿을 수 있어요",
-    "가격, 수량이 동일해요",
+    "가격∙수량이 동일해요",
     "또 거래하고 싶어요",
   ];
 
@@ -65,11 +92,19 @@ export default function OneReviewPage() {
     review: "",
   });
 
-  const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const changeHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setReview((prev) => ({
       ...prev,
       [name]: value,
+    }));
+  };
+
+  const starHandler = (rating: number) => {
+    setStar(rating);
+    setReview((prev) => ({
+      ...prev,
+      star: rating,
     }));
   };
 
@@ -100,9 +135,6 @@ export default function OneReviewPage() {
     console.log("review 변경:", review);
   }, [review]);
 
-  {
-    /* /api/chat/rooms/{chatRoomId}/reviews/{targetParticipantId} */
-  }
   const submitReview = async () => {
     const token = localStorage.getItem("accessToken");
     console.log(token);
@@ -128,18 +160,12 @@ export default function OneReviewPage() {
 
   return (
     <Wrap $issmall={small} $gap="20px">
-      <Header title="리뷰 작성" />
+      <Header title="리뷰 작성" route={`/chat/${chatRoomId}/review`} />
       <Body>
-        <div>{nickname}님과의 공구는</div>
-        <input
-          name="star"
-          type="number"
-          required
-          onChange={changeHandler}
-          min="0.5"
-          max="5"
-          step="0.5"
-        ></input>
+        <Text fontSize="24px">
+          <Highlight>{nickname}</Highlight>님과의 공구는
+        </Text>
+        <StarRating rating={star} onChange={starHandler} />
         <TagWrap>
           {keywordsList.map((keyword, idx) => (
             <Tag
@@ -158,14 +184,15 @@ export default function OneReviewPage() {
             </Tag>
           ))}
         </TagWrap>
-        <input
+        <TextArea
           name="review"
-          type="textarea"
           placeholder="리뷰를 작성해주세요"
           onChange={changeHandler}
-        ></input>
-        <Button onClick={submitReview}>작성 완료</Button>
+        ></TextArea>
       </Body>
+      <Button type="button" onClick={submitReview} disabled={star === 0}>
+        작성 완료
+      </Button>
     </Wrap>
   );
 }

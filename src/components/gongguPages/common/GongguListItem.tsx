@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Text } from "../../common/styled-component/Text";
 import { Img } from "../../common/styled-component/Img";
 import ParticipantsProfile from "../../common/ParticipantsProfile";
-import useTimeStamp from "../../../useTimeStamp";
+import useTimeStamp from "../../../hooks/useTimeStamp";
 import type { GongguItem } from "../../../types/gongguPages/gongguItem";
 import { useHistoryStack } from "../../../utils/useHistoryStack";
 

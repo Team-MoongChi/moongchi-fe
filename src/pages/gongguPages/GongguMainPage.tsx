@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-import useDeviceSize from "../../useDeviceSize";
+import useDeviceSize from "../../hooks/useDeviceSize";
 import GongguSearchBar from "../../components/gongguPages/gongguMainPage/GongguSearchBar";
 import GongguMenu from "../../components/gongguPages/gongguMainPage/GongguMenu";
 import GongguRecommend from "../../components/gongguPages/gongguMainPage/GongguRecommend";

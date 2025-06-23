@@ -1,4 +1,4 @@
-import useDeviceSize from "../../useDeviceSize.tsx";
+import useDeviceSize from "../../hooks/useDeviceSize.tsx";
 import styled from "styled-components";
 import SlideInfo from "../../components/startPages/startPage/SlideInfo.tsx";
 import Button from "../../components/startPages/common/Button.tsx";

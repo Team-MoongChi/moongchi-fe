@@ -7,7 +7,7 @@ import homeClick from "../../assets/images/nav/홈아이콘_클릭.png";
 import chattingClick from "../../assets/images/nav/채팅아이콘_클릭.png";
 import shoppingClick from "../../assets/images/nav/쇼핑아이콘_클릭.png";
 import mypageClick from "../../assets/images/nav/마이페이지아이콘_클릭.png";
-import useDeviceSize from "../../useDeviceSize";
+import useDeviceSize from "../../hooks/useDeviceSize";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 

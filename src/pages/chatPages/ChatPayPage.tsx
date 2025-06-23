@@ -1,10 +1,9 @@
-import React from "react";
 import styled from "styled-components";
-import useDeviceSize from "../../useDeviceSize";
+import useDeviceSize from "../../hooks/useDeviceSize";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-import Header from "../../components/chatPages/chatPayPage/Header";
+import PayHeader from "../../components/chatPages/chatPayPage/PayHeader";
 import UserProfile from "../../components/chatPages/common/UserProfile";
 import UserCost from "../../components/chatPages/chatPayPage/UserCost";
 import { Wrap } from "../../components/common/styled-component/Wrap";
@@ -12,14 +11,21 @@ import { fetchWithAuth } from "../../utils/FetchWithAuth";
 
 import type { ChatRoomItem } from "../../types/chatPages/chatRoomItem";
 
+declare global {
+  interface Window {
+    IMP: any;
+  }
+}
+
 const Body = styled.div`
   display: flex;
   flex-direction: column;
   gap: 30px;
+  height: 60dvh;
   padding: 0 5%;
 `;
 
-const Button = styled.div`
+const Button = styled.button`
   background-color: #5849d0;
   border-radius: 15px;
   color: white;
@@ -28,6 +34,11 @@ const Button = styled.div`
   text-align: center;
   padding: 20px;
   margin: 0 5%;
+
+  &:disabled {
+    background-color: #e8edff;
+    color: #aeb8db;
+  }
 `;
 
 const TotalCost = styled.div`
@@ -59,13 +70,20 @@ const Text = styled.div<TextProps>`
   color: ${(props) => props.color || "inherit"};
 `;
 
+interface User {
+  email: string;
+  name: string;
+  phone: string;
+  address: string;
+}
+
 export default function ChatPayPage() {
   const { small } = useDeviceSize();
   const { chatRoomId } = useParams();
 
   const [chatRoom, setChatRoom] = useState<ChatRoomItem>();
+  const [user, setUser] = useState<User>();
   const [loading, setLoading] = useState<boolean>(true);
-  const [clickCount, setClickCount] = useState<number>(0);
 
   const fetchChatRoom = async () => {
     const token = localStorage.getItem("accessToken");
@@ -93,40 +111,111 @@ export default function ChatPayPage() {
     }
   };
 
-  const fetchPay = async () => {
+  useEffect(() => {
     const token = localStorage.getItem("accessToken");
     console.log(token);
 
-    try {
-      const response = await fetchWithAuth(
-        `/api/chat/rooms/${chatRoomId}/pay`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+    fetchWithAuth(`/api/users`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`get failed: ${response.status}`);
         }
+        return response.json();
+      })
+      .then((result) => {
+        setUser(result);
+        setLoading(false);
+        console.log("사용자 정보", result);
+      })
+      .catch((error) => {
+        console.error("get failed: ", error);
+      });
+  }, []);
+
+  const disabled = () => {
+    if (!chatRoom) return true;
+
+    if (chatRoom.status === "모집완료") {
+      const isPaid = chatRoom.participants.some(
+        (participant) => participant.me && participant.payStatement === "PAID"
       );
-      if (response.ok) {
-        alert("결제 성공");
-        setClickCount((prev) => prev + 1);
-      }
-    } catch (error) {
-      console.log("post failed: ", error);
-      alert("결제 실패");
-      throw error;
+      return isPaid ? true : false;
+    } else {
+      return true;
     }
+  };
+
+  const onClickPayment = async () => {
+    const { IMP } = window;
+    IMP.init("imp23204826");
+
+    const merchant_uid = `mid_${new Date().getTime()}`;
+
+    IMP.request_pay(
+      {
+        pg: "html5_inicis", //결제 회사 ex) kakaopay
+        pay_method: "card",
+        merchant_uid,
+        name: "주문명: 단체공구 결제",
+        amount: chatRoom?.participants[0].perPersonPrice,
+        buyer_email: user?.email, //구매자 이메일
+        buyer_name: user?.name, //구매자 이름
+        buyer_tel: user?.phone, //구매자 전화번호
+        buyer_addr: user?.address, //구매자 주소
+        buyer_postcode: "00000",
+      },
+      async (rsp: any) => {
+        if (rsp.success) {
+          //웹 버전일 때 (콜백x)
+          const { imp_uid } = rsp;
+
+          try {
+            const response = await fetchWithAuth(
+              `/api/chat/rooms/${chatRoomId}/pay`,
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ impUid: imp_uid }),
+              }
+            );
+
+            if (response.ok) {
+              alert("결제 성공");
+              // 예시: 결제 완료 페이지로 이동
+              window.location.href = `/chat/${chatRoomId}/pay`;
+            } else {
+              alert("결제 검증 실패");
+            }
+          } catch (e) {
+            console.error("결제 에러", e);
+            alert("결제 처리 중 오류 발생");
+          } finally {
+            setLoading(false);
+          }
+        } else {
+          alert(`결제 실패: ${rsp.error_msg}`);
+        }
+      }
+    );
   };
 
   useEffect(() => {
     fetchChatRoom();
-  }, [clickCount]);
+  }, []);
 
   if (loading) return <div>loading...</div>;
+  if (!chatRoom?.id) return <div>존재하지 않는 채팅방입니다.</div>;
+  if (chatRoom?.status === "모집중")
+    return <div>아직 모집이 완료되지 않았습니다.</div>;
 
   return (
     <Wrap $issmall={small} $gap="30px">
-      <Header />
+      <PayHeader />
       <Body>
         <Text fontSize="22px">결제 현황이에요.</Text>
         <TotalCost>
@@ -154,7 +243,7 @@ export default function ChatPayPage() {
                 />
                 <UserCost
                   cost={participant.perPersonPrice.toLocaleString()}
-                  isPayed={participant.payStatement === "PAID"}
+                  isPaid={participant.payStatement === "PAID"}
                   width="clamp(38px, 2vw, 38px)"
                 />
               </UserWrap>
@@ -162,7 +251,9 @@ export default function ChatPayPage() {
           })}
         </PayWrap>
       </Body>
-      <Button onClick={fetchPay}>결제하기</Button>
+      <Button type="button" onClick={onClickPayment} disabled={disabled()}>
+        {disabled() ? "결제 완료" : "결제하기"}
+      </Button>
     </Wrap>
   );
 }

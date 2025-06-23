@@ -1,3 +1,5 @@
+import type { Message } from "./message";
+
 interface Participant {
   participantId: number;
   userId: number;
@@ -5,26 +7,21 @@ interface Participant {
   profileUrl: string;
   role: "LEADER" | "MEMBER";
   payStatement: "PAID" | "UNPAID";
+  joinAt: string;
   tradeCompleted: boolean;
   perPersonPrice: number;
   reviewed: boolean;
   me: boolean;
 }
-interface Message {
-  id: string;
-  participantId?: number;
-  message: string;
-  messageType: "SYSTEM" | "TEXT" | "IMAGE";
-  sendAt: "string";
-}
-
 export interface ChatRoomItem {
   id: number;
+  groupBoardId: number;
   title: string;
   status: string;
   imgUrl: string;
   price: number;
   deadline: string;
+  location: string;
   participants: Participant[];
   messages: Message[];
 }

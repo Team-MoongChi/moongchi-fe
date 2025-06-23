@@ -1,4 +1,4 @@
-import useDeviceSize from "../../useDeviceSize";
+import useDeviceSize from "../../hooks/useDeviceSize";
 import styled from "styled-components";
 import Step from "../../components/startPages/UserDataPage/Step";
 import Main from "../../components/startPages/UserDataPage/Main";

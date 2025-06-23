@@ -1,6 +1,7 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
+import { Img } from "../../common/styled-component/Img";
 import back from "../../../assets/images/common/뒤로가기.png";
 
 const Wrap = styled.div`
@@ -13,12 +14,8 @@ const Wrap = styled.div`
   padding: 15px;
   border-radius: 0 0 15px 15px;
 `;
-const BackButton = styled.img.attrs({
-  src: back,
-  alt: "닫기 아이콘",
-})<{ visibility?: string }>`
+const BackButton = styled(Img)<{ visibility?: string }>`
   visibility: ${(props) => props.visibility || "visible"};
-  width: 15px;
   cursor: pointer;
 `;
 const HeaderText = styled.div`
@@ -27,14 +24,19 @@ const HeaderText = styled.div`
   color: white;
 `;
 
-export default function Header() {
+export default function PayHeader() {
+  const navigate = useNavigate();
+  const { chatRoomId } = useParams();
+
   return (
     <Wrap>
-      <Link to="/">
-        <BackButton />
-      </Link>
+      <BackButton
+        src={back}
+        width="15px"
+        onClick={() => navigate(`/chat/list/${chatRoomId}`)}
+      />
       <HeaderText>1/N 결제 현황</HeaderText>
-      <BackButton visibility="hidden" />
+      <BackButton src={back} width="15px" visibility="hidden" />
     </Wrap>
   );
 }

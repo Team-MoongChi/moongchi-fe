@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import useDeviceSize from "../../useDeviceSize";
+import useDeviceSize from "../../hooks/useDeviceSize";
 import moongchiBox from "../../assets/images/start/뭉치박스.gif";
 import kakao from "../../assets/images/common/카카오.png";
 import naver from "../../assets/images/common/네이버.png";

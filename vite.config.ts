@@ -6,5 +6,16 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 3000, // 여기 포트 번호 바꿔줌
+    proxy: {
+      "/ws/chat": {
+        target: "http://localhost:8080",
+        changeOrigin: true,
+        ws: true,
+        secure: false,
+      },
+    },
+  },
+  define: {
+    global: "globalThis",
   },
 });

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import useDeviceSize from "../../useDeviceSize";
+import useDeviceSize from "../../hooks/useDeviceSize";
 import Header from "../../components/myPages/MyMainPage/Header";
 import Nav from "../../components/common/Nav";
 import Profile from "../../components/myPages/MyMainPage/Profile";

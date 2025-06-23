@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Header from "../../components/common/Header.tsx";
 import Main from "../../components/shoppingPages/ShopChatbotPage/Main.tsx";
 import Nav from "../../components/shoppingPages/ShopChatbotPage/Nav.tsx";
-import useDeviceSize from "../../useDeviceSize.tsx";
+import useDeviceSize from "../../hooks/useDeviceSize.tsx";
 import { useEffect, useState, useRef } from "react";
 
 //isSmall에 $ 붙이는 이유: styled-components에서 $가 붙은 props는 DOM에 넘기지 않음
