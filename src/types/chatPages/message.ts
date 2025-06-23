@@ -7,6 +7,6 @@ export interface Message {
   status?: string;
   chatStatus: string;
   buttonVisibleTo?: "LEADER" | "MEMBER" | "ALL";
-  senderNickname: string;
-  senderProfileUrl: string;
+  senderNickname?: string;
+  senderProfileUrl?: string;
 }
