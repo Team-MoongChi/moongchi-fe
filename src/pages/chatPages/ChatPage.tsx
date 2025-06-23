@@ -49,7 +49,9 @@ export default function ChatPage() {
   const [chatRoom, setChatRoom] = useState<ChatRoomItem>();
   const [loading, setLoading] = useState<boolean>(true);
   const [tokens, setTokens] = useState<string>("");
-
+  const [participantMap, setParticipantMap] = useState(
+    new Map<number, { nickname: string; profileUrl: string }>()
+  );
   const [newMessages, setNewMessages] = useState<Message[]>([]);
 
   const fetchChatRoom = async () => {
@@ -87,20 +89,22 @@ export default function ChatPage() {
     return chatRoom?.participants.find((participant) => participant.me) || null;
   }, [chatRoom]);
 
-  const participantMap = useMemo(() => {
-    const map = new Map();
-    chatRoom?.participants.forEach((p) => {
-      map.set(p.participantId, {
-        nickname: p.nickname,
-        profileUrl: p.profileUrl || "/images/default-profile.png",
-      });
-    });
-    return map;
-  }, [chatRoom]);
-
   useEffect(() => {
     console.log(myParticipant);
   }, [myParticipant]);
+
+  useEffect(() => {
+    if (chatRoom?.participants) {
+      const newMap = new Map();
+      chatRoom.participants.forEach((p) => {
+        newMap.set(p.participantId, {
+          nickname: p.nickname,
+          profileUrl: p.profileUrl || "/images/default-profile.png",
+        });
+      });
+      setParticipantMap(newMap);
+    }
+  }, [chatRoom]);
 
   if (loading) return <div>loading...</div>;
   if (!chatRoom || !myParticipant)
@@ -144,6 +148,7 @@ export default function ChatPage() {
         token={tokens}
         newMessages={newMessages}
         setNewMessages={setNewMessages}
+        setParticipantMap={setParticipantMap}
       />
     </Wrap>
   );
