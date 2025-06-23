@@ -115,10 +115,10 @@ export default function Footer(props: FooterProp) {
   const [isLike, setIsLike] = useState<boolean>(false);
 
   useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-    console.log(token);
+    // const token = localStorage.getItem("accessToken");
+    // console.log(token);
 
-    fetchWithAuth(`/api/group-boards/like`, {
+    fetch(`http://localhost:8080/api/group-boards/like`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
