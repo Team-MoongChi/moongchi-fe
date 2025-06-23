@@ -8,4 +8,5 @@ export const Wrap = styled.div<{ $issmall: boolean; $gap?: string }>`
   flex-direction: column;
   gap: ${(props) => props.$gap};
   background-color: white;
+  height: 100dvh;
 `;
