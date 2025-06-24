@@ -25,9 +25,9 @@ const AIPick = styled.div`
 const AIWrapper = styled.div`
   width: 100%;
   padding: 12px 0;
-  background-color: #eff3ff;
-  border-top: 3px solid #e8edff;
-  border-bottom: 3px solid #e8edff;
+  background-color: #d4d8fb;
+  border-top: 3px solid #b6b7ff;
+  border-bottom: 3px solid #b6b7ff;
   margin-bottom: 20px;
   display: flex;
   flex-direction: column;
