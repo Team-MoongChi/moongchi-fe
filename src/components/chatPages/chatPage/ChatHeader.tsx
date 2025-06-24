@@ -12,11 +12,8 @@ const Wrapper = styled.div`
   align-items: center;
   width: 100%;
   padding: 20px;
-  /* position: sticky;
-  z-index: 1; */
   background-color: #5849d0;
   border-radius: 0 0 15px 15px;
-  /* top: 0; */
 `;
 const ImgNone = styled(Img)`
   visibility: hidden;
