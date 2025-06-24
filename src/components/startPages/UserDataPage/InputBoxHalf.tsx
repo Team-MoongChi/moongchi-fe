@@ -55,7 +55,7 @@ const InputBoxHalf = ({ onChange1, onChange2 }: MainProps) => {
           type="date"
           onFocus={() => setIsFocusedB(true)}
           onBlur={() => setIsFocusedB(false)}
-          style={{ color: "#afb1b6" }}
+          style={{ width: "48px" }}
           onChange={(e) => onChange1?.(e.target.value)}
         />
       </InputWrapper>
