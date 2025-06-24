@@ -94,6 +94,9 @@ type Product = {
   price: number;
   imgUrl: string;
   productUrl: string;
+  rating?: number;
+  likeCount?: number;
+  largeCategoryId?: number;
   largeCategory: string;
   mediumCategory: string;
   smallCategory: string;
@@ -105,8 +108,34 @@ const MoongchiPick = () => {
   const [processItems, setProcessItems] = useState<Product[]>([]);
   const [kitchenItems, setKitchenItems] = useState<Product[]>([]);
   const [livingItems, setLivingItems] = useState<Product[]>([]);
+  const [recommendItems, setRecommendItems] = useState<Product[]>([]);
   const navigate = useNavigate();
   const { push } = useHistoryStack();
+
+  useEffect(() => {
+    fetchWithAuth("/api/products/recommend", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          // 예: 401, 404, 500 등일 때
+          throw new Error(`서버 오류: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((result) => {
+        setRecommendItems(result);
+      })
+      .catch((error) => {
+        console.error("요청 실패:", error);
+      });
+  }, []);
+
+  console.log(recommendItems);
 
   useEffect(() => {
     fetchWithAuth("/api/products/main", {
