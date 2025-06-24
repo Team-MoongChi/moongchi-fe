@@ -4,7 +4,7 @@ const Wrap = styled.div`
   display: flex;
   justify-content: center;
   background-color: #5849d0;
-  padding: 30px;
+  padding: 22px;
   border-radius: 0 0 15px 15px;
   position: sticky;
   top: 0;
