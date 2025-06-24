@@ -21,9 +21,10 @@ const InputField = styled.input.attrs<{
   value: props.value,
   disabled: props.disabled ? true : false,
   inputMode: props.inputMode || "text",
-}))<{ width?: string; height?: string }>`
-  width: ${(props) => props.width || "100%"};
-  height: ${(props) => props.height || "inherit"};
+}))`
+  width: 100%;
+  height: 45px;
+  background-color: white;
   border-radius: 8px;
   border: 1px solid #5849d0;
   padding: 15px;
