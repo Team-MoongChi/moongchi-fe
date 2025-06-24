@@ -11,7 +11,7 @@ export const fetchWithAuth = async (
     headers.set("Authorization", `Bearer ${accessToken}`);
   }
 
-  const baseURL = "https://moong-chi.kro.kr/";
+  const baseURL = "https://moong-chi.kro.kr";
   try {
     const res = await fetch(`${baseURL}${input}`, {
       ...init,
