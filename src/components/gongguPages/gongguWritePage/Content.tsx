@@ -254,7 +254,6 @@ export default function Content() {
             <Input
               title="총 수량"
               name="quantity"
-              inputmode="numeric"
               placeholder={isShop ? "ex) 3세트" : "ex) 6kg"}
               value={isEdit ? formData.quantity : undefined}
               onChange={changeHandler}
