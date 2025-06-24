@@ -15,10 +15,12 @@ const InputField = styled.input.attrs<{
   type?: React.HTMLInputAutoCompleteAttribute;
   value?: string;
   disabled?: boolean;
+  inputMode?: string;
 }>((props) => ({
   type: props.type || "text",
   value: props.value,
   disabled: props.disabled ? true : false,
+  inputMode: props.inputMode || "text",
 }))<{ width?: string; height?: string }>`
   width: ${(props) => props.width || "100%"};
   height: ${(props) => props.height || "inherit"};
@@ -40,6 +42,7 @@ interface InputProps {
   title: string;
   name: string;
   type?: React.HTMLInputAutoCompleteAttribute;
+  inputmode?: string;
   placeholder?: string;
   onChange: (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -70,6 +73,7 @@ export default function Input(props: InputProps) {
         <InputField
           name={props.name}
           type={props.type}
+          inputMode={props.inputmode}
           placeholder={props.placeholder}
           onChange={props.onChange}
           value={props.value}
