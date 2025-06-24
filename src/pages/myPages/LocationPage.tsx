@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import useDeviceSize from "../../useDeviceSize";
+import useDeviceSize from "../../hooks/useDeviceSize";
 import Header from "../../components/common/Header";
 import Button from "../../components/myPages/LocationPage/Button";
 import { useState, useEffect } from "react";
@@ -11,7 +11,7 @@ import { fetchWithAuth } from "../../utils/FetchWithAuth";
 const Wrapper = styled.div<{ $isSmall: boolean }>`
   background-color: white;
   width: ${(props) => (props.$isSmall ? "100%" : "50%")};
-  height: 100vh;
+  height: 100dvh;
   margin: auto;
   position: relative;
   display: flex;

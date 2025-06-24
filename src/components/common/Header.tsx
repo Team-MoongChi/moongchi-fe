@@ -14,10 +14,11 @@ const Wrapper = styled.div`
   border-radius: 0 0 15px 15px;
   top: 0;
 `;
-const Title = styled.p`
-  font-size: 28px;
+const Title = styled.p<{ $fontSize?: string }>`
+  font-size: ${(props) => props.$fontSize || "28px"};
   color: white;
-  font-weight: bold;
+  font-weight: 800;
+  text-align: center;
 `;
 const BackButton = styled.button`
   color: white;
@@ -27,8 +28,9 @@ const BackImg = styled.img`
 `;
 
 interface MainProps {
-  title?: string;
+  title?: string | undefined;
   route?: string | number;
+  $fontSize?: string;
 }
 
 const Header = (props: MainProps) => {
@@ -47,7 +49,7 @@ const Header = (props: MainProps) => {
       <BackButton onClick={handleBackButton}>
         <BackImg src={backButton} alt="" />
       </BackButton>
-      <Title>{props.title}</Title>
+      <Title $fontSize={props.$fontSize}>{props.title}</Title>
       <BackButton style={{ color: "#5849D0" }}>우와</BackButton>
     </Wrapper>
   );

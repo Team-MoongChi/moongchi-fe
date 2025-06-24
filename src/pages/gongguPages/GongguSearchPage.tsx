@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 
-import useDeviceSize from "../../useDeviceSize";
+import useDeviceSize from "../../hooks/useDeviceSize";
 import { fetchWithAuth } from "../../utils/FetchWithAuth";
 import GongguSearchBar from "../../components/gongguPages/gongguMainPage/GongguSearchBar";
 import GongguListItem from "../../components/gongguPages/common/GongguListItem";
@@ -14,7 +14,7 @@ import Loading from "../../components/common/Loading";
 const Body = styled.div`
   padding: 3% 5%;
   background-color: white;
-  height: 100vh;
+  height: 100dvh;
 `;
 
 export default function GongguSearchPage() {
@@ -59,7 +59,7 @@ export default function GongguSearchPage() {
       <GongguSearchBar />
       <Body>
         {result.length === 0 ? (
-          <GongguEmpty height="80vh" />
+          <GongguEmpty height="80dvh" />
         ) : (
           result.map((item, idx) => <GongguListItem key={idx} {...item} />)
         )}

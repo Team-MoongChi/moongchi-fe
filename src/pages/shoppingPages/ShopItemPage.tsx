@@ -2,14 +2,14 @@ import styled from "styled-components";
 import Header from "../../components/shoppingPages/ShopItemPage/Header.tsx";
 import Nav from "../../components/shoppingPages/ShopItemPage/Nav.tsx";
 import Main from "../../components/shoppingPages/ShopItemPage/Main.tsx";
-import useDeviceSize from "../../useDeviceSize.tsx";
+import useDeviceSize from "../../hooks/useDeviceSize.tsx";
 import { useState, useEffect } from "react";
 import { fetchWithAuth } from "../../utils/FetchWithAuth.tsx";
 
 const Wrapper = styled.div<{ $isSmall: boolean }>`
   background-color: white;
   width: ${(props) => (props.$isSmall ? "100%" : "50%")};
-  height: 100vh;
+  height: 100dvh;
   margin: auto;
   position: relative;
 `;

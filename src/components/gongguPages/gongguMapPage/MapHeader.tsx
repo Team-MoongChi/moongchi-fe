@@ -17,8 +17,9 @@ const Wrap = styled.div`
   border-radius: 0 0 15px 15px;
   z-index: 1001;
 `;
-const Icon = styled(Img)`
+const Icon = styled(Img)<{ $visible?: string }>`
   cursor: pointer;
+  visibility: ${(props) => props.$visible || "inherit"};
 `;
 
 export default function MapHeader() {
@@ -35,7 +36,7 @@ export default function MapHeader() {
       <Text fontSize="30px" fontFamily="Dunggeunmisobold" color="white">
         내 근처
       </Text>
-      <Icon src={search} width="30px" height="30px" />
+      <Icon src={search} width="30px" height="30px" $visible="hidden" />
     </Wrap>
   );
 }

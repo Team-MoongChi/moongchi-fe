@@ -1,4 +1,4 @@
-import useDeviceSize from "../../useDeviceSize";
+import useDeviceSize from "../../hooks/useDeviceSize";
 
 import Header from "../../components/gongguPages/gongguWritePage/Header";
 import Content from "../../components/gongguPages/gongguWritePage/Content";

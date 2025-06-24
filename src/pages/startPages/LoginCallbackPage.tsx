@@ -7,14 +7,17 @@ const LoginCallbackPage = () => {
   useEffect(() => {
     const fetchToken = async () => {
       try {
-        const response = await fetch("http://localhost:8080/api/auth/token", {
-          method: "POST",
-          credentials: "include", // 쿠키 포함
-          headers: {
-            "Content-Type": "application/json",
-          },
-          // body가 없으면 생략 가능
-        });
+        const response = await fetch(
+          "https://moong-chi.kro.kr/api/auth/token",
+          {
+            method: "POST",
+            credentials: "include", // 쿠키 포함
+            headers: {
+              "Content-Type": "application/json",
+            },
+            // body가 없으면 생략 가능
+          }
+        );
 
         if (!response.ok) {
           throw new Error("토큰 요청 실패");

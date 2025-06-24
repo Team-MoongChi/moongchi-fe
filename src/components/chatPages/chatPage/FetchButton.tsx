@@ -4,12 +4,13 @@ import { Link } from "react-router-dom";
 
 const Wrap = styled.div`
   display: inline-block;
-  width: 30%;
   align-self: center;
   background-color: #5849d0;
-  border-radius: 20px;
-  padding: 20px 0;
+  border-radius: 15px;
+  margin-top: 10px;
+  padding: 15px 25px;
   text-align: center;
+  cursor: pointer;
 `;
 
 interface ButtonProps {
@@ -23,12 +24,12 @@ export default function FetchButton(props: ButtonProps) {
     <Wrap onClick={props.onClick}>
       {props.link ? (
         <Link to={props.link}>
-          <Text fontSize="15px" fontFamily="DunggeunmisoBold" color="white">
+          <Text fontSize="16px" fontFamily="DunggeunmisoBold" color="white">
             {props.content}
           </Text>
         </Link>
       ) : (
-        <Text fontSize="15px" fontFamily="DunggeunmisoBold" color="white">
+        <Text fontSize="16px" fontFamily="DunggeunmisoBold" color="white">
           {props.content}
         </Text>
       )}

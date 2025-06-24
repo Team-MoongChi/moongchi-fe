@@ -1,4 +1,4 @@
-import useDeviceSize from "../../useDeviceSize";
+import useDeviceSize from "../../hooks/useDeviceSize";
 import { useEffect, useState } from "react";
 
 import Header from "../../components/gongguPages/gongguItemPage/Header";
@@ -9,6 +9,7 @@ import { Wrap } from "../../components/common/styled-component/Wrap";
 
 import { useParams } from "react-router-dom";
 import type { GongguPost } from "../../types/gongguPages/gongguPost";
+import { fetchWithAuth } from "../../utils/FetchWithAuth";
 
 export default function GongguItemPage() {
   const { small } = useDeviceSize();
@@ -25,15 +26,12 @@ export default function GongguItemPage() {
     // console.log(token);
 
     try {
-      const response = await fetch(
-        `http://localhost:8080/api/group-boards/${gongguId}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await fetchWithAuth(`/api/group-boards/${gongguId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -43,7 +41,7 @@ export default function GongguItemPage() {
       setGongguItem(data);
       setLoading(false);
     } catch (error) {
-      console.error("get failed: ", error);
+      console.error("공구 상세 get failed: ", error);
       setLoading(false);
       throw error;
     }

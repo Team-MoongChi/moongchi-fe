@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 const { Kakao } = window;
 
-import useDeviceSize from "../../../useDeviceSize";
+import useDeviceSize from "../../../hooks/useDeviceSize";
 import back from "../../../assets/images/common/뒤로가기.png";
 import edit from "../../../assets/images/gonggu/공구수정아이콘.png";
 import share from "../../../assets/images/gonggu/공구공유아이콘.png";

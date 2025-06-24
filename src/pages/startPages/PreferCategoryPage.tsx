@@ -2,7 +2,7 @@ import Step from "../../components/startPages/PreferCategoryPage/Step";
 import Main from "../../components/startPages/PreferCategoryPage/Main";
 import Button from "../../components/startPages/common/Button";
 import styled from "styled-components";
-import useDeviceSize from "../../useDeviceSize";
+import useDeviceSize from "../../hooks/useDeviceSize";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { fetchWithAuth } from "../../utils/FetchWithAuth";
@@ -10,7 +10,7 @@ import { fetchWithAuth } from "../../utils/FetchWithAuth";
 const Wrapper = styled.div<{ $isSmall: boolean }>`
   background-color: white;
   width: ${(props) => (props.$isSmall ? "100%" : "50%")};
-  height: 100vh;
+  height: 100dvh;
   margin: auto;
   position: relative;
   display: flex;

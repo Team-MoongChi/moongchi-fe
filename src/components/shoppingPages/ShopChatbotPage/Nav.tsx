@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import useDeviceSize from "../../../useDeviceSize";
+import useDeviceSize from "../../../hooks/useDeviceSize";
 import sendImg from "../../../assets/images/common/채팅전송아이콘.png";
 import { useState } from "react";
 import type { Dispatch, SetStateAction } from "react";

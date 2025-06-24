@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Header from "../../components/common/Header.tsx";
 import Main from "../../components/shoppingPages/ShopChatbotPage/Main.tsx";
 import Nav from "../../components/shoppingPages/ShopChatbotPage/Nav.tsx";
-import useDeviceSize from "../../useDeviceSize.tsx";
+import useDeviceSize from "../../hooks/useDeviceSize.tsx";
 import { useEffect, useState, useRef } from "react";
 import { fetchWithAuth } from "../../utils/FetchWithAuth.tsx";
 
@@ -13,7 +13,7 @@ const Wrapper = styled.div<{ $isSmall: boolean }>`
   width: ${(props) => (props.$isSmall ? "100%" : "50%")};
   margin: auto;
   position: relative;
-  min-height: 100vh;
+  min-height: 100dvh;
 `;
 
 type Chat = {

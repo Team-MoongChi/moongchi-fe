@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 
-import useKakaoMap from "../../../useKakaoMap";
+import useKakaoMap from "../../../hooks/useKakaoMap";
 import marker from "../../../assets/images/common/위치마커.png";
 
 interface TradeSpaceProps {

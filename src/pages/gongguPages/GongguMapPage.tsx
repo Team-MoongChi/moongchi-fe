@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useState, useEffect } from "react";
 
 import { fetchWithAuth } from "../../utils/FetchWithAuth";
-import useDeviceSize from "../../useDeviceSize";
+import useDeviceSize from "../../hooks/useDeviceSize";
 import MapHeader from "../../components/gongguPages/gongguMapPage/MapHeader";
 import MapMenu from "../../components/gongguPages/gongguMapPage/MapMenu";
 import GongguMap from "../../components/gongguPages/gongguMapPage/GongguMap";
@@ -16,7 +16,7 @@ const Wrap = styled.div<{ $issmall: boolean }>`
   position: relative;
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100dvh;
   background-color: #fafafa;
 `;
 const Body = styled.div`
@@ -29,7 +29,7 @@ const Overlay = styled.div`
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   background: rgba(255, 255, 255, 0.5); // 반투명 검정
   display: flex;
   flex-direction: column;

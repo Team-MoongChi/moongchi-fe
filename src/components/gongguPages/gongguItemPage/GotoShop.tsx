@@ -4,7 +4,7 @@ import { Img } from "../../common/styled-component/Img";
 
 import arrow from "../../../assets/images/gonggu/backarrow.png";
 import { useNavigate } from "react-router-dom";
-import useDeviceSize from "../../../useDeviceSize";
+import useDeviceSize from "../../../hooks/useDeviceSize";
 import { useHistoryStack } from "../../../utils/useHistoryStack";
 
 const Wrap = styled.div`

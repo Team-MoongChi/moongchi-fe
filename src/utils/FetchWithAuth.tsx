@@ -11,7 +11,7 @@ export const fetchWithAuth = async (
     headers.set("Authorization", `Bearer ${accessToken}`);
   }
 
-  const baseURL = "http://localhost:8080";
+  const baseURL = "https://moong-chi.kro.kr";
   try {
     const res = await fetch(`${baseURL}${input}`, {
       ...init,
@@ -46,7 +46,7 @@ export const fetchWithAuth = async (
         const currentPath = window.location.pathname;
         if (currentPath === "/") {
           window.location.href = "/start";
-        } else {
+        } else if (!currentPath.startsWith("/gonggu/list")) {
           window.location.href = "/start";
           alert("로그인을 진행해주세요.");
         }

@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import { Text } from "../../common/styled-component/Text";
 import { Img } from "../../common/styled-component/Img";
 import ParticipantsProfile from "../../common/ParticipantsProfile";
-import { useCalDay } from "../../../useTimeStamp";
+import useCalDay from "../../../hooks/useCalDay";
 
 import red from "../../../assets/images/gonggu/마감임박.png";
 import blue from "../../../assets/images/gonggu/모집중.png";

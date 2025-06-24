@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 
-import useDeviceSize from "../../useDeviceSize";
+import useDeviceSize from "../../hooks/useDeviceSize";
 import Header from "../../components/chatPages/chatListPage/Header";
 import ChatListItem from "../../components/chatPages/chatListPage/ChatListItem";
 import Nav from "../../components/common/Nav";
@@ -9,11 +9,16 @@ import { Wrap } from "../../components/common/styled-component/Wrap";
 import { fetchWithAuth } from "../../utils/FetchWithAuth";
 import type { ChatRoomList } from "../../types/chatPages/chatRoomList";
 
+const PageWrap = styled(Wrap)`
+  height: 100dvh;
+`;
 const ChatList = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0 5%;
   gap: 10px;
+  padding-bottom: 13vh;
+  background-color: white;
 `;
 
 export default function ChatListPage() {
@@ -51,7 +56,7 @@ export default function ChatListPage() {
   if (loading) return <div>loading...</div>;
 
   return (
-    <Wrap $issmall={small} $gap="15px">
+    <PageWrap $issmall={small} $gap="15px">
       <Header />
 
       <ChatList>
@@ -61,6 +66,6 @@ export default function ChatListPage() {
       </ChatList>
 
       <Nav />
-    </Wrap>
+    </PageWrap>
   );
 }
