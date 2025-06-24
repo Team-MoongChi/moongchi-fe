@@ -55,21 +55,21 @@ const LoginPage = () => {
       <Buttons>
         <LoginButton
           color="#FFEB3B"
-          href="https://moong-chi.kro.kr/oauth2/authorization/kakao"
+          href="https://api.moong-chi.com/oauth2/authorization/kakao"
         >
           <Img src={kakao} />
           카카오로 시작하기
         </LoginButton>
         <LoginButton
           color="#03C75A"
-          href="https://moong-chi.kro.kr/oauth2/authorization/naver"
+          href="https://api.moong-chi.com/oauth2/authorization/naver"
         >
           <Img src={naver} />
           네이버로 시작하기
         </LoginButton>
         <LoginButton
           color="#4285F4"
-          href="https://moong-chi.kro.kr/oauth2/authorization/google"
+          href="https://api.moong-chi.com/oauth2/authorization/google"
         >
           <Img src={google} />
           구글로 시작하기

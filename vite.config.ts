@@ -8,7 +8,7 @@ export default defineConfig({
     port: 3000, // 여기 포트 번호 바꿔줌
     proxy: {
       "/socket": {
-        target: "https://moong-chi.kro.kr",
+        target: "https://api.moong-chi.com",
         changeOrigin: true,
         ws: true,
         secure: false,

@@ -8,7 +8,7 @@ const LoginCallbackPage = () => {
     const fetchToken = async () => {
       try {
         const response = await fetch(
-          "https://moong-chi.kro.kr/api/auth/token",
+          "https://api.moong-chi.com/api/auth/token",
           {
             method: "POST",
             credentials: "include", // 쿠키 포함

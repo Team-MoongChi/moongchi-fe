@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/socket/:path*",
-      "destination": "https://moong-chi.kro.kr/socket/:path*"
+      "destination": "https://api.moong-chi.com/socket/:path*"
     },
     {
       "source": "/(.*)",
