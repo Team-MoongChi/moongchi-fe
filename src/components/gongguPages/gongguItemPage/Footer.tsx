@@ -118,7 +118,7 @@ export default function Footer(props: FooterProp) {
     // const token = localStorage.getItem("accessToken");
     // console.log(token);
 
-    fetch(`http://localhost:8080/api/group-boards/like`, {
+    fetchWithAuth(`/api/group-boards/like`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

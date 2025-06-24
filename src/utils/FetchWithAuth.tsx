@@ -46,7 +46,7 @@ export const fetchWithAuth = async (
         const currentPath = window.location.pathname;
         if (currentPath === "/") {
           window.location.href = "/start";
-        } else {
+        } else if (!currentPath.startsWith("/gonggu/list")) {
           window.location.href = "/start";
           alert("로그인을 진행해주세요.");
         }
