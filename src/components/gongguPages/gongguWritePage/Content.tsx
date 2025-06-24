@@ -16,6 +16,7 @@ import { Text } from "../../common/styled-component/Text";
 const Wrap = styled.div`
   padding: 0 5%;
   padding-bottom: 15vh;
+  background-color: white;
 `;
 const Form = styled.form`
   display: flex;
