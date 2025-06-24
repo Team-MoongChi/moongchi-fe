@@ -19,9 +19,9 @@ const Title = styled.div<{ $isfocused: boolean }>`
   font-size: 14px;
 `;
 const Input = styled.input`
-  width: 100%;
-  height: 50px;
-  max-height: 50px;
+  width: 0;
+  min-width: 100%;
+  height: 0;
   min-height: 50px;
   border: 1px solid #afb1b6;
   border-radius: 10px;
