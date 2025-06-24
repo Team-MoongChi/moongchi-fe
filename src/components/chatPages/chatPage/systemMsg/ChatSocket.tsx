@@ -96,7 +96,7 @@ export default function ChatSocket({
     try {
       const client = new Client({
         webSocketFactory: () => {
-          const socket = new SockJS(`/ws/chat`, null, {
+          const socket = new SockJS(`/socket`, null, {
             transports: ["websocket", "xhr-streaming", "xhr-polling"],
           });
           console.log("SockJS 인스턴스 생성:", `/ws/chat`);
