@@ -8,7 +8,7 @@ export default defineConfig({
     port: 3000, // 여기 포트 번호 바꿔줌
     proxy: {
       "/ws/chat": {
-        target: "http://localhost:8080",
+        target: "https://moong-chi.kro.kr",
         changeOrigin: true,
         ws: true,
         secure: false,

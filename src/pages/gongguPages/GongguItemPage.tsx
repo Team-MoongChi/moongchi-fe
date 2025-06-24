@@ -26,7 +26,7 @@ export default function GongguItemPage() {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/api/group-boards/${gongguId}`,
+        `https://moong-chi.kro.kr/api/group-boards/${gongguId}`,
         {
           method: "GET",
           headers: {
