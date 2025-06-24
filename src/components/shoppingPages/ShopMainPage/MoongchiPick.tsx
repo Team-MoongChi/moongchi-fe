@@ -112,6 +112,74 @@ type Product = {
   smallCategory: string;
 };
 
+const dummyProducts: Product[] = [
+  {
+    id: 1,
+    name: "샤오미 무선 청소기",
+    price: 149000,
+    imgUrl: "https://via.placeholder.com/150",
+    productUrl: "https://example.com/product/1",
+    rating: 4.5,
+    likeCount: 123,
+    largeCategoryId: 1,
+    largeCategory: "가전",
+    mediumCategory: "청소기",
+    smallCategory: "무선청소기",
+  },
+  {
+    id: 2,
+    name: "로지텍 무선 마우스",
+    price: 39000,
+    imgUrl: "https://via.placeholder.com/150",
+    productUrl: "https://example.com/product/2",
+    rating: 4.8,
+    likeCount: 85,
+    largeCategoryId: 2,
+    largeCategory: "컴퓨터",
+    mediumCategory: "입력기기",
+    smallCategory: "마우스",
+  },
+  {
+    id: 3,
+    name: "아이패드 10세대",
+    price: 499000,
+    imgUrl: "https://via.placeholder.com/150",
+    productUrl: "https://example.com/product/3",
+    rating: 4.7,
+    likeCount: 300,
+    largeCategoryId: 3,
+    largeCategory: "전자기기",
+    mediumCategory: "태블릿",
+    smallCategory: "아이패드",
+  },
+  {
+    id: 4,
+    name: "나이키 에어맥스 270",
+    price: 129000,
+    imgUrl: "https://via.placeholder.com/150",
+    productUrl: "https://example.com/product/4",
+    rating: 4.2,
+    likeCount: 190,
+    largeCategoryId: 4,
+    largeCategory: "패션",
+    mediumCategory: "신발",
+    smallCategory: "운동화",
+  },
+  {
+    id: 5,
+    name: "스타벅스 1만원 기프트카드",
+    price: 10000,
+    imgUrl: "https://via.placeholder.com/150",
+    productUrl: "https://example.com/product/5",
+    rating: 4.9,
+    likeCount: 450,
+    largeCategoryId: 5,
+    largeCategory: "기프티콘",
+    mediumCategory: "음료",
+    smallCategory: "스타벅스",
+  },
+];
+
 const MoongchiPick = () => {
   const token = localStorage.getItem("accessToken");
   const [freshItems, setFreshItems] = useState<Product[]>([]);
@@ -181,7 +249,7 @@ const MoongchiPick = () => {
   return (
     <Wrapper>
       <AIPick>
-        {recommendItems?.map((item) => (
+        {dummyProducts?.map((item) => (
           <Item key={item.id} onClick={() => handleItemClick(item.id)}>
             <Img src={item.imgUrl}></Img>
             <ItemName>{item.name}</ItemName>
