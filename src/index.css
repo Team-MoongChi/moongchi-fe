@@ -26,7 +26,6 @@
 html,
 body,
 #root {
-  -webkit-text-decoration-skip: none;
   height: 100%;
   background-color: #f9f9f9;
   color: #333;
@@ -38,8 +37,9 @@ body,
   }
 }
 
-a {
-  text-decoration: none;
+a,
+a[href] {
+  text-decoration: none !important;
   color: inherit;
 }
 
