@@ -16,6 +16,16 @@ const AIPick = styled.div`
   margin-bottom: 30px;
   border-top: 3px solid #b6b7ff;
   border-bottom: 3px solid #b6b7ff;
+  display: flex;
+  gap: 10px;
+  padding: 0px 10px;
+  overflow-x: scroll;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+
+  &::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+  }
 `;
 const RandomWrapper = styled.div`
   width: 100%;
@@ -170,7 +180,15 @@ const MoongchiPick = () => {
 
   return (
     <Wrapper>
-      <AIPick></AIPick>
+      <AIPick>
+        {recommendItems?.map((item) => (
+          <Item key={item.id} onClick={() => handleItemClick(item.id)}>
+            <Img src={item.imgUrl}></Img>
+            <ItemName>{item.name}</ItemName>
+            <Price>{item.price.toLocaleString()}원</Price>
+          </Item>
+        ))}
+      </AIPick>
       <>
         <RandomTitle>🛒 이런 카테고리 상품들도 눈여겨보세요!</RandomTitle>
         <RandomWrapper>
