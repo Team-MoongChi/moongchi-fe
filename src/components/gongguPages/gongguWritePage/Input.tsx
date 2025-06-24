@@ -23,6 +23,7 @@ const InputField = styled.input.attrs<{
   inputMode: props.inputMode || "text",
 }))`
   width: 100%;
+  max-width: 100%;
   min-width: 100%;
   height: 45px;
   background-color: white;
