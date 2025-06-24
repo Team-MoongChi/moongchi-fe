@@ -27,6 +27,7 @@ const Input = styled.input`
   border-radius: 10px;
   font-size: 20px;
   padding: 12px;
+  background-color: white;
 
   &:focus {
     border: 2px solid #5849d0;
@@ -57,6 +58,7 @@ const InputBoxHalf = ({ onChange1, onChange2 }: MainProps) => {
           onBlur={() => setIsFocusedB(false)}
           style={{ width: "48px" }}
           onChange={(e) => onChange1?.(e.target.value)}
+          placeholder="날짜 선택"
         />
       </InputWrapper>
       <InputWrapper>
