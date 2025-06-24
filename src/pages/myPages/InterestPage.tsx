@@ -105,6 +105,7 @@ const ItemName = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: left;
+  color: black;
 `;
 const Price = styled.div`
   font-size: 15px;
