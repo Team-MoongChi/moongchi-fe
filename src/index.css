@@ -40,7 +40,6 @@ body,
 a,
 a[href] {
   text-decoration: none !important;
-  color: inherit;
 }
 
 button {
