@@ -8,7 +8,7 @@ import google from "../../assets/images/common/구글.png";
 const Wrapper = styled.div<{ $isSmall: boolean }>`
   background-color: white;
   width: ${(props) => (props.$isSmall ? "100%" : "50%")};
-  height: 100vh;
+  height: 100dvh;
   margin: auto;
   position: relative;
   display: flex;
@@ -55,21 +55,21 @@ const LoginPage = () => {
       <Buttons>
         <LoginButton
           color="#FFEB3B"
-          href="http://localhost:8080/oauth2/authorization/kakao"
+          href="https://moong-chi.kro.kr/oauth2/authorization/kakao"
         >
           <Img src={kakao} />
           카카오로 시작하기
         </LoginButton>
         <LoginButton
           color="#03C75A"
-          href="http://localhost:8080/oauth2/authorization/naver"
+          href="https://moong-chi.kro.kr/oauth2/authorization/naver"
         >
           <Img src={naver} />
           네이버로 시작하기
         </LoginButton>
         <LoginButton
           color="#4285F4"
-          href="http://localhost:8080/oauth2/authorization/google"
+          href="https://moong-chi.kro.kr/oauth2/authorization/google"
         >
           <Img src={google} />
           구글로 시작하기

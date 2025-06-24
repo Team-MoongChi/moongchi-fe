@@ -52,7 +52,7 @@ const Overlay = styled.div`
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   background: rgba(0, 0, 0, 0.5); // 반투명 검정
   display: flex;
   justify-content: center;
@@ -115,13 +115,14 @@ export default function Footer(props: FooterProp) {
   const [isLike, setIsLike] = useState<boolean>(false);
 
   useEffect(() => {
-    // const token = localStorage.getItem("accessToken");
-    // console.log(token);
+    const token = localStorage.getItem("accessToken");
+    console.log(token);
 
     fetchWithAuth(`/api/group-boards/like`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     })
       .then((response) => {

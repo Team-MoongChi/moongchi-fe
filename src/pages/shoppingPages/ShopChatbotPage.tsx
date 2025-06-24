@@ -12,7 +12,7 @@ const Wrapper = styled.div<{ $isSmall: boolean }>`
   width: ${(props) => (props.$isSmall ? "100%" : "50%")};
   margin: auto;
   position: relative;
-  min-height: 100vh;
+  min-height: 100dvh;
 `;
 
 type Chat = {

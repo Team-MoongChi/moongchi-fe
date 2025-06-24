@@ -12,7 +12,7 @@ import { useHistoryStack } from "../../utils/useHistoryStack";
 const Wrapper = styled.div<{ $isSmall: boolean }>`
   background-color: white;
   width: ${(props) => (props.$isSmall ? "100%" : "50%")};
-  min-height: 100vh;
+  min-height: 100dvh;
   margin: auto;
   position: relative;
   display: flex;

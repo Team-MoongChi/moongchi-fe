@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/socket/:path*",
+      "destination": "https://moong-chi.kro.kr/socket/:path*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/"
+    }
+  ]
+}

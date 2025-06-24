@@ -11,7 +11,7 @@ export const fetchWithAuth = async (
     headers.set("Authorization", `Bearer ${accessToken}`);
   }
 
-  const baseURL = "http://localhost:8080";
+  const baseURL = "https://moong-chi.kro.kr";
   try {
     const res = await fetch(`${baseURL}${input}`, {
       ...init,

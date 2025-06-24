@@ -10,7 +10,7 @@ import { fetchWithAuth } from "../../utils/FetchWithAuth.tsx";
 const Wrapper = styled.div<{ $isSmall: boolean }>`
   background-color: white;
   width: ${(props) => (props.$isSmall ? "100%" : "50%")};
-  min-height: 80vh;
+  min-height: 80dvh;
   margin: auto;
   position: relative;
 `;

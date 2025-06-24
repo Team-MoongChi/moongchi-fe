@@ -10,7 +10,7 @@ import { fetchWithAuth } from "../../utils/FetchWithAuth";
 import type { ChatRoomList } from "../../types/chatPages/chatRoomList";
 
 const PageWrap = styled(Wrap)`
-  height: 100vh;
+  height: 100dvh;
 `;
 const ChatList = styled.div`
   display: flex;
