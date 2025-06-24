@@ -22,9 +22,8 @@ const InputField = styled.input.attrs<{
   disabled: props.disabled ? true : false,
   inputMode: props.inputMode || "text",
 }))`
+  display: block;
   width: 100%;
-  max-width: 100%;
-  min-width: 100%;
   height: 45px;
   background-color: white;
   border-radius: 8px;
