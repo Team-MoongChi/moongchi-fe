@@ -39,9 +39,6 @@ const InputField = styled.input.attrs<{
     -webkit-appearance: none;
     margin: 0;
   }
-  &::-webkit-datetime-edit {
-    margin-right: 5%;
-  }
 `;
 
 interface InputProps {

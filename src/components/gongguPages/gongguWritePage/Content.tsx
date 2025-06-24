@@ -21,6 +21,7 @@ const Wrap = styled.div`
 const Form = styled.form`
   display: flex;
   flex-direction: column;
+  width: 100%;
   gap: 20px;
 `;
 const InputWrap = styled.div`
