@@ -1,4 +1,7 @@
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+
+import { useHistoryStack } from "../../../utils/useHistoryStack";
 import { Img } from "../../common/styled-component/Img";
 import { Text } from "../../common/styled-component/Text";
 import { fetchWithAuth } from "../../../utils/FetchWithAuth";
@@ -56,26 +59,11 @@ interface RecommendItem {
 }
 
 export default function GongguRecommend() {
-  // const dummy = [
-  //   {
-  //     userId: 3,
-  //     nickname: "하은",
-  //     profileUrl:
-  //       "https://image.utoimage.com/preview/cp872722/2022/12/202212008462_500.jpg",
-  //     mannerLeader: 53,
-  //     role: "LEADER",
-  //   },
-  //   {
-  //     userId: 4,
-  //     nickname: "재은",
-  //     profileUrl:
-  //       "https://image.utoimage.com/preview/cp872722/2022/12/202212008462_500.jpg",
-  //     mannerLeader: 53,
-  //     role: "MEMBER",
-  //   },
-  // ];
   const [loading, setLoading] = useState<boolean>(false);
   const [recommend, setRecommend] = useState<RecommendItem[]>([]);
+
+  const navigate = useNavigate();
+  const { push } = useHistoryStack();
 
   const fetchRecommend = async () => {
     setLoading(true);
@@ -107,6 +95,11 @@ export default function GongguRecommend() {
     fetchRecommend();
   }, []);
 
+  const handleClick = (id: number) => {
+    push(); // 현재 경로 저장
+    navigate(`/gonggu/list/${id}`);
+  };
+
   if (loading) return <div>loading...</div>;
   return (
     <Wrap>
@@ -116,7 +109,7 @@ export default function GongguRecommend() {
       <RecList>
         <ScrollArea>
           {recommend.map((item, idx) => (
-            <RecItem key={idx}>
+            <RecItem key={idx} onClick={() => handleClick(item.id)}>
               <Img
                 src={item.image}
                 width="100px"
