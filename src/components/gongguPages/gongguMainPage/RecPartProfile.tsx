@@ -42,7 +42,7 @@ export default function RecPartProfile(props: Props) {
     return arr;
   };
 
-  const totalMoreFive = () => {
+  const totalMoreFour = () => {
     const arr = [];
     for (let i = 1; i < 4 - currentUsers; i++) {
       arr.push(<Img key={i - 1} src={empty} width="18px" height="18px"></Img>);
@@ -59,19 +59,32 @@ export default function RecPartProfile(props: Props) {
 
   return (
     <Wrap>
-      {participants?.slice(0, 3).map((participant, idx) => {
-        return (
-          <Img
-            key={idx}
-            src={participant.profileUrl}
-            width="18px"
-            height="18px"
-            $border="1px solid #5849d0"
-            $borderradious="50%"
-          ></Img>
-        );
-      })}
-      {totalUser > 4 ? totalMoreFive() : emptyProfile()}
+      {currentUsers === 4 && totalUser === 4
+        ? participants?.map((participant, idx) => {
+            return (
+              <Img
+                key={idx}
+                src={participant.profileUrl}
+                width="18px"
+                height="18px"
+                $border="1px solid #5849d0"
+                $borderradious="50%"
+              ></Img>
+            );
+          })
+        : participants?.slice(0, 3).map((participant, idx) => {
+            return (
+              <Img
+                key={idx}
+                src={participant.profileUrl}
+                width="18px"
+                height="18px"
+                $border="1px solid #5849d0"
+                $borderradious="50%"
+              ></Img>
+            );
+          })}
+      {totalUser > 4 ? totalMoreFour() : emptyProfile()}
     </Wrap>
   );
 }

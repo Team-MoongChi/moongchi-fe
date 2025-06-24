@@ -62,18 +62,31 @@ export default function ParticipantsProfile(props: Props) {
 
   return (
     <Wrap>
-      {participants?.slice(0, 4).map((participant, idx) => {
-        return (
-          <Img
-            key={idx}
-            src={participant.profileUrl}
-            width="20px"
-            height="20px"
-            $border="1px solid #5849d0"
-            $borderradious="50%"
-          ></Img>
-        );
-      })}
+      {currentUsers === 5 && totalUser === 5
+        ? participants?.map((participant, idx) => {
+            return (
+              <Img
+                key={idx}
+                src={participant.profileUrl}
+                width="20px"
+                height="20px"
+                $border="1px solid #5849d0"
+                $borderradious="50%"
+              ></Img>
+            );
+          })
+        : participants?.slice(0, 4).map((participant, idx) => {
+            return (
+              <Img
+                key={idx}
+                src={participant.profileUrl}
+                width="20px"
+                height="20px"
+                $border="1px solid #5849d0"
+                $borderradious="50%"
+              ></Img>
+            );
+          })}
       {totalUser > 5 ? totalMoreFive() : emptyProfile()}
     </Wrap>
   );
