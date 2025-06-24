@@ -246,6 +246,7 @@ export default function Content() {
             <Input
               title="총원"
               name="totalUser"
+              inputmode="numeric"
               placeholder="ex) 3"
               value={isEdit ? String(formData.totalUser) : undefined}
               onChange={changeHandler}
@@ -253,6 +254,7 @@ export default function Content() {
             <Input
               title="총 수량"
               name="quantity"
+              inputmode="numeric"
               placeholder={isShop ? "ex) 3세트" : "ex) 6kg"}
               value={isEdit ? formData.quantity : undefined}
               onChange={changeHandler}
@@ -262,6 +264,7 @@ export default function Content() {
             <Input
               title="총 가격"
               name="price"
+              inputmode="numeric"
               placeholder="숫자만 입력해주세요."
               value={isEdit ? String(formData.price) : undefined}
               onChange={changeHandler}
