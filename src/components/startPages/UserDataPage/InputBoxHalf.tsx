@@ -6,6 +6,7 @@ const Wrapper = styled.div`
   gap: 15px;
   width: 80%;
   max-width: 500px;
+  justify-content: space-evenly;
 `;
 const InputWrapper = styled.div`
   display: flex;
@@ -20,11 +21,14 @@ const Title = styled.div<{ $isfocused: boolean }>`
 `;
 const Input = styled.input`
   width: 100%;
-  height: 50px;
+  max-width: 240px;
+  min-height: 50px;
+  max-height: 50px;
   border: 1px solid #afb1b6;
   border-radius: 10px;
   font-size: 20px;
   padding: 12px;
+  background-color: white;
 
   &:focus {
     border: 2px solid #5849d0;
