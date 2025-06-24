@@ -5,7 +5,6 @@ import Main from "../../components/startPages/UserDataPage/Main";
 import Button from "../../components/startPages/common/Button";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { fetchWithAuth } from "../../utils/FetchWithAuth";
 
 const Wrapper = styled.div<{ $isSmall: boolean }>`
   background-color: white;
@@ -50,7 +49,7 @@ const UserDataPage = () => {
 
   const ButtonHandle = () => {
     const token = localStorage.getItem("accessToken");
-    fetchWithAuth("/api/users", {
+    fetch("https://moong-chi.kro.kr/api/users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -88,7 +87,7 @@ const UserDataPage = () => {
 
   useEffect(() => {
     // 1) /api/auth/users에서 사용자 정보 받아오기
-    fetchWithAuth("/api/users/basic", {
+    fetch("https://moong-chi.kro.kr/api/users/basic", {
       method: "GET",
       credentials: "include", // withCredentials: true 역할
     })
