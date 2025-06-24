@@ -3,15 +3,15 @@ import { useState } from "react";
 
 const Wrapper = styled.div`
   display: flex;
-  gap: 15px;
   width: 80%;
   max-width: 500px;
+  justify-content: space-between;
 `;
 const InputWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 5px;
-  width: 50%;
+  width: 49%;
 `;
 const Title = styled.div<{ $isfocused: boolean }>`
   color: ${(props) => (props.$isfocused ? "#5849d0" : "#afb1b6")};
@@ -21,6 +21,8 @@ const Title = styled.div<{ $isfocused: boolean }>`
 const Input = styled.input`
   width: 100%;
   height: 50px;
+  max-height: 50px;
+  min-height: 50px;
   border: 1px solid #afb1b6;
   border-radius: 10px;
   font-size: 20px;
