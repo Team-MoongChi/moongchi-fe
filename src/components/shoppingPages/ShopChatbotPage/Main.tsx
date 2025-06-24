@@ -12,20 +12,30 @@ const Wrapper = styled.div`
 `;
 const Blank = styled.div`
   width: 100%;
-  height: 80px;
+  height: 70px;
 `;
 
 type Chat = {
   status: number; //0이면 AI, 1이면 유저
   text: string;
+  imgUrls?: string[];
+  productIds?: number[];
 };
 
-const Main = ({ chattings }: { chattings: Chat[] }) => {
+const Main = ({
+  chattings,
+  loading,
+}: {
+  chattings: Chat[];
+  loading: boolean;
+}) => {
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (bottomRef.current) {
-      bottomRef.current.scrollIntoView({ behavior: "smooth" });
+      setTimeout(() => {
+        bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+      }, 30);
     }
   }, [chattings]);
 
@@ -33,7 +43,13 @@ const Main = ({ chattings }: { chattings: Chat[] }) => {
     <Wrapper>
       {chattings?.map((chat, index) =>
         chat.status === 0 ? (
-          <AIChat text={chat.text} key={index} />
+          <AIChat
+            chat={chat}
+            key={index}
+            Key={index}
+            loading={loading}
+            length={chattings.length}
+          />
         ) : (
           <IChat text={chat.text} key={index} />
         )

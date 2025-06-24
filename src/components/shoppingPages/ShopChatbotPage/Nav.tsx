@@ -46,11 +46,20 @@ type Chat = {
   status: number;
   text: string;
 };
+type User = {
+  name: string;
+  birth: string;
+  gender: string;
+};
 
 const Nav = ({
   setChattings,
+  user,
+  sendToAI,
 }: {
   setChattings: Dispatch<SetStateAction<Chat[]>>;
+  user: User;
+  sendToAI: (text: string, user: User) => void;
 }) => {
   const { small } = useDeviceSize();
   const [inputText, setInputText] = useState("");
@@ -64,6 +73,8 @@ const Nav = ({
     };
 
     setChattings((prev: Chat[]) => [...prev, newChat]);
+
+    sendToAI(inputText.trim(), user);
     setInputText("");
   };
   const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
