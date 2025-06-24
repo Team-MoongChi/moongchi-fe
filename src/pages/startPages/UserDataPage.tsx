@@ -49,7 +49,7 @@ const UserDataPage = () => {
 
   const ButtonHandle = () => {
     const token = localStorage.getItem("accessToken");
-    fetch("https://moong-chi.kro.kr/api/users", {
+    fetch("https://api.moong-chi.com/api/users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -87,7 +87,7 @@ const UserDataPage = () => {
 
   useEffect(() => {
     // 1) /api/auth/users에서 사용자 정보 받아오기
-    fetch("https://moong-chi.kro.kr/api/users/basic", {
+    fetch("https://api.moong-chi.com/api/users/basic", {
       method: "GET",
       credentials: "include", // withCredentials: true 역할
     })

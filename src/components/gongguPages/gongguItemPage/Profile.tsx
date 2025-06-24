@@ -133,7 +133,7 @@ const Profile = ({ readerId }: { readerId: number }) => {
     // const token = localStorage.getItem("accessToken"); // 또는 sessionStorage, context 등
     // setLoading(true);
 
-    fetch(`https://moong-chi.kro.kr/api/users/${readerId}`, {
+    fetch(`https://api.moong-chi.com/api/users/${readerId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
