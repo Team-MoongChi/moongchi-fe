@@ -1,8 +1,12 @@
 {
   "rewrites": [
     {
-      "source": "/socket/:path*",
-      "destination": "https://api.moong-chi.com/socket/:path*"
+      "source": "/ws/chat",
+      "destination": "https://api.moong-chi.com/ws/chat"
+    },
+    {
+      "source": "/ws/chat/:path*",
+      "destination": "https://api.moong-chi.com/ws/chat/:path*"
     },
     {
       "source": "/(.*)",
