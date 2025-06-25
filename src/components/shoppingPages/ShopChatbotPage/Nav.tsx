@@ -20,7 +20,7 @@ const InputWrapper = styled.div`
   width: 90%;
   height: 48px;
   background-color: white;
-  border: 3px solid #5849d0;
+  border: 3px solid #e8edff;
   border-radius: 15px;
   display: flex;
   align-items: center;
