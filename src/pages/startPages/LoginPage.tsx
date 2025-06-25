@@ -17,6 +17,7 @@ const Wrapper = styled.div<{ $isSmall: boolean }>`
 `;
 const MoongBox = styled.img`
   width: 60%;
+  aspect-ratio: 330/246.31;
   max-width: 330px;
   margin-top: 110px;
   margin-bottom: 150px;
