@@ -36,6 +36,7 @@ const RecItem = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 5px;
+  cursor: pointer;
 `;
 const Title = styled(Text)`
   width: 90px;
