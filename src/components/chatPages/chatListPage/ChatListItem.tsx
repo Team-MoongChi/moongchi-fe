@@ -79,6 +79,7 @@ const Message = styled(Text)`
 
 const StyledLink = styled(Link)`
   text-decoration: none;
+  color: black;
 `;
 
 export default function ChatListItem(props: ChatRoomList) {
