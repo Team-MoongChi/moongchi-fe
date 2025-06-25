@@ -14,6 +14,7 @@ import { fetchWithAuth } from "../../utils/FetchWithAuth";
 import type { GongguItem } from "../../types/gongguPages/gongguItem";
 import writeIcon from "../../assets/images/common/공구생성아이콘.png";
 import GongguEmpty from "../../components/gongguPages/gongguMainPage/GongguEmpty";
+import loadingM from "../../assets/images/moongchies/로딩중.gif";
 
 const Body = styled.div`
   background-color: white;
@@ -41,6 +42,23 @@ const WriteIcon = styled.img.attrs({
   cursor: pointer;
   align-self: end;
   margin: 5px 15px;
+`;
+const LoadingWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 20px;
+  background-color: #e8edff;
+  border-radius: 6px;
+  height: 200px;
+  img {
+    width: 200px;
+  }
+  p {
+    color: #5849d0;
+    font-family: DunggeunmisoBold;
+  }
 `;
 
 export default function GongguMainPage() {
@@ -119,8 +137,6 @@ export default function GongguMainPage() {
     }
   }, [menuClicked]);
 
-  if (loading) return <div>loading...</div>;
-
   return (
     <Wrap $issmall={small}>
       <GongguSearchBar />
@@ -132,7 +148,12 @@ export default function GongguMainPage() {
           <Text fontSize="20px" fontFamily="DunggeunmisoBold" color="#5849d0">
             근처에서 열린 공구
           </Text>
-          {gongguList.length === 0 ? (
+          {loading ? (
+            <LoadingWrapper>
+              <img src={loadingM} alt="" />
+              <p>공구들을 불러오고 있어요</p>
+            </LoadingWrapper>
+          ) : gongguList.length === 0 ? (
             <GongguEmpty height="50vh" />
           ) : (
             gongguList.map((gongguItem, idx) => {
