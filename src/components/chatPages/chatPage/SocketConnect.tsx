@@ -1,60 +1,74 @@
-import styled from "styled-components";
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback, useMemo } from "react";
+import { Client } from "@stomp/stompjs";
+import { Outlet, useParams } from "react-router-dom";
+import { StompHeaders, type Frame } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
-import { Client, StompHeaders, type Frame } from "@stomp/stompjs";
-import type { Message } from "../../../../types/chatPages/message";
-import useDeviceSize from "../../../../hooks/useDeviceSize";
-import { Img } from "../../../common/styled-component/Img";
-import sendChat from "../../../../assets/images/common/채팅전송아이콘.png";
 
-const InputWrap = styled.div<{ $isSmall: boolean }>`
-  display: flex;
-  background-color: #5849d0;
-  position: sticky;
-  bottom: 0;
-  width: 100%;
-`;
-const ButtonAndInput = styled.div`
-  display: flex;
-  align-items: center;
-  border-radius: 15px;
-  background-color: white;
-  margin: 20px 5%;
-  padding: 0 5%;
-  width: 100%;
-`;
-const Input = styled.input`
-  border: none;
-  width: 90%;
-  padding: 15px;
-  font-size: clamp(18px, 2vw, 20px);
-  &:focus {
-    outline: none;
-  }
-`;
+import { fetchWithAuth } from "../../../utils/FetchWithAuth";
+import type { ChatRoomItem } from "../../../types/chatPages/chatRoomItem";
+import type { Message } from "../../../types/chatPages/message";
 
-interface ChatSocketProps {
-  chatRoomId: number;
-  participantId: number;
-  token: string;
-  newMessages: Message[];
-  setNewMessages: React.Dispatch<React.SetStateAction<Message[]>>;
-  setParticipantMap: React.Dispatch<
-    React.SetStateAction<Map<number, { nickname: string; profileUrl: string }>>
-  >;
-}
+export default function SocketConnect() {
+  const { chatRoomId } = useParams();
+  const [chatRoom, setChatRoom] = useState<ChatRoomItem>();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [token, setToken] = useState<string>("");
+  const [participantMap, setParticipantMap] = useState(
+    new Map<number, { nickname: string; profileUrl: string }>()
+  );
+  const [newMessages, setNewMessages] = useState<Message[]>([]);
 
-export default function ChatSocket({
-  chatRoomId,
-  participantId,
-  token,
-  newMessages,
-  setNewMessages,
-  setParticipantMap,
-}: ChatSocketProps) {
-  const { small } = useDeviceSize();
+  const fetchChatRoom = async () => {
+    const token = localStorage.getItem("accessToken");
+    console.log(token);
+    if (token) setToken(token);
 
-  const [input, setInput] = useState("");
+    try {
+      const response = await fetchWithAuth(`/api/chat/rooms/${chatRoomId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data: ChatRoomItem = await response.json();
+      console.log(data);
+      setChatRoom(data);
+      setLoading(false);
+    } catch (error) {
+      console.error("get failed: ", error);
+      setLoading(false);
+      throw error;
+    }
+  };
+  useEffect(() => {
+    fetchChatRoom();
+  }, []);
+
+  const myParticipant = useMemo(() => {
+    return chatRoom?.participants.find((participant) => participant.me) || null;
+  }, [chatRoom]);
+
+  useEffect(() => {
+    console.log(myParticipant);
+  }, [myParticipant]);
+
+  useEffect(() => {
+    if (chatRoom?.participants) {
+      const newMap = new Map();
+      chatRoom.participants.forEach((p) => {
+        newMap.set(p.participantId, {
+          nickname: p.nickname,
+          profileUrl: p.profileUrl || "/images/default-profile.png",
+        });
+      });
+      setParticipantMap(newMap);
+    }
+  }, [chatRoom]);
+
   const [connected, setConnected] = useState(false);
 
   const stompClientRef = useRef<Client | null>(null);
@@ -70,14 +84,14 @@ export default function ChatSocket({
   const shouldAttemptReconnect = useRef(true); // 재연결 시도 여부 플래그
 
   const connectSocket = useCallback(() => {
-    if (!chatRoomId || !participantId || !token) {
+    if (!chatRoomId || !myParticipant?.participantId || !token) {
       console.warn(
         "STOMP 연결 시도 스킵: chatRoomId, participantId 또는 토큰 누락"
       );
       return;
     }
 
-    console.log("STOMP 연결 시도 시작:", { chatRoomId, participantId, token });
+    console.log("STOMP 연결 시도 시작:", { chatRoomId, myParticipant, token });
 
     // 이미 연결 중이거나 연결 시도 중인 클라이언트가 있다면 정리
     // (activate() 호출 후 즉시 connected 상태가 되지 않을 수 있으므로, ref로 관리)
@@ -96,7 +110,7 @@ export default function ChatSocket({
     try {
       const client = new Client({
         webSocketFactory: () => {
-          const socket = new SockJS(`https://api.moong-chi.com/ws/chat`, null, {
+          const socket = new SockJS(`/ws/chat`, null, {
             transports: ["websocket", "xhr-streaming", "xhr-polling"],
           });
           console.log("SockJS 인스턴스 생성:", `/ws/chat`);
@@ -207,7 +221,7 @@ export default function ChatSocket({
         scheduleReconnect();
       }
     }
-  }, [chatRoomId, participantId, token]); // useCallback 의존성
+  }, [chatRoomId, myParticipant?.participantId, token]); // useCallback 의존성
 
   // 재연결 시도를 스케줄링하는 함수
   const scheduleReconnect = useCallback(() => {
@@ -258,43 +272,25 @@ export default function ChatSocket({
       subscriptionRef.current = null;
       setConnected(false);
     };
-  }, [chatRoomId, participantId, token, connectSocket, scheduleReconnect]); // connectSocket, scheduleReconnect도 의존성으로 추가
-
-  const sendMsg = () => {
-    if (!input.trim() || !connected || !stompClientRef.current) {
-      console.warn("메시지를 보낼 수 없음: 연결되지 않았거나 입력이 비어있음.");
-      return;
-    }
-
-    stompClientRef.current.publish({
-      destination: "/app/chat.sendMessage",
-      body: JSON.stringify({
-        chatRoomId: Number(chatRoomId),
-        message: input.trim(),
-        messageType: "TEXT",
-      }),
-    });
-    setInput("");
-  };
-
-  useEffect(() => {
-    console.log("newMessage", newMessages);
-  }, [newMessages]);
+  }, [
+    chatRoomId,
+    myParticipant?.participantId,
+    token,
+    connectSocket,
+    scheduleReconnect,
+  ]); // connectSocket, scheduleReconnect도 의존성으로 추가
 
   return (
-    <InputWrap $isSmall={small}>
-      <ButtonAndInput>
-        <Input
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && sendMsg()}
-          placeholder={connected ? "메시지 입력" : "연결 중..."}
-          disabled={!connected} // 연결되지 않았을 때 메시지 입력 비활성화
-        />
-        <button onClick={sendMsg} disabled={!connected}>
-          <Img src={sendChat} width="30px" />
-        </button>
-      </ButtonAndInput>
-    </InputWrap>
+    <Outlet
+      context={{
+        chatRoom: chatRoom,
+        myParticipant: myParticipant,
+        participantMap: participantMap,
+        newMessages: newMessages,
+        stompClientRef: stompClientRef,
+        connected: connected,
+        loading: loading,
+      }}
+    />
   );
 }
