@@ -50,6 +50,8 @@ const ShopChatbotPage = () => {
     birth: "",
     gender: "",
   });
+  const [sessionId, setSessionId] = useState<string>("");
+  const [chatCount, setChatCount] = useState<number>(0);
 
   const sendToAI = (text: string, user: User) => {
     setLoading(true);
@@ -60,15 +62,23 @@ const ShopChatbotPage = () => {
     };
     setChattings((prev) => [...prev, loadingChat]);
 
-    fetch("http://api-victus.registry-hj.site:8080/api/v1/chat", {
+    const bodyData =
+      chatCount >= 2
+        ? {
+            message: text,
+            sessionId: sessionId,
+          }
+        : {
+            message: text,
+            user_Profile: user,
+          };
+
+    fetch("/api/ml/chat", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        message: text,
-        user_profile: user,
-      }),
+      body: JSON.stringify(bodyData),
     })
       .then((res) => res.json())
       .then((result) => {
@@ -89,6 +99,8 @@ const ShopChatbotPage = () => {
           if (idx !== -1) updated[idx] = newChatAI;
           return updated;
         });
+        setSessionId(result.session_id);
+        setChatCount(result.message_count);
       })
       .catch((err) => console.error("AI 응답 실패:", err))
       .finally(() => {
