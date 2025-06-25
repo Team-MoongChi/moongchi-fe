@@ -96,10 +96,10 @@ export default function ChatSocket({
     try {
       const client = new Client({
         webSocketFactory: () => {
-          const socket = new SockJS(`/socket/`, null, {
+          const socket = new SockJS(`https://api.moong-chi.com/ws/chat`, null, {
             transports: ["websocket", "xhr-streaming", "xhr-polling"],
           });
-          console.log("SockJS 인스턴스 생성:", `/socket/`);
+          console.log("SockJS 인스턴스 생성:", `/ws/chat`);
           return socket;
         },
         connectHeaders: {
