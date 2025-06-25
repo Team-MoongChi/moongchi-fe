@@ -1,9 +1,18 @@
-import styled from "styled-components";
+import styled, { keyframes, css } from "styled-components";
 import searchIcon from "../../../assets/images/common/검색아이콘.png";
 import AiOn from "../../../assets/images/moongchies/AI뭉치_ON.png";
 import AiOff from "../../../assets/images/moongchies/AI뭉치_OFF.png";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+
+const wave = keyframes`
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+`;
 
 const Wrapper = styled.div`
   display: flex;
@@ -31,10 +40,24 @@ const Insert = styled.form<{ $aiState: number }>`
   width: 100%;
   max-width: 550px;
   height: 48px;
-  padding: 0px 15px 0px 15px;
+  padding: 0 15px;
   border-radius: 50px;
-  background-color: ${(props) => (props.$aiState ? "#EFF3FF" : "white")};
   gap: 5px;
+  ::placeholder {
+    color: #8c97a7;
+  }
+
+  background: ${(props) =>
+    props.$aiState
+      ? "linear-gradient(270deg, #ffffff, #ffffff, #E8EDFF, #dde3ff, #e8f4ff, #f2f5ff, #ffffff, #ffffff)"
+      : "white"};
+  background-size: 800% 800%;
+
+  ${(props) =>
+    props.$aiState &&
+    css`
+      animation: ${wave} 4s linear infinite;
+    `}
 `;
 const SearchIcon = styled.img`
   width: 20px;
@@ -44,7 +67,7 @@ const Search = styled.input<{ $aiState: number }>`
   height: 40px;
   border: none;
   font-size: 18px;
-  background-color: ${(props) => (props.$aiState ? "#EFF3FF" : "white")};
+  background-color: transparent;
 
   &:focus {
     outline: none;
@@ -53,12 +76,29 @@ const Search = styled.input<{ $aiState: number }>`
 const AiButton = styled.button`
   display: flex;
   flex-direction: column;
-  color: #c7d2fe;
   font-size: 12px;
 `;
-const Ai = styled.img`
-  width: 20px;
-  margin-top: 4px;
+
+const shake = keyframes`
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(-5deg); }
+  50% { transform: rotate(5deg); }
+  75% { transform: rotate(-5deg); }
+  100% { transform: rotate(0deg); }
+`;
+const Ai = styled.img<{ $aiState: number }>`
+  width: 38px;
+  aspect-ratio: 38/45;
+  margin-top: 2px;
+  transition: all 0.3s ease;
+  &:active {
+    transform: scale(0.8); // 눌렀을 때 살짝 작아짐
+  }
+  ${(props) =>
+    props.$aiState == 1 &&
+    css`
+      animation: ${shake} 0.4s ease;
+    `}
 `;
 
 const Header = () => {
@@ -94,9 +134,10 @@ const Header = () => {
         <Search
           onChange={(e) => setKeyword(e.target.value)}
           $aiState={aiState}
+          placeholder={aiState ? "AI 뭉치와 상품에 대해 대화해 보세요!" : ""}
         ></Search>
         <AiButton onClick={() => aiOnOff()} type="button">
-          <Ai src={aiState === 1 ? AiOn : AiOff} />
+          <Ai src={aiState === 1 ? AiOn : AiOff} $aiState={aiState} />
         </AiButton>
       </Insert>
     </Wrapper>
