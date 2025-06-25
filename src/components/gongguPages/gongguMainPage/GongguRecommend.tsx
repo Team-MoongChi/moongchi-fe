@@ -71,7 +71,7 @@ export default function GongguRecommend() {
     console.log("token: ", token);
 
     try {
-      const response = await fetchWithAuth("/api/group-boards", {
+      const response = await fetchWithAuth("/api/group-boards/recommend", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
