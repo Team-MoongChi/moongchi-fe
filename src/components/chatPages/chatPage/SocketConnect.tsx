@@ -11,7 +11,7 @@ import type { Message } from "../../../types/chatPages/message";
 export default function SocketConnect() {
   const { chatRoomId } = useParams();
   const [chatRoom, setChatRoom] = useState<ChatRoomItem>();
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [token, setToken] = useState<string>("");
   const [participantMap, setParticipantMap] = useState(
     new Map<number, { nickname: string; profileUrl: string }>()
@@ -110,7 +110,7 @@ export default function SocketConnect() {
     try {
       const client = new Client({
         webSocketFactory: () => {
-          const socket = new SockJS(`/ws/chat`, null, {
+          const socket = new SockJS(`https://api.moong-chi.com/ws/chat`, null, {
             transports: ["websocket", "xhr-streaming", "xhr-polling"],
           });
           console.log("SockJS 인스턴스 생성:", `/ws/chat`);
