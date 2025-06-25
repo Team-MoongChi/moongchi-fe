@@ -217,7 +217,7 @@ const Main = ({ item }: MainProps) => {
       .catch((error) => {
         console.error("요청 실패:", error);
       });
-  }, [item]);
+  }, []);
 
   useEffect(() => {
     if (!item) return;
@@ -244,7 +244,7 @@ const Main = ({ item }: MainProps) => {
       .catch((error) => {
         console.error("요청 실패:", error);
       });
-  }, [item]);
+  }, []);
 
   return (
     <Wrapper>

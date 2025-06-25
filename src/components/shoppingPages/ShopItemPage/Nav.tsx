@@ -63,6 +63,7 @@ interface Props {
   name: string | undefined;
   category: string | undefined;
   price: number | undefined;
+  likeCount: number | undefined;
 }
 
 interface LikeItem {
@@ -77,10 +78,17 @@ interface LikeItem {
   smallCategory: string;
 }
 
-const Nav = ({ link, itemId, imgUrl, name, category, price }: Props) => {
+const Nav = ({
+  link,
+  itemId,
+  imgUrl,
+  name,
+  category,
+  likeCount,
+  price,
+}: Props) => {
   const navigate = useNavigate();
   const [isLike, setIsLike] = useState<boolean>(false);
-  const [likeCount, setLikeCount] = useState<number>(0);
 
   const handleButton = () => {
     let categoryId = 0;
@@ -107,6 +115,7 @@ const Nav = ({ link, itemId, imgUrl, name, category, price }: Props) => {
   };
 
   useEffect(() => {
+    if (!itemId) return;
     const token = localStorage.getItem("accessToken"); // 또는 sessionStorage, context
 
     fetchWithAuth(`/api/products/like`, {
@@ -131,25 +140,6 @@ const Nav = ({ link, itemId, imgUrl, name, category, price }: Props) => {
         console.error("요청 실패:", error);
       });
   }, [itemId]);
-
-  useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-    fetchWithAuth(`/api/products/${itemId}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((result) => {
-        console.log(result);
-        setLikeCount(result.likeCount);
-      })
-      .catch((error) => {
-        console.error("요청 실패:", error);
-      });
-  }, [itemId, isLike]);
 
   const handleLike = () => {
     const token = localStorage.getItem("accessToken"); // 또는 sessionStorage, context 등
