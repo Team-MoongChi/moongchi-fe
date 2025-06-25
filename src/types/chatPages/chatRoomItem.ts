@@ -1,6 +1,6 @@
 import type { Message } from "./message";
 
-interface Participant {
+export interface Participant {
   participantId: number;
   userId: number;
   nickname: string;
