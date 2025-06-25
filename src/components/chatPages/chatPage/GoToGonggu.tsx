@@ -1,10 +1,11 @@
 import styled from "styled-components";
 import { Text } from "../../common/styled-component/Text";
 import { Img } from "../../common/styled-component/Img";
+import { useNavigate, useParams } from "react-router-dom";
 
-import arrow from "../../../assets/images/gonggu/backarrow.png";
-import { useNavigate } from "react-router-dom";
 import useDeviceSize from "../../../hooks/useDeviceSize";
+import { useHistoryStack } from "../../../utils/useHistoryStack";
+import arrow from "../../../assets/images/gonggu/backarrow.png";
 
 const Wrap = styled.div`
   display: flex;
@@ -43,10 +44,17 @@ interface GotoGongguProps {
 
 export default function GotoGonggu(props: GotoGongguProps) {
   const navigate = useNavigate();
+  const { chatRoomId } = useParams();
+  const { push } = useHistoryStack();
+
+  const handleClick = () => {
+    push(); // 현재 경로 저장
+    navigate(`/gonggu/list/${chatRoomId}`);
+  };
   const { small } = useDeviceSize();
 
   return (
-    <Wrap onClick={() => navigate(props.productUrl)}>
+    <Wrap onClick={handleClick}>
       <ProductInfo>
         <Img
           src={props.productImage}
