@@ -15,6 +15,29 @@ const Wrapper = styled.div`
   background-color: #5849d0;
   border-radius: 0 0 15px 15px;
 `;
+const BackButton = styled(Img)`
+  cursor: pointer;
+`;
+const Title = styled(Text)`
+  width: 70%;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  &:hover::after {
+    content: attr(data-fulltext);
+    position: absolute;
+    top: 56px; /* 아래로 툴팁 표시 */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    white-space: nowrap;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+  }
+`;
 const ImgNone = styled(Img)`
   visibility: hidden;
 `;
@@ -31,14 +54,19 @@ export default function ChatHeader(props: MainProps) {
 
   return (
     <Wrapper>
-      <Img src={back} width="16px" onClick={() => navigate("/chat/list")} />
-      <Text
-        fontSize={small ? "5.5vmin" : "3vmin"}
+      <BackButton
+        src={back}
+        width="16px"
+        onClick={() => navigate("/chat/list")}
+      />
+      <Title
+        fontSize={small ? "28px" : "3vmin"}
         fontWeight="800"
         color="white"
+        data-fulltext={props.title}
       >
         {props.title}
-      </Text>
+      </Title>
       <ImgNone src={back} width="16px" />
     </Wrapper>
   );
