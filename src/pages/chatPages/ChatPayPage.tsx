@@ -214,7 +214,7 @@ export default function ChatPayPage() {
     return <div>아직 모집이 완료되지 않았습니다.</div>;
 
   return (
-    <Wrap $issmall={small} $gap="30px">
+    <Wrap $issmall={small} $height="100dvh" $gap="30px">
       <PayHeader />
       <Body>
         <Text fontSize="22px">결제 현황이에요.</Text>
