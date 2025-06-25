@@ -29,6 +29,7 @@ const Wrap = styled.div`
   padding-bottom: 15vh;
   justify-content: center;
   width: 100%;
+  background-color: white;
 `;
 
 const Title = styled.div`
@@ -43,6 +44,11 @@ const TitleContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 5px;
+`;
+const Highlight = styled.span`
+  font-size: 15px;
+  font-family: inherit;
+  color: #5849d0;
 `;
 const TitleFooter = styled.div`
   display: flex;
@@ -64,6 +70,7 @@ const UserProfile = styled.button`
   display: flex;
   align-items: center;
   gap: 10px;
+  color: black;
 `;
 const UserScore = styled.div`
   display: flex;
@@ -150,7 +157,10 @@ export default function Content(props: GongguPost) {
         <TitleContent>
           <Text fontSize="24px">{props.title}</Text>
           <Text fontSize="20px" fontFamily="DunggeunmisoBold">
-            인당 {(props.price / props.totalUser).toLocaleString()}원
+            {props.price.toLocaleString()}원{" "}
+            <Highlight>
+              (인당 {(props.price / props.totalUser).toLocaleString()}원)
+            </Highlight>
           </Text>
         </TitleContent>
         <TitleFooter>

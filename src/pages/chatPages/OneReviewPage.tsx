@@ -159,7 +159,7 @@ export default function OneReviewPage() {
   console.log(isClicked);
 
   return (
-    <Wrap $issmall={small} $gap="20px">
+    <Wrap $issmall={small} $height="100dvh" $gap="20px">
       <Header title="리뷰 작성" route={`/chat/${chatRoomId}/review`} />
       <Body>
         <Text fontSize="24px">
@@ -176,7 +176,6 @@ export default function OneReviewPage() {
               <Text
                 fontSize="15px"
                 fontWeight={isClicked[idx] ? "bold" : "inherit"}
-                // fontFamily={isClicked[idx] ? "DunggeunmisoBold" : "inherit"}
                 color={isClicked[idx] ? "white" : "#5849d0"}
               >
                 {keyword}

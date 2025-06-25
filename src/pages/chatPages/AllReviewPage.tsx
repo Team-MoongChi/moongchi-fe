@@ -90,7 +90,7 @@ export default function AllReviewPage() {
   if (!chatRoom?.id) return <div>채팅방이 존재하지 않습니다.</div>;
 
   return (
-    <Wrap $issmall={small} $gap="20px">
+    <Wrap $issmall={small} $height="100dvh" $gap="20px">
       <Header title="리뷰 작성" route={`/chat/${chatRoomId}`} />
       <Body>
         <Text fontSize="22px">공동 구매는 어떠셨나요?</Text>

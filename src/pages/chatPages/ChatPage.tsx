@@ -62,11 +62,11 @@ export default function ChatPage() {
   const context = useOutletContext() as OutletContext;
 
   if (context.loading) return <div>loading...</div>;
-  if (!chatRoomId || !context.myParticipant)
+  if (context.chatRoom === null || context.myParticipant === null)
     return <div>채팅방 정보를 불러올 수 없습니다.</div>;
 
   return (
-    <Wrap $issmall={small}>
+    <Wrap $issmall={small} $height="100dvh">
       <FixedWrap>
         <ChatHeader
           title={context.chatRoom.title}

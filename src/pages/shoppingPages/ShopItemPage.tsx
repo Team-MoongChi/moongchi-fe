@@ -64,6 +64,7 @@ const ShopItemPage = () => {
         imgUrl={item?.imgUrl}
         name={item?.name}
         category={item?.largeCategory}
+        price={item?.price}
       />
     </Wrapper>
   );

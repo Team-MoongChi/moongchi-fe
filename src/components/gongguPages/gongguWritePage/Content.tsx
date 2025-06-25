@@ -83,7 +83,8 @@ export default function Content() {
   const name = location.state?.name;
   const categoryId = location.state?.categoryId;
   const imgUrl = location.state?.imgUrl;
-  console.log(message, name, categoryId, imgUrl, productId);
+  const price = location.state?.price;
+  console.log(message, name, categoryId, imgUrl, productId, price);
 
   const isShop: boolean = message === "shop";
   console.log("isShop: ", isShop);
@@ -266,7 +267,9 @@ export default function Content() {
               title="총 가격"
               name="price"
               inputmode="numeric"
-              placeholder="숫자만 입력해주세요."
+              placeholder={
+                isShop ? `단위 당 가격: ${price}` : "숫자만 입력해주세요."
+              }
               value={isEdit ? String(formData.price) : undefined}
               onChange={changeHandler}
             />

@@ -62,6 +62,7 @@ interface Props {
   imgUrl: string | undefined;
   name: string | undefined;
   category: string | undefined;
+  price: number | undefined;
 }
 
 interface LikeItem {
@@ -76,7 +77,7 @@ interface LikeItem {
   smallCategory: string;
 }
 
-const Nav = ({ link, itemId, imgUrl, name, category }: Props) => {
+const Nav = ({ link, itemId, imgUrl, name, category, price }: Props) => {
   const navigate = useNavigate();
   const [isLike, setIsLike] = useState<boolean>(false);
   const [likeCount, setLikeCount] = useState<number>(0);
@@ -100,6 +101,7 @@ const Nav = ({ link, itemId, imgUrl, name, category }: Props) => {
         imgUrl: imgUrl,
         name: name,
         categoryId: categoryId,
+        price: price,
       },
     });
   };

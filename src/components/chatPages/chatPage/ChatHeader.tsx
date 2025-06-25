@@ -32,10 +32,11 @@ const Title = styled(Text)`
     transform: translateX(-50%);
     background-color: rgba(0, 0, 0, 0.8);
     color: white;
-    white-space: nowrap;
     padding: 6px 10px;
     border-radius: 6px;
     font-size: 12px;
+    max-width: 80%;
+    white-space: normal;
   }
 `;
 const ImgNone = styled(Img)`
