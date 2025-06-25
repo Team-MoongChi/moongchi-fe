@@ -1,14 +1,6 @@
 {
   "rewrites": [
     {
-      "source": "/ws/chat",
-      "destination": "https://api.moong-chi.com/ws/chat"
-    },
-    {
-      "source": "/ws/chat/:path*",
-      "destination": "https://api.moong-chi.com/ws/chat/:path*"
-    },
-    {
       "source": "/(.*)",
       "destination": "/"
     }
