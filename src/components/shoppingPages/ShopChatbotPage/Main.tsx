@@ -25,18 +25,26 @@ type Chat = {
 const Main = ({
   chattings,
   loading,
+  backSave,
 }: {
   chattings: Chat[];
   loading: boolean;
+  backSave: () => void;
 }) => {
   const bottomRef = useRef<HTMLDivElement>(null);
+  const saved = sessionStorage.getItem("chat-chattings");
+  const restoredLength = saved ? JSON.parse(saved).length : 0;
 
-  useEffect(() => {
+  const goToBottom = () => {
     if (bottomRef.current) {
       setTimeout(() => {
         bottomRef.current?.scrollIntoView({ behavior: "smooth" });
       }, 30);
     }
+  };
+
+  useEffect(() => {
+    goToBottom();
   }, [chattings]);
 
   return (
@@ -49,6 +57,10 @@ const Main = ({
             Key={index}
             loading={loading}
             length={chattings.length}
+            goToBottom={goToBottom}
+            backSave={backSave}
+            index={index}
+            restoredLength={restoredLength}
           />
         ) : (
           <IChat text={chat.text} key={index} />

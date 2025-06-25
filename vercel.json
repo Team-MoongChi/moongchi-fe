@@ -3,6 +3,10 @@
     {
       "source": "/(.*)",
       "destination": "/"
+    },
+    {
+      "source": "/api/ml/(.*)",
+      "destination": "https://tpho1z0cyzudy3-8080.proxy.runpod.net/api/v1/$1"
     }
   ]
 }

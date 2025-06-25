@@ -1,9 +1,10 @@
 import styled from "styled-components";
 import moongchi from "../../../assets/images/moongchies/AI뭉치.png";
 import loadingM from "../../../assets/images/moongchies/로딩중.gif";
-import Markdown from "markdown-to-jsx";
+import TypingMarkdown from "./TypingText";
 import { useHistoryStack } from "../../../utils/useHistoryStack";
 import { useNavigate } from "react-router-dom";
+import Markdown from "markdown-to-jsx";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -23,13 +24,16 @@ const AIMoongchi = styled.img`
   height: 32px;
 `;
 const Chat = styled.div`
-  width: 55%;
-  padding: 20px;
+  width: 80%;
+  max-width: 400px;
+  padding: 30px;
+  padding-top: 15px;
   background-color: #e8edff;
   border-radius: 15px;
 `;
 const Imgs = styled.div`
-  width: 55%;
+  width: 80%;
+  max-width: 400px;
   display: flex;
   gap: 5px;
 `;
@@ -77,9 +81,22 @@ type Props = {
   loading: boolean;
   Key: number;
   length: number;
+  goToBottom: () => void;
+  backSave: () => void;
+  index: number;
+  restoredLength: number;
 };
 
-const AIChat = ({ chat, loading, Key, length }: Props) => {
+const AIChat = ({
+  chat,
+  loading,
+  Key,
+  length,
+  goToBottom,
+  backSave,
+  index,
+  restoredLength,
+}: Props) => {
   const { push } = useHistoryStack();
   const navigate = useNavigate();
 
@@ -87,6 +104,7 @@ const AIChat = ({ chat, loading, Key, length }: Props) => {
     const productId = chat.productIds?.[index];
     if (!productId) return; // 없으면 아무것도 안 함
 
+    backSave();
     push();
     navigate(`/shopping/item?itemId=${productId}`);
   };
@@ -103,7 +121,24 @@ const AIChat = ({ chat, loading, Key, length }: Props) => {
             </Loading>
           ) : (
             <>
-              <Markdown>{chat.text}</Markdown>
+              {index < restoredLength ? (
+                <Markdown
+                  style={{
+                    textAlign: "start",
+                    lineHeight: "1.6",
+                    wordBreak: "keep-all",
+                    whiteSpace: "pre-wrap",
+                  }}
+                >
+                  {chat.text}
+                </Markdown>
+              ) : (
+                <TypingMarkdown
+                  text={chat.text}
+                  speed={20}
+                  goToBottom={goToBottom}
+                />
+              )}
             </>
           )}
         </Chat>
