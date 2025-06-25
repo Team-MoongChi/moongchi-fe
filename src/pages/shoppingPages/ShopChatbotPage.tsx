@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Header from "../../components/common/Header.tsx";
+import Header from "../../components/shoppingPages/ShopChatbotPage/Header.tsx";
 import Main from "../../components/shoppingPages/ShopChatbotPage/Main.tsx";
 import Nav from "../../components/shoppingPages/ShopChatbotPage/Nav.tsx";
 import useDeviceSize from "../../hooks/useDeviceSize.tsx";
@@ -53,6 +53,12 @@ const ShopChatbotPage = () => {
   const [sessionId, setSessionId] = useState<string>("");
   const [chatCount, setChatCount] = useState<number>(0);
 
+  const backSave = () => {
+    sessionStorage.setItem("chat-sessionId", sessionId);
+    sessionStorage.setItem("chat-chatCount", String(chatCount));
+    sessionStorage.setItem("chat-chattings", JSON.stringify(chattings));
+  };
+
   const sendToAI = (text: string, user: User) => {
     setLoading(true);
 
@@ -66,11 +72,11 @@ const ShopChatbotPage = () => {
       chatCount >= 2
         ? {
             message: text,
-            sessionId: sessionId,
+            session_id: sessionId,
           }
         : {
             message: text,
-            user_Profile: user,
+            user_profile: user,
           };
 
     fetch("/api/ml/chat", {
@@ -109,6 +115,17 @@ const ShopChatbotPage = () => {
   };
 
   useEffect(() => {
+    const savedSessionId = sessionStorage.getItem("chat-sessionId");
+    const savedChatCount = sessionStorage.getItem("chat-chatCount");
+    const savedChattings = sessionStorage.getItem("chat-chattings");
+
+    if (savedSessionId) setSessionId(savedSessionId);
+    if (savedChatCount) setChatCount(Number(savedChatCount));
+    if (savedChattings) {
+      setChattings(JSON.parse(savedChattings));
+      return;
+    }
+
     if (keyword.trim() === "" || keywordInserted.current) return;
 
     keywordInserted.current = true;
@@ -155,7 +172,7 @@ const ShopChatbotPage = () => {
   return (
     <Wrapper $isSmall={small}>
       <Header title="AI 뭉치" route="/shopping" />
-      <Main chattings={chattings} loading={loading} />
+      <Main chattings={chattings} loading={loading} backSave={backSave} />
       <Nav setChattings={setChattings} user={user} sendToAI={sendToAI} />
     </Wrapper>
   );
