@@ -211,7 +211,7 @@ export default function Footer(props: FooterProp) {
       );
       if (response.ok) {
         alert("공구방 참여 성공");
-        navigate(`/chat/list/${props.chatRoomId}`);
+        navigate(`/chat/${props.chatRoomId}`);
       }
     } catch (error) {
       console.error("post failed: ", error);
@@ -234,7 +234,7 @@ export default function Footer(props: FooterProp) {
         </Text>
       </HeartWrap>
       {props.editable ? (
-        <Button onClick={() => navigate(`/chat/list/${props.chatRoomId}`)}>
+        <Button onClick={() => navigate(`/chat/${props.chatRoomId}`)}>
           채팅방 바로 가기
         </Button>
       ) : (

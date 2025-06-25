@@ -86,7 +86,7 @@ export default function ChatListItem(props: ChatRoomList) {
   const { small } = useDeviceSize();
 
   return (
-    <StyledLink to={`/chat/list/${props.id}`}>
+    <StyledLink to={`/chat/${props.id}`}>
       <Wrap>
         <GongguImg
           $isSmall={small}

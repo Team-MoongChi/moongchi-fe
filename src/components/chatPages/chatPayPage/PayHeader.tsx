@@ -33,7 +33,7 @@ export default function PayHeader() {
       <BackButton
         src={back}
         width="15px"
-        onClick={() => navigate(`/chat/list/${chatRoomId}`)}
+        onClick={() => navigate(`/chat/${chatRoomId}`)}
       />
       <HeaderText>1/N 결제 현황</HeaderText>
       <BackButton src={back} width="15px" visibility="hidden" />

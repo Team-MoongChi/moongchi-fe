@@ -91,7 +91,7 @@ export default function AllReviewPage() {
 
   return (
     <Wrap $issmall={small} $gap="20px">
-      <Header title="리뷰 작성" route={`/chat/list/${chatRoomId}`} />
+      <Header title="리뷰 작성" route={`/chat/${chatRoomId}`} />
       <Body>
         <Text fontSize="22px">공동 구매는 어떠셨나요?</Text>
         <ReviewInfo>
@@ -143,7 +143,7 @@ export default function AllReviewPage() {
           })}
         </ReviewWrap>
       </Body>
-      <Button onClick={() => navigate(`/chat/list/${chatRoomId}`)}>완료</Button>
+      <Button onClick={() => navigate(`/chat/${chatRoomId}`)}>완료</Button>
     </Wrap>
   );
 }
