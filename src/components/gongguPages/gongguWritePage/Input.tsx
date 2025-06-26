@@ -43,9 +43,13 @@ const DateInput = styled.input.attrs<{
   inputMode: props.inputMode || "text",
 }))`
   display: block;
+<<<<<<< HEAD
   width: 0;
   max-width: 100%;
   min-width: 100%;
+=======
+  width: 100%;
+>>>>>>> design/#102-fix-mobile-ui
   height: 45px;
   background-color: white;
   border-radius: 8px;
@@ -53,6 +57,12 @@ const DateInput = styled.input.attrs<{
   padding: 15px;
   &:focus {
     outline: none;
+  }
+
+  appearance: none;
+  -webkit-appearance: none;
+  -webkit-date-and-time-value {
+    text-align: left;
   }
 `;
 
