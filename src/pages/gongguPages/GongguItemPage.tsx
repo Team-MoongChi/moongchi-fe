@@ -22,9 +22,6 @@ export default function GongguItemPage() {
   const isShop: boolean = gongguItem?.productName ? true : false;
 
   const fetchGongguItem = async () => {
-    // const token = localStorage.getItem("accessToken");
-    // console.log(token);
-
     try {
       const response = await fetchWithAuth(`/api/group-boards/${gongguId}`, {
         method: "GET",
@@ -40,6 +37,7 @@ export default function GongguItemPage() {
       console.log(data);
       setGongguItem(data);
       setLoading(false);
+      console.log("공구 아이템 상세 GET 요청");
     } catch (error) {
       console.error("공구 상세 get failed: ", error);
       setLoading(false);
@@ -61,6 +59,9 @@ export default function GongguItemPage() {
         imgUrl={gongguItem?.images[0]}
         title={gongguItem?.title}
         content={gongguItem?.content}
+        totalUser={gongguItem?.totalUser}
+        currentUsers={gongguItem?.currentUsers}
+        boardStatus={gongguItem?.boardStatus}
       />
       <ImageSlide images={gongguItem?.images} />
       {gongguItem ? <Content {...gongguItem}></Content> : null}
