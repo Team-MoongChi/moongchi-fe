@@ -93,6 +93,7 @@ export default function GongguItemPage() {
           <ImageSlide images={gongguItem?.images} />
           {gongguItem ? <Content {...gongguItem}></Content> : null}
           <Footer
+            boardStatus={gongguItem?.boardStatus}
             editable={gongguItem?.editable}
             chatRoomId={gongguItem?.chatRoomId}
             likeCount={gongguItem?.likeCount}

@@ -103,7 +103,7 @@ export default function Content() {
     deadline: "",
     categoryId: undefined,
     productId: isShop ? productId : undefined,
-    images: undefined,
+    images: [],
   });
   const [contentCnt, setContentCnt] = useState<number>(0);
   const [isAll, setIsAll] = useState<boolean>(false);
