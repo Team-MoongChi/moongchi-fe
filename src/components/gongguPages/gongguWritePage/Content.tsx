@@ -38,10 +38,13 @@ const Div = styled.div`
   display: flex;
   gap: 5px;
 `;
-
+const Highlight = styled.span`
+  font-size: 13px;
+  color: #acacac;
+`;
 const TextArea = styled.textarea`
   width: 100%;
-  height: 20vh;
+  height: 15vh;
   border: 1px solid #5849d0;
   border-radius: 8px;
   resize: none;
@@ -84,17 +87,11 @@ export default function Content() {
   const categoryId = location.state?.categoryId;
   const imgUrl = location.state?.imgUrl;
   const price = location.state?.price;
-  console.log(message, name, categoryId, imgUrl, productId, price);
 
   const isShop: boolean = message === "shop";
-  console.log("isShop: ", isShop);
-
   const { gongguId } = useParams();
   const isEdit: boolean = gongguId !== undefined;
-  console.log("isEdit: ", isEdit);
-
   const isShopAndEdit: boolean = isShop && isEdit;
-  console.log("isShopAndEdit: ", isShopAndEdit);
 
   const [formData, setFormData] = useState<FormData>({
     name: isShop ? name : "",
@@ -108,6 +105,7 @@ export default function Content() {
     productId: isShop ? productId : undefined,
     images: undefined,
   });
+  const [contentCnt, setContentCnt] = useState<number>(0);
   const [isAll, setIsAll] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [originUrlList, setOriginUrlList] = useState<string[]>([]);
@@ -129,6 +127,9 @@ export default function Content() {
       ...prev,
       [name]: value,
     }));
+    if (name === "content") {
+      setContentCnt(value.length);
+    }
   };
   const clickHandler = (num: number) => {
     if (isShop || isShopAndEdit) return;
@@ -176,6 +177,7 @@ export default function Content() {
   // 수정 및 작성 완료 버튼 disabled 조건 검사
   useEffect(() => {
     console.log("formData 변경:", formData);
+    console.log("contentCnt 변경:", contentCnt);
 
     const initialFormData: FormData = {
       name: isShop ? name : "",
@@ -211,9 +213,7 @@ export default function Content() {
     } else {
       setIsAll(allInput);
     }
-
-    console.log("isAll: ", isAll);
-  }, [formData]);
+  }, [formData, contentCnt]);
 
   return (
     <>
@@ -368,12 +368,13 @@ export default function Content() {
           </CategoryWrap>
           <InputWrap>
             <Text fontSize="16px" fontFamily="DunggeunmisoBold">
-              상세 내용
+              상세 내용 <Highlight>({contentCnt}/255)</Highlight>
             </Text>
             <TextArea
               id="content"
               name="content"
               placeholder="추가 설명을 입력해주세요."
+              maxLength={255}
               value={isEdit ? formData.content : undefined}
               onChange={changeHandler}
             />
