@@ -107,6 +107,7 @@ const ShopChatbotPage = () => {
         });
         setSessionId(result.session_id);
         setChatCount(result.message_count);
+        backSave();
       })
       .catch((err) => console.error("AI 응답 실패:", err))
       .finally(() => {
