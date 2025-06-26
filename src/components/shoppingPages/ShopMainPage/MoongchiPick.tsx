@@ -200,7 +200,7 @@ const MoongchiPick = () => {
       </AIWrapper>
 
       <>
-        <RandomTitle>🛒 이런 카테고리 상품들도 눈여겨보세요!</RandomTitle>
+        <RandomTitle>🛒 이런 카테고리 상품들도 둘러보세요</RandomTitle>
         <RandomWrapper>
           <RandomItemTitle>신선식품</RandomItemTitle>
           <RandomItems>

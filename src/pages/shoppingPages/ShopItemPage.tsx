@@ -3,7 +3,7 @@ import Header from "../../components/shoppingPages/ShopItemPage/Header.tsx";
 import Nav from "../../components/shoppingPages/ShopItemPage/Nav.tsx";
 import Main from "../../components/shoppingPages/ShopItemPage/Main.tsx";
 import useDeviceSize from "../../hooks/useDeviceSize.tsx";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { fetchWithAuth } from "../../utils/FetchWithAuth.tsx";
 
 const Wrapper = styled.div<{ $isSmall: boolean }>`
@@ -31,11 +31,16 @@ const ShopItemPage = () => {
   const { small } = useDeviceSize();
 
   const queryParams = new URLSearchParams(location.search);
-  const itemId = queryParams.get("itemId") ?? "";
+  const itemId = queryParams.get("itemId");
+  const itemRef = useRef(false);
 
   const [item, setItem] = useState<Product | null>(null);
 
   useEffect(() => {
+    if (!itemId) return;
+    if (itemRef.current) return; // 이미 호출했으면 종료
+
+    itemRef.current = true; // 호출했음 표시
     const token = localStorage.getItem("accessToken");
     fetchWithAuth(`/api/products/${itemId}`, {
       method: "GET",
@@ -65,6 +70,7 @@ const ShopItemPage = () => {
         name={item?.name}
         category={item?.largeCategory}
         price={item?.price}
+        likeCount={item?.likeCount}
       />
     </Wrapper>
   );

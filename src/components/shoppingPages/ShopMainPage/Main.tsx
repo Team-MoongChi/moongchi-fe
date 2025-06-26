@@ -224,7 +224,7 @@ const Main = () => {
       return (
         <Title>
           <Moongchi src={AIMoongchii} />
-          공동구매에 딱 맞는 추천템이에요 :)
+          AI 뭉치가 추천하는 공구템이에요!
         </Title>
       );
     } else if (menuClicked === menuOrder[1]) {

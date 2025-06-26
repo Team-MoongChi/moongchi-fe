@@ -7,6 +7,11 @@ import { useHistoryStack } from "../../../utils/useHistoryStack";
 import { Img } from "../../common/styled-component/Img";
 import { Text } from "../../common/styled-component/Text";
 import RecPartProfile from "./RecPartProfile";
+<<<<<<< design/#102-fix-mobile-ui
+=======
+import { useEffect, useState } from "react";
+import loadingM from "../../../assets/images/moongchies/로딩중.gif";
+>>>>>>> main
 
 const Wrap = styled.div`
   display: flex;
@@ -43,6 +48,20 @@ const Title = styled(Text)`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+`;
+const LoadingWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 20px;
+  img {
+    width: 200px;
+  }
+  p {
+    color: #5849d0;
+    font-family: DunggeunmisoBold;
+  }
 `;
 
 interface Participant {
@@ -101,34 +120,40 @@ export default function GongguRecommend() {
     navigate(`/gonggu/list/${id}`);
   };
 
-  if (loading) return <div>loading...</div>;
   return (
     <Wrap>
       <Text fontSize="20px" fontFamily="DunggeunmisoBold" color="#5849d0">
         AI 뭉치's PICK
       </Text>
       <RecList>
-        <ScrollArea>
-          {recommend.map((item, idx) => (
-            <RecItem key={idx} onClick={() => handleClick(item.id)}>
-              <Img
-                src={item.image}
-                width="100px"
-                height="100px"
-                $borderradious="8px"
-              ></Img>
-              <Title fontSize="15px">{item.title}</Title>
-              <RecPartProfile
-                totalUser={item.totalUsers}
-                currentUsers={item.currentUsers}
-                participants={item.participants}
-              />
-              <Text fontSize="10px">
-                ({item.currentUsers}/{item.totalUsers})
-              </Text>
-            </RecItem>
-          ))}
-        </ScrollArea>
+        {loading ? (
+          <LoadingWrapper>
+            <img src={loadingM} alt="" />
+            <p>추천 공구를 불러오고 있어요!</p>
+          </LoadingWrapper>
+        ) : (
+          <ScrollArea>
+            {recommend.map((item, idx) => (
+              <RecItem key={idx} onClick={() => handleClick(item.id)}>
+                <Img
+                  src={item.image}
+                  width="100px"
+                  height="100px"
+                  $borderradious="8px"
+                ></Img>
+                <Title fontSize="15px">{item.title}</Title>
+                <RecPartProfile
+                  totalUser={item.totalUsers}
+                  currentUsers={item.currentUsers}
+                  participants={item.participants}
+                />
+                <Text fontSize="10px">
+                  ({item.currentUsers}/{item.totalUsers})
+                </Text>
+              </RecItem>
+            ))}
+          </ScrollArea>
+        )}
       </RecList>
     </Wrap>
   );

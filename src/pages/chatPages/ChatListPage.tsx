@@ -8,6 +8,7 @@ import Nav from "../../components/common/Nav";
 import { Wrap } from "../../components/common/styled-component/Wrap";
 import { fetchWithAuth } from "../../utils/FetchWithAuth";
 import type { ChatRoomList } from "../../types/chatPages/chatRoomList";
+import loadingM from "../../assets/images/moongchies/로딩중.gif";
 
 const PageWrap = styled(Wrap)`
   height: 100dvh;
@@ -20,6 +21,21 @@ const ChatList = styled.div`
   padding-bottom: 13vh;
   background-color: white;
 `;
+const Loading = styled.div`
+  width: 100%;
+  height: 70%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  img {
+    width: 250px;
+  }
+  p {
+    font-family: DunggeunmisoBold;
+    color: #5849d0;
+  }
+`;
 
 export default function ChatListPage() {
   const { small } = useDeviceSize();
@@ -28,6 +44,7 @@ export default function ChatListPage() {
   const [loading, setLoading] = useState<boolean>(true);
 
   const fetchChatList = async () => {
+    setLoading(true);
     try {
       const response = await fetchWithAuth("/api/chat/rooms", {
         method: "GET",
@@ -44,6 +61,7 @@ export default function ChatListPage() {
       setChatList(data);
       setLoading(false);
     } catch (error) {
+      setLoading(false);
       console.error("get failed: ", error);
       throw error;
     }
@@ -53,18 +71,21 @@ export default function ChatListPage() {
     fetchChatList();
   }, []);
 
-  if (loading) return <div>loading...</div>;
-
   return (
     <PageWrap $issmall={small} $gap="15px">
       <Header />
-
-      <ChatList>
-        {chatList.map((chatRoom, idx) => {
-          return <ChatListItem key={idx} {...chatRoom}></ChatListItem>;
-        })}
-      </ChatList>
-
+      {loading ? (
+        <Loading>
+          <img src={loadingM} alt="" />
+          <p>채팅들을 불러오고 있어요 '◡'</p>
+        </Loading>
+      ) : (
+        <ChatList>
+          {chatList.map((chatRoom, idx) => {
+            return <ChatListItem key={idx} {...chatRoom}></ChatListItem>;
+          })}
+        </ChatList>
+      )}
       <Nav />
     </PageWrap>
   );

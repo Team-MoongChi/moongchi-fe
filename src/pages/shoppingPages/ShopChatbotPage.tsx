@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Header from "../../components/common/Header.tsx";
+import Header from "../../components/shoppingPages/ShopChatbotPage/Header.tsx";
 import Main from "../../components/shoppingPages/ShopChatbotPage/Main.tsx";
 import Nav from "../../components/shoppingPages/ShopChatbotPage/Nav.tsx";
 import useDeviceSize from "../../hooks/useDeviceSize.tsx";
@@ -50,6 +50,14 @@ const ShopChatbotPage = () => {
     birth: "",
     gender: "",
   });
+  const [sessionId, setSessionId] = useState<string>("");
+  const [chatCount, setChatCount] = useState<number>(0);
+
+  const backSave = () => {
+    sessionStorage.setItem("chat-sessionId", sessionId);
+    sessionStorage.setItem("chat-chatCount", String(chatCount));
+    sessionStorage.setItem("chat-chattings", JSON.stringify(chattings));
+  };
 
   const sendToAI = (text: string, user: User) => {
     setLoading(true);
@@ -60,15 +68,23 @@ const ShopChatbotPage = () => {
     };
     setChattings((prev) => [...prev, loadingChat]);
 
-    fetch("http://api-victus.registry-hj.site:8080/api/v1/chat", {
+    const bodyData =
+      chatCount >= 2
+        ? {
+            message: text,
+            session_id: sessionId,
+          }
+        : {
+            message: text,
+            user_profile: user,
+          };
+
+    fetch("/api/ml/chat", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        message: text,
-        user_profile: user,
-      }),
+      body: JSON.stringify(bodyData),
     })
       .then((res) => res.json())
       .then((result) => {
@@ -89,6 +105,8 @@ const ShopChatbotPage = () => {
           if (idx !== -1) updated[idx] = newChatAI;
           return updated;
         });
+        setSessionId(result.session_id);
+        setChatCount(result.message_count);
       })
       .catch((err) => console.error("AI 응답 실패:", err))
       .finally(() => {
@@ -97,6 +115,17 @@ const ShopChatbotPage = () => {
   };
 
   useEffect(() => {
+    const savedSessionId = sessionStorage.getItem("chat-sessionId");
+    const savedChatCount = sessionStorage.getItem("chat-chatCount");
+    const savedChattings = sessionStorage.getItem("chat-chattings");
+
+    if (savedSessionId) setSessionId(savedSessionId);
+    if (savedChatCount) setChatCount(Number(savedChatCount));
+    if (savedChattings) {
+      setChattings(JSON.parse(savedChattings));
+      return;
+    }
+
     if (keyword.trim() === "" || keywordInserted.current) return;
 
     keywordInserted.current = true;
@@ -143,7 +172,7 @@ const ShopChatbotPage = () => {
   return (
     <Wrapper $isSmall={small}>
       <Header title="AI 뭉치" route="/shopping" />
-      <Main chattings={chattings} loading={loading} />
+      <Main chattings={chattings} loading={loading} backSave={backSave} />
       <Nav setChattings={setChattings} user={user} sendToAI={sendToAI} />
     </Wrapper>
   );
