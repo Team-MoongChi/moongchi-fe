@@ -46,6 +46,17 @@ const Button = styled.div`
   border-radius: 15px;
   cursor: pointer;
 `;
+const DisabledButton = styled.div`
+  flex: 1;
+  background-color: #e8edff;
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  padding: 20px 0;
+  border-radius: 15px;
+  cursor: pointer;
+`;
 
 const Overlay = styled.div`
   position: fixed;
@@ -99,6 +110,7 @@ const ChatButton = styled.button`
 `;
 
 interface FooterProp {
+  boardStatus: string | undefined;
   editable: boolean | undefined;
   chatRoomId: number | undefined;
   likeCount: number | undefined;
@@ -237,6 +249,9 @@ export default function Footer(props: FooterProp) {
         <Button onClick={() => navigate(`/chat/${props.chatRoomId}`)}>
           채팅방 바로 가기
         </Button>
+      ) : props.boardStatus === "CLOSED" ||
+        props.boardStatus === "COMPLETED" ? (
+        <DisabledButton>참여할 수 없는 공구입니다.</DisabledButton>
       ) : (
         <Button onClick={() => setIsOpen(!isOpen)}>공구 참여하기</Button>
       )}
