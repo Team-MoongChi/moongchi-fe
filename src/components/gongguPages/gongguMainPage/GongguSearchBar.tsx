@@ -3,12 +3,12 @@ import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { fetchWithAuth } from "../../../utils/FetchWithAuth";
+import { useHistoryStack } from "../../../utils/useHistoryStack";
 import { Img } from "../../common/styled-component/Img";
 import { Text } from "../../common/styled-component/Text";
 import placeMarker from "../../../assets/images/common/위치아이콘.png";
 import search from "../../../assets/images/common/검색아이콘.png";
 import back from "../../../assets/images/common/뒤로가기.png";
-import { useHistoryStack } from "../../../utils/useHistoryStack";
 
 const Header = styled.div`
   width: 100%;
@@ -126,7 +126,6 @@ export default function GongguSearchBar() {
       .then((result) => {
         setLocation(result.address);
         setLoading(false);
-        console.log("사용자 주소 API 호출");
       })
       .catch((error) => {
         console.error("get failed: ", error);

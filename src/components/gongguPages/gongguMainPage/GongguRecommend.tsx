@@ -1,12 +1,12 @@
 import styled from "styled-components";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { fetchWithAuth } from "../../../utils/FetchWithAuth";
 import { useHistoryStack } from "../../../utils/useHistoryStack";
 import { Img } from "../../common/styled-component/Img";
 import { Text } from "../../common/styled-component/Text";
-import { fetchWithAuth } from "../../../utils/FetchWithAuth";
 import RecPartProfile from "./RecPartProfile";
-import { useEffect, useState } from "react";
 
 const Wrap = styled.div`
   display: flex;
@@ -97,7 +97,7 @@ export default function GongguRecommend() {
   }, []);
 
   const handleClick = (id: number) => {
-    push(); // 현재 경로 저장
+    push();
     navigate(`/gonggu/list/${id}`);
   };
 
@@ -105,7 +105,7 @@ export default function GongguRecommend() {
   return (
     <Wrap>
       <Text fontSize="20px" fontFamily="DunggeunmisoBold" color="#5849d0">
-        뭉치's PICK
+        AI 뭉치's PICK
       </Text>
       <RecList>
         <ScrollArea>
