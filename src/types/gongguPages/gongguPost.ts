@@ -27,4 +27,5 @@ export interface GongguPost {
   productId?: number;
   productName?: string;
   productPrice?: number;
+  join?: boolean;
 }
