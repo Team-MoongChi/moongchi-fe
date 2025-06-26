@@ -69,6 +69,7 @@ export default function GongguItemPage() {
         editable={gongguItem?.editable}
         chatRoomId={gongguItem?.chatRoomId}
         likeCount={gongguItem?.likeCount}
+        join={gongguItem?.join}
       />
     </Wrap>
   );
