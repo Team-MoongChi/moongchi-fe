@@ -53,6 +53,12 @@ const DateInput = styled.input.attrs<{
   &:focus {
     outline: none;
   }
+
+  appearance: none;
+  -webkit-appearance: none;
+  -webkit-date-and-time-value {
+    text-align: left;
+  }
 `;
 
 interface InputProps {
