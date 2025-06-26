@@ -211,12 +211,11 @@ export default function Footer(props: FooterProp) {
         }
       );
       if (response.ok) {
-        alert("공구방 참여 성공");
         navigate(`/chat/${props.chatRoomId}`);
       }
     } catch (error) {
       console.error("post failed: ", error);
-      alert("공구방 참여 실패");
+      alert("공구방 참여에 실패했습니다. 다시 시도해주세요.");
       throw error;
     }
   };

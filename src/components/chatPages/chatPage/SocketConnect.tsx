@@ -17,6 +17,7 @@ export default function SocketConnect() {
     new Map<number, { nickname: string; profileUrl: string }>()
   );
   const [newMessages, setNewMessages] = useState<Message[]>([]);
+  const [errorStatus, setErrorStatus] = useState<number>();
 
   const fetchChatRoom = async () => {
     const token = localStorage.getItem("accessToken");
@@ -31,6 +32,7 @@ export default function SocketConnect() {
         },
       });
       if (!response.ok) {
+        setErrorStatus(response.status);
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
@@ -69,7 +71,7 @@ export default function SocketConnect() {
     }
   }, [chatRoom]);
 
-  const [connected, setConnected] = useState(false);
+  const [connected, setConnected] = useState<boolean>(false);
 
   const stompClientRef = useRef<Client | null>(null);
   const subscriptionRef = useRef<any>(null);
@@ -290,6 +292,7 @@ export default function SocketConnect() {
         stompClientRef: stompClientRef,
         connected: connected,
         loading: loading,
+        errorStatus: errorStatus,
       }}
     />
   );

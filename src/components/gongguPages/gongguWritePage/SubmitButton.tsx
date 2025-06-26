@@ -60,13 +60,13 @@ export default function SubmitButton(props: SubmitButtonProps) {
         body: JSON.stringify(props.formData),
       });
       if (response.ok) {
-        alert("글쓰기 성공");
+        alert("작성 완료!");
         console.log(props.formData);
         navigate("/");
       }
     } catch (error) {
       console.error("post failed: ", error);
-      alert("글쓰기 실패");
+      alert("게시글 작성에 실패했습니다. 다시 시도해주세요.");
       throw error;
     }
   };
@@ -84,12 +84,12 @@ export default function SubmitButton(props: SubmitButtonProps) {
         body: JSON.stringify(props.formData),
       });
       if (response.ok) {
-        alert("글 수정 성공");
+        alert("수정 완료!");
         navigate(`/gonggu/list/${gongguId}`);
       }
     } catch (error) {
       console.log("post failed: ", error);
-      alert("글 수정 실패");
+      alert("게시글 수정에 실패했습니다. 다시 시도해주세요.");
       throw error;
     }
   };
