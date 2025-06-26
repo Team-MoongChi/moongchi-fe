@@ -43,7 +43,6 @@ const DateInput = styled.input.attrs<{
   inputMode: props.inputMode || "text",
 }))`
   display: block;
-  width: 0;
   min-width: 100%;
   height: 45px;
   background-color: white;
