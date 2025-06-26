@@ -8,18 +8,17 @@ type Props = {
 };
 
 const TypingMarkdown = ({ text, speed, goToBottom }: Props) => {
-  const [displayed, setDisplayed] = useState("");
+  const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    let i = 0;
+    setIndex(0); // 텍스트 바뀌면 인덱스 초기화
     const interval = setInterval(() => {
-      if (i < text.length) {
-        setDisplayed((prev) => prev + text.slice(i, i + 1));
-        i += 1;
-        goToBottom();
-      } else {
-        clearInterval(interval);
-      }
+      setIndex((prev) => {
+        const next = prev + 1;
+        if (next >= text.length) clearInterval(interval);
+        return next;
+      });
+      goToBottom();
     }, speed);
 
     return () => clearInterval(interval);
@@ -34,7 +33,7 @@ const TypingMarkdown = ({ text, speed, goToBottom }: Props) => {
         whiteSpace: "pre-wrap",
       }}
     >
-      {displayed}
+      {text.slice(0, index)}
     </Markdown>
   );
 };
