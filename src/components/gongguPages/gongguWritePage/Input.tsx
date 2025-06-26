@@ -44,6 +44,7 @@ const DateInput = styled.input.attrs<{
 }))`
   display: block;
   width: 0;
+  max-width: 100%;
   min-width: 100%;
   height: 45px;
   background-color: white;
