@@ -32,7 +32,7 @@ const Wrap = styled.div`
   background-color: white;
 `;
 
-const Title = styled.div`
+const Header = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -44,6 +44,9 @@ const TitleContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 5px;
+`;
+const Title = styled(Text)`
+  line-height: 1.2;
 `;
 const Highlight = styled.span`
   font-size: 15px;
@@ -59,6 +62,7 @@ const TitleFooter = styled.div`
 const Body = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
 `;
 
 const BodyHeader = styled.div`
@@ -81,9 +85,15 @@ const UserScore = styled.div`
 const ContentWrap = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
   gap: 5px;
-  margin-bottom: 30px;
-  margin-top: 30px;
+  margin-bottom: 40px;
+  margin-top: 15px;
+`;
+const Sentence = styled(Text)`
+  line-height: 1.2;
+  width: 100%;
+  overflow-wrap: break-word;
 `;
 
 const MapWrap = styled.div`
@@ -94,6 +104,13 @@ const MapWrap = styled.div`
 const Place = styled.div`
   display: flex;
   justify-content: space-between;
+  width: 100%;
+`;
+const Location = styled(Text)`
+  max-width: 60%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 const ProfileWrapper = styled.div<{ $isOpen: boolean; $height: number }>`
   max-width: 440px;
@@ -141,7 +158,7 @@ export default function Content(props: GongguPost) {
 
   return (
     <Wrap>
-      <Title>
+      <Header>
         <Img
           src={
             props.boardStatus === "CLOSING_SOON"
@@ -152,10 +169,10 @@ export default function Content(props: GongguPost) {
               ? gray
               : green
           }
-          width="70px"
+          width="90px"
         ></Img>
         <TitleContent>
-          <Text fontSize="24px">{props.title}</Text>
+          <Title fontSize="24px">{props.title}</Title>
           <Text fontSize="20px" fontFamily="DunggeunmisoBold">
             {props.price.toLocaleString()}원{" "}
             <Highlight>
@@ -189,7 +206,7 @@ export default function Content(props: GongguPost) {
             price={props.productPrice}
           />
         ) : null}
-      </Title>
+      </Header>
       <Body>
         <BodyHeader>
           <UserProfile onClick={() => setIsOpen(!isOpen)}>
@@ -217,9 +234,9 @@ export default function Content(props: GongguPost) {
         )}
         <ContentWrap>
           {props.content.split("\n").map((sentence, idx) => (
-            <Text key={idx} fontSize="16px">
+            <Sentence key={idx} fontSize="16px">
               {sentence}
-            </Text>
+            </Sentence>
           ))}
         </ContentWrap>
 
@@ -228,7 +245,7 @@ export default function Content(props: GongguPost) {
             <Text fontSize="17px" fontFamily="DunggeunmisoBold">
               거래 장소
             </Text>
-            <Text fontSize="16px">{props.location}</Text>
+            <Location fontSize="16px">{props.location}</Location>
           </Place>
           <TradeSpace location={props.location} />
         </MapWrap>

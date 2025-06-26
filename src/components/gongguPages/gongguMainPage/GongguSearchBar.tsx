@@ -3,34 +3,55 @@ import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { fetchWithAuth } from "../../../utils/FetchWithAuth";
+import { useHistoryStack } from "../../../utils/useHistoryStack";
 import { Img } from "../../common/styled-component/Img";
 import { Text } from "../../common/styled-component/Text";
 import placeMarker from "../../../assets/images/common/위치아이콘.png";
-import alarm from "../../../assets/images/common/알람아이콘.png";
 import search from "../../../assets/images/common/검색아이콘.png";
 import back from "../../../assets/images/common/뒤로가기.png";
-import { useHistoryStack } from "../../../utils/useHistoryStack";
 
 const Header = styled.div`
+  width: 100%;
   position: sticky;
   top: 0;
   display: flex;
   flex-direction: column;
+  gap: 13px;
   background-color: #5849d0;
   border-radius: 0 0 15px 15px;
   padding: 15px 15px 20px 15px;
-  gap: 13px;
 `;
 const HeaderTop = styled.div`
+  width: 100%;
   display: flex;
   justify-content: space-between;
   color: white;
 `;
 const PlaceWrap = styled.div`
+  width: 100%;
   display: flex;
   align-items: center;
   gap: 5px;
   cursor: pointer;
+`;
+const Location = styled(Text)`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  &:hover::after {
+    content: attr(data-fulltext);
+    position: absolute;
+    top: 40px; /* 아래로 툴팁 표시 */
+    left: 40px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    max-width: 80%;
+    white-space: normal;
+  }
 `;
 const SearchWrap = styled.form`
   display: flex;
@@ -90,9 +111,6 @@ export default function GongguSearchBar() {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-    console.log(token);
-
     fetchWithAuth(`/api/users`, {
       method: "GET",
       headers: {
@@ -112,7 +130,7 @@ export default function GongguSearchBar() {
       .catch((error) => {
         console.error("get failed: ", error);
       });
-  }, [location]);
+  }, []);
 
   const handleToMap = () => {
     sessionStorage.setItem("GONGGU_MAP_STATE", JSON.stringify(location));
@@ -129,11 +147,10 @@ export default function GongguSearchBar() {
       <HeaderTop>
         <PlaceWrap onClick={loading ? undefined : () => handleToMap()}>
           <Img src={placeMarker} width="clamp(20px, 2vw, 23px)" />
-          <Text fontSize="clamp(20px, 2vw, 23px)">
+          <Location fontSize="clamp(20px, 2vw, 23px)" data-fulltext={location}>
             {loading ? "loading..." : location}
-          </Text>
+          </Location>
         </PlaceWrap>
-        <Img src={alarm} width="clamp(22px, 2vw, 25px)" />
       </HeaderTop>
       {isResult ? (
         <SearchResultWrap>

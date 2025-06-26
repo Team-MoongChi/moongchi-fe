@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
-import empty from "../../../assets/images/common/빈프로필.png";
 import { Img } from "../../common/styled-component/Img";
 import { Text } from "../../common/styled-component/Text";
+import empty from "../../../assets/images/common/빈프로필.png";
 
 const Wrap = styled.div`
   display: flex;
@@ -21,7 +21,6 @@ interface Participants {
   userId: number;
   profileUrl: string;
 }
-
 interface Props {
   totalUser: number;
   currentUsers: number;

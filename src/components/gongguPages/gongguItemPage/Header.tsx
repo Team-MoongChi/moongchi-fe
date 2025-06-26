@@ -49,6 +49,9 @@ interface HeaderProps {
   imgUrl: string | undefined;
   title: string | undefined;
   content: string | undefined;
+  totalUser: number | undefined;
+  currentUsers: number | undefined;
+  boardStatus: string | undefined;
 }
 
 export default function Header(props: HeaderProps) {
@@ -110,12 +113,13 @@ export default function Header(props: HeaderProps) {
         },
       });
       if (response.ok) {
-        alert("글 삭제 성공");
+        alert("글 삭제 성공!");
         navigate("/");
+        console.log("글 삭제 요청");
       }
     } catch (error) {
       console.log("post failed: ", error);
-      alert("글 삭제 실패");
+      alert("글 삭제에 실패했습니다. 다시 시도해주세요.");
       throw error;
     }
   };
@@ -131,6 +135,31 @@ export default function Header(props: HeaderProps) {
     const backPath = pop() || "/";
     navigate(backPath);
   };
+  const handelDeleteButton = () => {
+    if (
+      props.totalUser === props.currentUsers &&
+      props.boardStatus === "CLOSED"
+    ) {
+      alert("공구가 아직 진행 중입니다. 글을 삭제할 수 없습니다.");
+    } else {
+      deleteFetch();
+    }
+  };
+  const handelEditButton = () => {
+    if (
+      props.totalUser === props.currentUsers &&
+      props.boardStatus === "CLOSED"
+    ) {
+      alert("공구가 아직 진행중입니다. 글을 수정할 수 없습니다.");
+    } else {
+      navigate(`/gonggu/edit/${gongguId}`, {
+        state: {
+          message: props.isShop,
+          imgUrl: props.imgUrl,
+        },
+      });
+    }
+  };
 
   return (
     <Wrap $issmall={small} $scroll={scroll}>
@@ -138,19 +167,11 @@ export default function Header(props: HeaderProps) {
       <Right>
         <IconButton src={share} onClick={shareKakao} />
         {props.editable ? (
-          <IconButton
-            src={edit}
-            onClick={() =>
-              navigate(`/gonggu/edit/${gongguId}`, {
-                state: {
-                  message: props.isShop,
-                  imgUrl: props.imgUrl,
-                },
-              })
-            }
-          />
+          <IconButton src={edit} onClick={handelEditButton} />
         ) : null}
-        {props.editable ? <IconButton src={del} onClick={deleteFetch} /> : null}
+        {props.editable ? (
+          <IconButton src={del} onClick={handelDeleteButton} />
+        ) : null}
       </Right>
     </Wrap>
   );

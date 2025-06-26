@@ -1,13 +1,17 @@
 import styled from "styled-components";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { fetchWithAuth } from "../../../utils/FetchWithAuth";
 import { useHistoryStack } from "../../../utils/useHistoryStack";
 import { Img } from "../../common/styled-component/Img";
 import { Text } from "../../common/styled-component/Text";
-import { fetchWithAuth } from "../../../utils/FetchWithAuth";
 import RecPartProfile from "./RecPartProfile";
+<<<<<<< design/#102-fix-mobile-ui
+=======
 import { useEffect, useState } from "react";
 import loadingM from "../../../assets/images/moongchies/로딩중.gif";
+>>>>>>> main
 
 const Wrap = styled.div`
   display: flex;
@@ -112,7 +116,7 @@ export default function GongguRecommend() {
   }, []);
 
   const handleClick = (id: number) => {
-    push(); // 현재 경로 저장
+    push();
     navigate(`/gonggu/list/${id}`);
   };
 

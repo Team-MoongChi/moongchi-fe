@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
-import empty from "../../assets/images/common/빈프로필.png";
 import { Img } from "./styled-component/Img";
 import { Text } from "./styled-component/Text";
+import empty from "../../assets/images/common/빈프로필.png";
 
 const Wrap = styled.div`
   display: flex;
@@ -24,7 +24,6 @@ interface Participant {
   mannerLeader: number;
   role: "LEADER" | "MEMBER";
 }
-
 interface Props {
   totalUser: number;
   currentUsers: number;

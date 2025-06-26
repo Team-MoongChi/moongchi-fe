@@ -10,6 +10,14 @@ import kitchen from "../../../assets/images/gonggu/주방용품.png";
 const Menu = styled.div`
   display: flex;
   justify-content: space-between;
+  gap: 15px;
+  overflow: scroll;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+
+  &::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+  }
 `;
 
 interface MenuProps {

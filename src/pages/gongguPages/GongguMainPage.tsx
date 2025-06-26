@@ -90,8 +90,12 @@ export default function GongguMainPage() {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data: GongguItem[] = await response.json();
-      console.log(data);
-      setGongguList(data);
+      const sorted = data.sort(
+        (a, b) =>
+          new Date(b.createAt).getTime() - new Date(a.createAt).getTime()
+      );
+      console.log(sorted);
+      setGongguList(sorted);
       setLoading(false);
     } catch (error) {
       console.error("list get failed: ", error);
