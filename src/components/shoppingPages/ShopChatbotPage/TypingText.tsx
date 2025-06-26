@@ -16,10 +16,8 @@ const TypingMarkdown = ({ text, speed, goToBottom }: Props) => {
 
     const interval = setInterval(() => {
       if (i < text.length) {
-        setDisplayed((prev) => {
-          const next = prev + text[i]; // 정확히 i번째 문자 하나만 추가
-          return next;
-        });
+        const currentChar = text[i]; // i번째 문자를 먼저 저장
+        setDisplayed((prev) => prev + currentChar);
         i += 1;
 
         // goToBottom도 여기서
@@ -32,7 +30,7 @@ const TypingMarkdown = ({ text, speed, goToBottom }: Props) => {
     }, speed);
 
     return () => clearInterval(interval);
-  }, [text, speed]);
+  }, [text, speed, goToBottom]);
 
   return (
     <Markdown
