@@ -19,9 +19,13 @@ const TextWrap = styled.div`
   padding-top: 2vh;
   gap: 1vh;
 `;
-const Div = styled.div<{ $paddingbottom?: string }>`
-  padding-bottom: ${(props) => props.$paddingbottom};
-  display: flex;
+const TopText = styled(Text)`
+  padding-bottom: 2vh;
+`;
+const Highlight = styled.span`
+  font-size: 20px;
+  font-family: DunggeunmisoBold;
+  color: #5849d0;
 `;
 
 interface GongguEmptyProps {
@@ -30,27 +34,17 @@ interface GongguEmptyProps {
 export default function GongguEmpty(props: GongguEmptyProps) {
   return (
     <EmptyList $height={props.height}>
-      <Div $paddingbottom="2vh">
-        <Text fontSize="50px" fontFamily="DunggeunmisoBold" color="#5849d0">
-          텅~
-        </Text>
-      </Div>
+      <TopText fontSize="50px" fontFamily="DunggeunmisoBold" color="#5849d0">
+        텅~
+      </TopText>
       <Img src={emptyBox} width="clamp(180px, 3vw, 180px)" />
       <TextWrap>
-        <Div>
-          <Text fontSize="20px">근처에서 열린 공구가&nbsp;</Text>
-          <Text fontSize="20px" fontFamily="DunggeunmisoBold" color="#5849d0">
-            없어요.
-          </Text>
-        </Div>
-        <Div>
-          <Text fontSize="20px" fontFamily="DunggeunmisoBold">
-            제일 먼저&nbsp;
-          </Text>
-          <Text fontSize="20px" fontFamily="DunggeunmisoBold" color="#5849d0">
-            공구를 열어보세요!
-          </Text>
-        </Div>
+        <Text fontSize="20px">
+          근처에서 열린 공구가 <Highlight>없어요.</Highlight>
+        </Text>
+        <Text fontSize="20px" fontFamily="DunggeunmisoBold">
+          제일 먼저 <Highlight>공구를 열어보세요!</Highlight>
+        </Text>
       </TextWrap>
     </EmptyList>
   );
