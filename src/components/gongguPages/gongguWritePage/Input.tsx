@@ -32,11 +32,26 @@ const InputField = styled.input.attrs<{
   &:focus {
     outline: none;
   }
-
-  &::-webkit-outer-spin-button,
-  &::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+`;
+const DateInput = styled.input.attrs<{
+  type: React.HTMLInputAutoCompleteAttribute;
+  value?: string;
+}>((props) => ({
+  type: props.type || "text",
+  value: props.value,
+  disabled: props.disabled ? true : false,
+  inputMode: props.inputMode || "text",
+}))`
+  display: block;
+  width: 0;
+  min-width: 100%;
+  height: 45px;
+  background-color: white;
+  border-radius: 8px;
+  border: 1px solid #5849d0;
+  padding: 15px;
+  &:focus {
+    outline: none;
   }
 `;
 
@@ -64,11 +79,11 @@ export default function Input(props: InputProps) {
           *
         </Text>
       </Title>
-      {props.type === "number" ? (
-        <InputField
+      {props.type === "date" ? (
+        <DateInput
           name={props.name}
-          type="number"
-          min={0}
+          type="date"
+          value={props.value}
           onChange={props.onChange}
         />
       ) : (
