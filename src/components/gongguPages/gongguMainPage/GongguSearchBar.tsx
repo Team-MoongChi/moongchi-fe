@@ -126,11 +126,12 @@ export default function GongguSearchBar() {
       .then((result) => {
         setLocation(result.address);
         setLoading(false);
+        console.log("사용자 주소 API 호출");
       })
       .catch((error) => {
         console.error("get failed: ", error);
       });
-  }, [location]);
+  }, []);
 
   const handleToMap = () => {
     sessionStorage.setItem("GONGGU_MAP_STATE", JSON.stringify(location));
