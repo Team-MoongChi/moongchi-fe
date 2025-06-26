@@ -102,6 +102,7 @@ interface FooterProp {
   editable: boolean | undefined;
   chatRoomId: number | undefined;
   likeCount: number | undefined;
+  join: boolean | undefined;
 }
 
 export default function Footer(props: FooterProp) {
@@ -233,7 +234,7 @@ export default function Footer(props: FooterProp) {
           {clickCnt}
         </Text>
       </HeartWrap>
-      {props.editable ? (
+      {props.join ? (
         <Button onClick={() => navigate(`/chat/${props.chatRoomId}`)}>
           채팅방 바로 가기
         </Button>
