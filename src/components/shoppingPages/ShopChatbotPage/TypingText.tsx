@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import Markdown from "markdown-to-jsx";
 
 type Props = {
@@ -8,38 +8,30 @@ type Props = {
 };
 
 const TypingMarkdown = ({ text, speed, goToBottom }: Props) => {
-  const [index, setIndex] = useState(0);
-  const intervalRef = useRef<number | null>(null);
+  const [displayed, setDisplayed] = useState("");
 
   useEffect(() => {
-    setIndex(0); // 글자 인덱스 초기화
+    let i = 0;
+    setDisplayed(""); // 초기화
 
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current); // 이전 인터벌 정리
-    }
+    const interval = setInterval(() => {
+      if (i < text.length) {
+        setDisplayed((prev) => {
+          const next = prev + text[i]; // 정확히 i번째 문자 하나만 추가
+          return next;
+        });
+        i += 1;
 
-    intervalRef.current = setInterval(() => {
-      setIndex((prev) => {
-        const next = prev + 1;
-        if (next >= text.length) {
-          if (intervalRef.current) clearInterval(intervalRef.current);
-        }
-
-        // 일정 주기로 goToBottom 호출
-        if (next % 5 === 0 || next === text.length) {
+        // goToBottom도 여기서
+        if (i % 5 === 0 || i === text.length) {
           goToBottom();
         }
-
-        return next;
-      });
+      } else {
+        clearInterval(interval);
+      }
     }, speed);
 
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-        intervalRef.current = null;
-      }
-    };
+    return () => clearInterval(interval);
   }, [text, speed]);
 
   return (
@@ -51,7 +43,7 @@ const TypingMarkdown = ({ text, speed, goToBottom }: Props) => {
         whiteSpace: "pre-wrap",
       }}
     >
-      {text.slice(0, index)}
+      {displayed}
     </Markdown>
   );
 };
