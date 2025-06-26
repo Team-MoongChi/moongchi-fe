@@ -1,11 +1,12 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+
+import { useHistoryStack } from "../../../utils/useHistoryStack";
+import useTimeStamp from "../../../hooks/useTimeStamp";
 import { Text } from "../../common/styled-component/Text";
 import { Img } from "../../common/styled-component/Img";
 import ParticipantsProfile from "../../common/ParticipantsProfile";
-import useTimeStamp from "../../../hooks/useTimeStamp";
 import type { GongguItem } from "../../../types/gongguPages/gongguItem";
-import { useHistoryStack } from "../../../utils/useHistoryStack";
 
 import red from "../../../assets/images/gonggu/마감임박.png";
 import blue from "../../../assets/images/gonggu/모집중.png";
@@ -14,20 +15,29 @@ import green from "../../../assets/images/gonggu/공구완료.png";
 import person from "../../../assets/images/gonggu/userIcon.png";
 
 const Wrap = styled.div`
+  width: 100%;
   display: flex;
   padding-bottom: 10px;
   border-bottom: 2px solid #e8edff;
   gap: 3%;
   cursor: pointer;
 `;
-
 const Content = styled.div`
+  width: 100%;
   flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  overflow: hidden;
 `;
-
+const Title = styled(Text)`
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+`;
 const Participants = styled.div`
   display: flex;
   align-items: center;
@@ -38,10 +48,22 @@ const ParticipantsCnt = styled.div`
   align-items: center;
   gap: 3px;
 `;
-
 const Details = styled.div`
+  width: 100%;
   display: flex;
   justify-content: space-between;
+`;
+const Location = styled(Text)`
+  max-width: 70%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+const Time = styled(Text)`
+  max-width: 30%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 export default function GongguListItem(props: GongguItem) {
@@ -49,7 +71,7 @@ export default function GongguListItem(props: GongguItem) {
   const { push } = useHistoryStack();
 
   const handleClick = () => {
-    push(); // 현재 경로 저장
+    push();
     navigate(`/gonggu/list/${props.id}`);
   };
 
@@ -75,7 +97,7 @@ export default function GongguListItem(props: GongguItem) {
           }
           width="70px"
         ></Img>
-        <Text fontSize="17px">{props.title}</Text>
+        <Title fontSize="17px">{props.title}</Title>
         <Text fontSize="14px" fontFamily="DunggeunmisoBold">
           {props.price.toLocaleString()}원
         </Text>
@@ -93,12 +115,12 @@ export default function GongguListItem(props: GongguItem) {
           </ParticipantsCnt>
         </Participants>
         <Details>
-          <Text fontSize="12px" fontWeight="bold" color="#a7a7a7">
+          <Location fontSize="12px" fontWeight="bold" color="#a7a7a7">
             {props.location}
-          </Text>
-          <Text fontSize="12px" color="#a7a7a7">
+          </Location>
+          <Time fontSize="12px" color="#a7a7a7">
             {useTimeStamp(props.createAt)}
-          </Text>
+          </Time>
         </Details>
       </Content>
     </Wrap>
