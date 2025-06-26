@@ -8,8 +8,9 @@ import UserProfile from "../../components/chatPages/common/UserProfile";
 import UserCost from "../../components/chatPages/chatPayPage/UserCost";
 import { Wrap } from "../../components/common/styled-component/Wrap";
 import { fetchWithAuth } from "../../utils/FetchWithAuth";
-
 import type { ChatRoomItem } from "../../types/chatPages/chatRoomItem";
+import loadingM from "../../assets/images/moongchies/로딩중.gif";
+import EmptyPage from "../EmptyPage";
 
 declare global {
   interface Window {
@@ -69,6 +70,21 @@ const Text = styled.div<TextProps>`
   font-size: ${(props) => props.fontSize};
   color: ${(props) => props.color || "inherit"};
 `;
+const Loading = styled.div`
+  width: 100%;
+  height: 70%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  img {
+    width: 250px;
+  }
+  p {
+    font-family: DunggeunmisoBold;
+    color: #5849d0;
+  }
+`;
 
 interface User {
   email: string;
@@ -84,6 +100,8 @@ export default function ChatPayPage() {
   const [chatRoom, setChatRoom] = useState<ChatRoomItem>();
   const [user, setUser] = useState<User>();
   const [loading, setLoading] = useState<boolean>(true);
+  const [userLoading, setUserLoading] = useState<boolean>(true);
+  const [errorStatus, setErrorStatus] = useState<number>();
 
   const fetchChatRoom = async () => {
     const token = localStorage.getItem("accessToken");
@@ -97,6 +115,9 @@ export default function ChatPayPage() {
         },
       });
       if (!response.ok) {
+        if (response.status === 404) {
+          setErrorStatus(404);
+        }
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
@@ -112,9 +133,6 @@ export default function ChatPayPage() {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-    console.log(token);
-
     fetchWithAuth(`/api/users`, {
       method: "GET",
       headers: {
@@ -129,8 +147,7 @@ export default function ChatPayPage() {
       })
       .then((result) => {
         setUser(result);
-        setLoading(false);
-        console.log("사용자 정보", result);
+        setUserLoading(false);
       })
       .catch((error) => {
         console.error("get failed: ", error);
@@ -148,6 +165,16 @@ export default function ChatPayPage() {
     } else {
       return true;
     }
+  };
+  const join = () => {
+    if (!loading && !userLoading && chatRoom !== null) {
+      const isJoined = chatRoom?.participants.find(
+        (participant) => participant.me === true
+      );
+      if (!isJoined) return false;
+      else return true;
+    }
+    return false;
   };
 
   const onClickPayment = async () => {
@@ -185,7 +212,6 @@ export default function ChatPayPage() {
             );
 
             if (response.ok) {
-              alert("결제 성공");
               // 예시: 결제 완료 페이지로 이동
               window.location.href = `/chat/${chatRoomId}/pay`;
             } else {
@@ -208,52 +234,84 @@ export default function ChatPayPage() {
     fetchChatRoom();
   }, []);
 
-  if (loading) return <div>loading...</div>;
-  if (!chatRoom?.id) return <div>존재하지 않는 채팅방입니다.</div>;
-  if (chatRoom?.status === "모집중")
-    return <div>아직 모집이 완료되지 않았습니다.</div>;
+  // 링크를 이용한 이동 막기
+  const Lock = () => {
+    if (loading || userLoading || chatRoom === null) return null;
+
+    if (errorStatus === 404) {
+      return <EmptyPage error="404 NOT FOUND!" item="결제 페이지를" />;
+    } else if (
+      join() &&
+      (chatRoom?.status === "모집중" || chatRoom?.status === "마감임박")
+    )
+      return <EmptyPage error="아직 모집 중입니다." item="결제 페이지를" />;
+    else if (!join()) {
+      return <EmptyPage error="잘못된 접근입니다." item="결제 페이지를" />;
+    }
+    return null;
+  };
 
   return (
-    <Wrap $issmall={small} $height="100dvh" $gap="30px">
-      <PayHeader />
-      <Body>
-        <Text fontSize="22px">결제 현황이에요.</Text>
-        <TotalCost>
-          <Text fontSize="16px" color="#767676">
-            모인 금액
-          </Text>
-          <Text fontSize="30px" color="#5849d0" fontFamily="DunggeunmisoBold">
-            총{" "}
-            {chatRoom?.participants
-              .reduce((acc, cur) => acc + cur.perPersonPrice, 0)
-              .toLocaleString()}
-            원
-          </Text>
-        </TotalCost>
+    <>
+      {Lock()}
+      <Wrap $issmall={small} $height="100dvh" $gap="30px">
+        <PayHeader />
+        {loading && userLoading ? (
+          <Loading>
+            <img src={loadingM} alt="" />
+            <p>결제현황을 불러오고 있어요 '◡'</p>
+          </Loading>
+        ) : (
+          <>
+            <Body>
+              <Text fontSize="22px">결제 현황이에요.</Text>
+              <TotalCost>
+                <Text fontSize="16px" color="#767676">
+                  모인 금액
+                </Text>
+                <Text
+                  fontSize="30px"
+                  color="#5849d0"
+                  fontFamily="DunggeunmisoBold"
+                >
+                  총{" "}
+                  {chatRoom?.participants
+                    .reduce((acc, cur) => acc + cur.perPersonPrice, 0)
+                    .toLocaleString()}
+                  원
+                </Text>
+              </TotalCost>
 
-        <PayWrap>
-          {chatRoom?.participants.map((participant, idx) => {
-            return (
-              <UserWrap key={idx}>
-                <UserProfile
-                  src={participant.profileUrl}
-                  width="clamp(38px, 2vw, 38px)"
-                  name={participant.nickname}
-                  isLeader={participant.role === "LEADER"}
-                />
-                <UserCost
-                  cost={participant.perPersonPrice.toLocaleString()}
-                  isPaid={participant.payStatement === "PAID"}
-                  width="clamp(38px, 2vw, 38px)"
-                />
-              </UserWrap>
-            );
-          })}
-        </PayWrap>
-      </Body>
-      <Button type="button" onClick={onClickPayment} disabled={disabled()}>
-        {disabled() ? "결제 완료" : "결제하기"}
-      </Button>
-    </Wrap>
+              <PayWrap>
+                {chatRoom?.participants.map((participant, idx) => {
+                  return (
+                    <UserWrap key={idx}>
+                      <UserProfile
+                        src={participant.profileUrl}
+                        width="clamp(38px, 2vw, 38px)"
+                        name={participant.nickname}
+                        isLeader={participant.role === "LEADER"}
+                      />
+                      <UserCost
+                        cost={participant.perPersonPrice.toLocaleString()}
+                        isPaid={participant.payStatement === "PAID"}
+                        width="clamp(38px, 2vw, 38px)"
+                      />
+                    </UserWrap>
+                  );
+                })}
+              </PayWrap>
+            </Body>
+            <Button
+              type="button"
+              onClick={onClickPayment}
+              disabled={disabled()}
+            >
+              {disabled() ? "결제 완료" : "결제하기"}
+            </Button>
+          </>
+        )}
+      </Wrap>
+    </>
   );
 }
