@@ -7,11 +7,7 @@ import { useHistoryStack } from "../../../utils/useHistoryStack";
 import { Img } from "../../common/styled-component/Img";
 import { Text } from "../../common/styled-component/Text";
 import RecPartProfile from "./RecPartProfile";
-<<<<<<< design/#102-fix-mobile-ui
-=======
-import { useEffect, useState } from "react";
 import loadingM from "../../../assets/images/moongchies/로딩중.gif";
->>>>>>> main
 
 const Wrap = styled.div`
   display: flex;
