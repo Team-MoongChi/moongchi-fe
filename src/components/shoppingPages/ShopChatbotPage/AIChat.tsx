@@ -80,22 +80,18 @@ type Props = {
   chat: Chat;
   loading: boolean;
   Key: number;
-  length: number;
   goToBottom: () => void;
   backSave: () => void;
-  index: number;
-  restoredLength: number;
+  restoredChat: Chat[] | null;
 };
 
 const AIChat = ({
   chat,
   loading,
   Key,
-  length,
   goToBottom,
   backSave,
-  index,
-  restoredLength,
+  restoredChat,
 }: Props) => {
   const { push } = useHistoryStack();
   const navigate = useNavigate();
@@ -121,7 +117,7 @@ const AIChat = ({
             </Loading>
           ) : (
             <>
-              {index < restoredLength ? (
+              {restoredChat && "chat" in restoredChat ? (
                 <Markdown
                   style={{
                     textAlign: "start",

@@ -32,8 +32,8 @@ const Main = ({
   backSave: () => void;
 }) => {
   const bottomRef = useRef<HTMLDivElement>(null);
-  const saved = sessionStorage.getItem("chat-chattings");
-  const restoredLength = saved ? JSON.parse(saved).length : 0;
+  const savedRaw = sessionStorage.getItem("chat-chattings");
+  const saved: Chat[] | null = savedRaw ? JSON.parse(savedRaw) : null;
 
   const goToBottom = () => {
     if (bottomRef.current) {
@@ -56,11 +56,9 @@ const Main = ({
             key={index}
             Key={index}
             loading={loading}
-            length={chattings.length}
             goToBottom={goToBottom}
             backSave={backSave}
-            index={index}
-            restoredLength={restoredLength}
+            restoredChat={saved}
           />
         ) : (
           <IChat text={chat.text} key={index} />

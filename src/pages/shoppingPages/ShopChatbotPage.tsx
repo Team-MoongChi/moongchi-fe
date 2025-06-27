@@ -103,13 +103,13 @@ const ShopChatbotPage = () => {
           const updated = [...prev];
           const idx = updated.findIndex((c) => c.text === "");
           if (idx !== -1) updated[idx] = newChatAI;
-          sessionStorage.setItem("chat-chattings", JSON.stringify(updated));
           return updated;
         });
         setSessionId(result.session_id);
         setChatCount(result.message_count);
-        sessionStorage.setItem("chat-sessionId", result.session_id);
-        sessionStorage.setItem("chat-chatCount", String(result.message_count));
+        sessionStorage.setItem("chat-sessionId", sessionId);
+        sessionStorage.setItem("chat-chatCount", String(chatCount));
+        sessionStorage.setItem("chat-chattings", JSON.stringify(chattings));
       })
       .catch((err) => console.error("AI 응답 실패:", err))
       .finally(() => {
