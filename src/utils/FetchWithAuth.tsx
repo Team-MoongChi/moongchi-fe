@@ -31,6 +31,7 @@ export const fetchWithAuth = async (
 
       if (reissueRes.ok) {
         const data = await reissueRes.json();
+        console.log("토큰 재발급!", data);
         const newToken = data.accessToken;
         localStorage.setItem("accessToken", newToken);
 
