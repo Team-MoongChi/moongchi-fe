@@ -22,7 +22,7 @@ export const fetchWithAuth = async (
       credentials: "include",
     });
 
-    if (res.status === 401 && retry) {
+    if (res.status === 401 && retry && 500) {
       // accessToken 만료 → 재발급 시도
       const reissueRes = await fetch("/api/auth/reissue", {
         method: "POST",
