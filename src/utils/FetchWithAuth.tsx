@@ -50,7 +50,9 @@ export const fetchWithAuth = async (
         if (currentPath === "/") {
           window.location.href = "/start";
         } else if (!currentPath.startsWith("/gonggu/list")) {
+          console.log("진입");
           if (!isRedirecting) {
+            console.log("실행");
             isRedirecting = true; // 한번만 실행
             alert("로그인을 진행해주세요.");
             window.location.href = "/start";
@@ -68,7 +70,9 @@ export const fetchWithAuth = async (
     if (currentPath === "/") {
       window.location.href = "/start";
     } else if (!currentPath.startsWith("/gonggu/list")) {
+      console.log("진입");
       if (!isRedirecting) {
+        console.log("실행");
         isRedirecting = true; // 한번만 실행
         alert("로그인을 진행해주세요.");
         window.location.href = "/start";
