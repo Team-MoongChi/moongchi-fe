@@ -4,19 +4,23 @@ import { useNavigate } from "react-router-dom";
 import useDeviceSize from "../../../hooks/useDeviceSize";
 import { Img } from "../../common/styled-component/Img";
 import { Text } from "../../common/styled-component/Text";
+import ParticipantsModal from "./ParticipantsModal";
 import back from "../../../assets/images/common/뒤로가기.png";
+import participants from "../../../assets/images/gonggu/participants.png";
 
 const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  height: 71px;
   padding: 20px;
   background-color: #5849d0;
   border-radius: 0 0 15px 15px;
 `;
-const BackButton = styled(Img)`
+const Button = styled(Img)<{ $marginRight?: string }>`
   cursor: pointer;
+  margin-right: ${(props) => props.$marginRight || 0};
 `;
 const Title = styled(Text)`
   width: 70%;
@@ -39,14 +43,14 @@ const Title = styled(Text)`
     white-space: normal;
   }
 `;
-const ImgNone = styled(Img)`
-  visibility: hidden;
-`;
 
 interface MainProps {
   title: string | undefined;
   route: string | number;
   $fontSize?: string;
+  participantMap: Map<number, { nickname: string; profileUrl: string }>;
+  isOpen: boolean;
+  setIsOpen: (value: boolean) => void;
 }
 
 export default function ChatHeader(props: MainProps) {
@@ -55,7 +59,8 @@ export default function ChatHeader(props: MainProps) {
 
   return (
     <Wrapper>
-      <BackButton
+      <Button
+        $marginRight="12px"
         src={back}
         width="16px"
         onClick={() => navigate("/chat/list")}
@@ -68,7 +73,15 @@ export default function ChatHeader(props: MainProps) {
       >
         {props.title}
       </Title>
-      <ImgNone src={back} width="16px" />
+      <Button
+        src={participants}
+        width="28px"
+        onClick={() => props.setIsOpen(!props.isOpen)}
+      />
+      <ParticipantsModal
+        isOpen={props.isOpen}
+        participantsMap={props.participantMap}
+      ></ParticipantsModal>
     </Wrapper>
   );
 }

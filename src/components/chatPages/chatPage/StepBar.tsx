@@ -1,5 +1,7 @@
 import styled from "styled-components";
+import { useState, useEffect } from "react";
 import { Text } from "../../common/styled-component/Text";
+import type { Message } from "../../../types/chatPages/message";
 
 const Wrap = styled.div`
   display: flex;
@@ -35,14 +37,37 @@ const Line = styled.div`
 
 interface StepBarProps {
   status: string;
+  newMessages: Message[];
 }
 
 export default function StepBar(props: StepBarProps) {
   const statusList = ["모집중", "모집완료", "구매중", "구매완료", "공구완료"];
 
+  const [status, setStatus] = useState<string>("");
+
+  useEffect(() => setStatus(props.status), []);
+
+  useEffect(() => {
+    props.newMessages.map((newMessage) => {
+      if (newMessage.messageType === "SYSTEM") {
+        if (newMessage.chatStatus === "RECRUITING") {
+          setStatus("모집중");
+        } else if (newMessage.chatStatus === "RECRUITED") {
+          setStatus("모집완료");
+        } else if (newMessage.chatStatus === "PAYING") {
+          setStatus("구매중");
+        } else if (newMessage.chatStatus === "PURCHASED") {
+          setStatus("구매완료");
+        } else if (newMessage.chatStatus === "COMPLETED") {
+          setStatus("공구완료");
+        }
+      }
+    });
+  }, [props.newMessages]);
+
   const findIdx = (): number => {
     for (let i = 0; i < statusList.length; i++) {
-      if (props.status === statusList[i]) {
+      if (status === statusList[i]) {
         return i;
       }
     }
@@ -65,7 +90,7 @@ export default function StepBar(props: StepBarProps) {
     stepbar.push(
       <State key={idx}>
         <Text fontSize="14px" fontFamily="DunggeunmisoBold" color="white">
-          {props.status}
+          {status}
         </Text>
       </State>
     );

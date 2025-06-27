@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useState } from "react";
 import { Outlet, useParams, useOutletContext } from "react-router-dom";
 import { Client } from "@stomp/stompjs";
 
@@ -80,10 +81,18 @@ export default function ChatPage() {
 
   const context = useOutletContext() as OutletContext;
 
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
   if (context.errorStatus === 404)
     return <EmptyPage error="404 NOT FOUND!" item="채팅방을" />;
   if (context.myParticipant === null && !context.loading)
     return <EmptyPage error="잘못된 접근입니다." item="채팅방을" />;
+
+  const modalHandle = () => {
+    if (isOpen) {
+      setIsOpen(false);
+    }
+  };
 
   return (
     <Wrap $issmall={small} $height="100dvh">
@@ -94,11 +103,14 @@ export default function ChatPage() {
         </Loading>
       ) : (
         <>
-          <FixedWrap>
+          <FixedWrap onClick={modalHandle}>
             <ChatHeader
               title={context.chatRoom.title}
               $fontSize={small ? "5.5vmin" : "3vmin"}
               route="/chat/list"
+              participantMap={context.participantMap}
+              isOpen={isOpen}
+              setIsOpen={setIsOpen}
             />
             <PaddingWrap>
               <GoToGonggu
@@ -109,11 +121,12 @@ export default function ChatPage() {
               />
               <StepBar
                 status={context.chatRoom.status ? context.chatRoom.status : ""}
+                newMessages={context.newMessages}
               />
             </PaddingWrap>
           </FixedWrap>
 
-          <Body>
+          <Body onClick={modalHandle}>
             <Chatconnect
               chatRoomId={Number(chatRoomId)}
               chatRoomStatus={context.chatRoom.status}
