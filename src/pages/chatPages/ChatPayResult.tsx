@@ -9,12 +9,12 @@ export default function ChatPayResult() {
   const location = useLocation();
   const query = new URLSearchParams(location.search);
 
-  const impUid = query.get("imp_uid");
+  const imp_uid = query.get("imp_uid");
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    if (!impUid) {
+    if (!imp_uid) {
       setMessage("결제 정보가 없습니다.");
       setLoading(false);
       return;
@@ -26,7 +26,7 @@ export default function ChatPayResult() {
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ impUid: impUid }),
+            body: JSON.stringify({ impUid: imp_uid }),
           }
         );
 
@@ -45,11 +45,11 @@ export default function ChatPayResult() {
     };
 
     verifyPayment();
-  }, [impUid, chatRoomId]);
+  }, [imp_uid, chatRoomId]);
 
   useEffect(() => {
-    console.log("impUid", impUid);
-  }, [impUid]);
+    console.log("impUid", imp_uid);
+  }, [imp_uid]);
 
   if (loading) return <div>결제 검증 중...</div>;
   return <div>{message}</div>;

@@ -212,6 +212,7 @@ export default function ChatPayPage() {
             );
 
             if (response.ok) {
+              alert("결제 성공!");
               window.location.href = `/chat/${chatRoomId}/pay`;
             } else {
               alert("결제 검증 실패");
