@@ -132,6 +132,8 @@ const Profile = () => {
       .then((response) => {
         if (!response.ok) {
           // 예: 401, 404, 500 등일 때
+          alert("로그인을 진행해주세요.");
+          window.location.href = "/start";
           throw new Error(`서버 오류: ${response.status}`);
         }
         return response.json();
@@ -142,6 +144,8 @@ const Profile = () => {
       })
       .catch((error) => {
         console.error("요청 실패:", error);
+        alert("로그인을 진행해주세요.");
+        window.location.href = "/start";
       });
   }, []);
 
