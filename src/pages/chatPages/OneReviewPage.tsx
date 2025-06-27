@@ -47,9 +47,14 @@ const Tag = styled.div<{ $backgroundcolor: string }>`
   border-radius: 15px;
   padding: 3% 5%;
 `;
+const ReviewWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+`;
 const TextArea = styled.textarea`
   width: 100%;
-  height: 20vh;
+  height: 15vh;
   background-color: #e8edff;
   border: none;
   border-radius: 8px;
@@ -58,6 +63,9 @@ const TextArea = styled.textarea`
   &:focus {
     outline: none;
   }
+`;
+const Cnt = styled(Text)`
+  align-self: end;
 `;
 
 type Review = {
@@ -91,6 +99,7 @@ export default function OneReviewPage() {
     keywords: [],
     review: "",
   });
+  const [textCnt, setTextCnt] = useState<number>(0);
 
   const changeHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -98,6 +107,9 @@ export default function OneReviewPage() {
       ...prev,
       [name]: value,
     }));
+    if (name === "review") {
+      setTextCnt(value.length);
+    }
   };
 
   const starHandler = (rating: number) => {
@@ -183,11 +195,17 @@ export default function OneReviewPage() {
             </Tag>
           ))}
         </TagWrap>
-        <TextArea
-          name="review"
-          placeholder="리뷰를 작성해주세요"
-          onChange={changeHandler}
-        ></TextArea>
+        <ReviewWrap>
+          <Cnt fontSize="13px" color="#acacac">
+            ({textCnt}/255)
+          </Cnt>
+          <TextArea
+            name="review"
+            placeholder="리뷰를 작성해주세요"
+            maxLength={255}
+            onChange={changeHandler}
+          ></TextArea>
+        </ReviewWrap>
       </Body>
       <Button type="button" onClick={submitReview} disabled={star === 0}>
         작성 완료
