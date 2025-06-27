@@ -142,13 +142,15 @@ const AIChat = ({
             </>
           )}
         </Chat>
-        <Imgs>
-          {chat.imgUrls?.map((imgUrl, index) => (
-            <Img key={index} onClick={() => handleClickImg(index)}>
-              <img src={imgUrl} alt="" />
-            </Img>
-          ))}
-        </Imgs>
+        {Key === 1 && (
+          <Imgs>
+            {chat.imgUrls?.map((imgUrl, index) => (
+              <Img key={index} onClick={() => handleClickImg(index)}>
+                <img src={imgUrl} alt="" />
+              </Img>
+            ))}
+          </Imgs>
+        )}
       </WrapperC>
     </Wrapper>
   );
