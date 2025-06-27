@@ -109,6 +109,7 @@ export default function ChatPage() {
               />
               <StepBar
                 status={context.chatRoom.status ? context.chatRoom.status : ""}
+                newMessages={context.newMessages}
               />
             </PaddingWrap>
           </FixedWrap>
