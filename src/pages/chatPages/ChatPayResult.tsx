@@ -45,7 +45,11 @@ export default function ChatPayResult() {
       return;
     }
     verifyPayment();
-  }, []);
+  }, [impUid, chatRoomId]);
+
+  useEffect(() => {
+    console.log("impUid", impUid);
+  }, [impUid]);
 
   if (loading) return <div>결제 검증 중...</div>;
   return <div>{message}</div>;
