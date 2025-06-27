@@ -119,7 +119,9 @@ const AIChat = ({
             </Loading>
           ) : (
             <>
-              {restoredChat && "chat" in restoredChat ? (
+              {Key + 1 != length ||
+              (restoredChat &&
+                restoredChat?.some((c) => c.text === chat.text)) ? (
                 <Markdown
                   style={{
                     textAlign: "start",

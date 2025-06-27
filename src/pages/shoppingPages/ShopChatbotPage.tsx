@@ -60,9 +60,6 @@ const ShopChatbotPage = () => {
   };
 
   const sendToAI = (text: string, user: User) => {
-    sessionStorage.setItem("chat-sessionId", sessionId);
-    sessionStorage.setItem("chat-chatCount", String(chatCount));
-    sessionStorage.setItem("chat-chattings", JSON.stringify(chattings));
     setLoading(true);
 
     const loadingChat: Chat = {
