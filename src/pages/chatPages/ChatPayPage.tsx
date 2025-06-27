@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import useDeviceSize from "../../hooks/useDeviceSize";
 import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import PayHeader from "../../components/chatPages/chatPayPage/PayHeader";
 import UserProfile from "../../components/chatPages/common/UserProfile";
@@ -96,7 +96,6 @@ interface User {
 export default function ChatPayPage() {
   const { small } = useDeviceSize();
   const { chatRoomId } = useParams();
-  const navigate = useNavigate();
 
   const [chatRoom, setChatRoom] = useState<ChatRoomItem>();
   const [user, setUser] = useState<User>();
@@ -213,7 +212,7 @@ export default function ChatPayPage() {
             );
 
             if (response.ok) {
-              navigate(`/chat/${chatRoomId}/pay`);
+              window.location.href = `/chat/${chatRoomId}/pay`;
             } else {
               alert("결제 검증 실패");
             }
