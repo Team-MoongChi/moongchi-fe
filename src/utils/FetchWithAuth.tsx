@@ -1,4 +1,7 @@
 // src/utils/fetchWithAuth.ts
+
+let isRedirecting = false;
+
 export const fetchWithAuth = async (
   input: RequestInfo,
   init?: RequestInit,
@@ -47,8 +50,11 @@ export const fetchWithAuth = async (
         if (currentPath === "/") {
           window.location.href = "/start";
         } else if (!currentPath.startsWith("/gonggu/list")) {
-          window.location.href = "/start";
-          alert("로그인을 진행해주세요.");
+          if (!isRedirecting) {
+            isRedirecting = true; // 한번만 실행
+            alert("로그인을 진행해주세요.");
+            window.location.href = "/start";
+          }
         }
 
         throw new Error("Token reissue failed");
@@ -58,6 +64,16 @@ export const fetchWithAuth = async (
     return res;
   } catch (error) {
     console.error("fetchWithAuth error:", error);
+    const currentPath = window.location.pathname;
+    if (currentPath === "/") {
+      window.location.href = "/start";
+    } else if (!currentPath.startsWith("/gonggu/list")) {
+      if (!isRedirecting) {
+        isRedirecting = true; // 한번만 실행
+        alert("로그인을 진행해주세요.");
+        window.location.href = "/start";
+      }
+    }
     throw error;
   }
 };
