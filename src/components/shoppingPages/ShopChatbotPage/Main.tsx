@@ -59,6 +59,7 @@ const Main = ({
             goToBottom={goToBottom}
             backSave={backSave}
             restoredChat={saved}
+            length={chattings.length}
           />
         ) : (
           <IChat text={chat.text} key={index} />

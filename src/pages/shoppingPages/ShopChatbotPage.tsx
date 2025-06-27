@@ -60,6 +60,9 @@ const ShopChatbotPage = () => {
   };
 
   const sendToAI = (text: string, user: User) => {
+    sessionStorage.setItem("chat-sessionId", sessionId);
+    sessionStorage.setItem("chat-chatCount", String(chatCount));
+    sessionStorage.setItem("chat-chattings", JSON.stringify(chattings));
     setLoading(true);
 
     const loadingChat: Chat = {
@@ -107,9 +110,6 @@ const ShopChatbotPage = () => {
         });
         setSessionId(result.session_id);
         setChatCount(result.message_count);
-        sessionStorage.setItem("chat-sessionId", sessionId);
-        sessionStorage.setItem("chat-chatCount", String(chatCount));
-        sessionStorage.setItem("chat-chattings", JSON.stringify(chattings));
       })
       .catch((err) => console.error("AI 응답 실패:", err))
       .finally(() => {

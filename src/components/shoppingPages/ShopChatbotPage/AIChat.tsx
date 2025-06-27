@@ -83,6 +83,7 @@ type Props = {
   goToBottom: () => void;
   backSave: () => void;
   restoredChat: Chat[] | null;
+  length: number;
 };
 
 const AIChat = ({
@@ -92,6 +93,7 @@ const AIChat = ({
   goToBottom,
   backSave,
   restoredChat,
+  length,
 }: Props) => {
   const { push } = useHistoryStack();
   const navigate = useNavigate();
