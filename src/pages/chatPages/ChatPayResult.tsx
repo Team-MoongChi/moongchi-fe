@@ -11,12 +11,12 @@ export default function ChatPayResult() {
 
   const imp_uid = query.get("imp_uid");
   const [loading, setLoading] = useState(true);
-  const [message, setMessage] = useState("");
 
   useEffect(() => {
     if (!imp_uid) {
-      setMessage("결제 정보가 없습니다.");
+      alert("결제 정보가 없습니다.");
       setLoading(false);
+      navigate("/");
       return;
     }
     const verifyPayment = async () => {
@@ -31,14 +31,13 @@ export default function ChatPayResult() {
         );
 
         if (response.ok) {
-          setMessage("결제 성공!");
           alert("결제성공");
           navigate(`/chat/${chatRoomId}/pay`);
         } else {
-          setMessage("결제 검증 실패");
+          alert("결제 검증 실패");
         }
       } catch (e) {
-        setMessage("서버 오류로 결제를 검증하지 못했습니다.");
+        alert("서버 오류로 결제를 검증하지 못했습니다.");
       } finally {
         setLoading(false);
       }
@@ -52,5 +51,4 @@ export default function ChatPayResult() {
   }, [imp_uid]);
 
   if (loading) return <div>결제 검증 중...</div>;
-  return <div>{message}</div>;
 }
