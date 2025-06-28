@@ -31,10 +31,11 @@ export default function ChatPayResult() {
         );
 
         if (response.ok) {
-          alert("결제성공");
+          alert("결제 성공!");
           navigate(`/chat/${chatRoomId}/pay`);
         } else {
-          alert("결제 검증 실패");
+          alert("결제 검증 실패. 다시 시도해주세요.");
+          navigate(`/chat/${chatRoomId}/pay`);
         }
       } catch (e) {
         alert("서버 오류로 결제를 검증하지 못했습니다.");
