@@ -62,6 +62,7 @@ export default function SpeechBubble(props: SpeechBubbleProps) {
         height="40px"
         $isMe={props.isMe}
         $isVisible={props.displayProfile}
+        $borderradious="50%"
       />
       <NameAndBubble $isMe={props.isMe}>
         <Name
