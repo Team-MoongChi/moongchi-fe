@@ -195,7 +195,7 @@ export default function ChatPayPage() {
         buyer_tel: user?.phone, //구매자 전화번호
         buyer_addr: user?.address, //구매자 주소
         buyer_postcode: "00000",
-        m_redirect_url: "https://moong-chi.com/chat/:chatRoomId/pay/result",
+        m_redirect_url: `https://moong-chi.com/chat/${chatRoomId}/pay/result`,
       },
       async (rsp: any) => {
         if (rsp.success) {
