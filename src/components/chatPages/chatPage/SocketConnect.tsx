@@ -19,18 +19,27 @@ export default function SocketConnect() {
   const [newMessages, setNewMessages] = useState<Message[]>([]);
   const [errorStatus, setErrorStatus] = useState<number>();
 
-  const fetchChatRoom = async () => {
+  const [isInitial, setIsInitial] = useState<boolean>(true);
+  const [hasMore, setHasMore] = useState<boolean>(true);
+  const [prevMessages, setPrevMessages] = useState<Message[]>([]);
+
+  const fetchChatRoom = async (value: string) => {
     const token = localStorage.getItem("accessToken");
     console.log(token);
     if (token) setToken(token);
 
     try {
-      const response = await fetchWithAuth(`/api/chat/rooms/${chatRoomId}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetchWithAuth(
+        value === ""
+          ? `/api/chat/rooms/${chatRoomId}`
+          : `/api/chat/rooms/${chatRoomId}?before=${value}&size=10`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       if (!response.ok) {
         setErrorStatus(response.status);
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -38,17 +47,40 @@ export default function SocketConnect() {
 
       const data: ChatRoomItem = await response.json();
       console.log(data);
-      setChatRoom(data);
       setLoading(false);
+
+      if (data.messages.length < 10) {
+        setHasMore(false);
+      }
+      if (value === "") {
+        setPrevMessages(data.messages);
+        setChatRoom(data);
+        setIsInitial(false);
+      } else {
+        setPrevMessages((prev) => [...data.messages, ...prev]);
+      }
     } catch (error) {
       console.error("get failed: ", error);
       setLoading(false);
       throw error;
     }
   };
+
   useEffect(() => {
-    fetchChatRoom();
-  }, []);
+    if (isInitial) {
+      fetchChatRoom("");
+    }
+  }, [isInitial]);
+
+  useEffect(() => {
+    console.log("처음인지?", isInitial);
+  }, [isInitial]);
+  useEffect(() => {
+    console.log("더 있는지?", hasMore);
+  }, [hasMore]);
+  useEffect(() => {
+    console.log("받아온 메세지", prevMessages);
+  }, [prevMessages]);
 
   const myParticipant = useMemo(() => {
     return chatRoom?.participants.find((participant) => participant.me) || null;
@@ -289,10 +321,14 @@ export default function SocketConnect() {
         myParticipant: myParticipant,
         participantMap: participantMap,
         newMessages: newMessages,
+        prevMessages: prevMessages,
         stompClientRef: stompClientRef,
         connected: connected,
         loading: loading,
         errorStatus: errorStatus,
+        hasMore: hasMore,
+        isInitial: isInitial,
+        fetchChatRoom: fetchChatRoom,
       }}
     />
   );

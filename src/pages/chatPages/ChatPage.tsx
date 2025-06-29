@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useEffect, useState, useRef, useLayoutEffect } from "react";
 import { Outlet, useParams, useOutletContext } from "react-router-dom";
 import { Client } from "@stomp/stompjs";
 
@@ -17,6 +17,7 @@ import type {
 import type { Message } from "../../types/chatPages/message";
 import loadingM from "../../assets/images/moongchies/로딩중.gif";
 import EmptyPage from "../EmptyPage";
+import { useInView } from "react-intersection-observer";
 
 const Body = styled.div`
   width: 100%;
@@ -69,19 +70,54 @@ interface OutletContext {
   myParticipant: Participant;
   participantMap: Map<number, { nickname: string; profileUrl: string }>;
   newMessages: Message[];
+  prevMessages: Message[];
   stompClientRef: React.RefObject<Client | null>;
   connected: boolean;
   loading: boolean;
   errorStatus: number;
+  isInitial: boolean;
+  hasMore: boolean;
+  fetchChatRoom: (value: string) => void;
 }
 
 export default function ChatPage() {
   const { small } = useDeviceSize();
   const { chatRoomId } = useParams();
+  const [ref, inView] = useInView();
 
   const context = useOutletContext() as OutletContext;
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const endRef = useRef<HTMLDivElement>(null);
+  const [isMounted, setIsMounted] = useState<boolean>(false);
+
+  const bodyRef = useRef<HTMLDivElement>(null);
+  const prevScrollHeightRef = useRef<number>(0);
+
+  useEffect(() => {
+    if (inView && context.hasMore && isMounted) {
+      if (bodyRef.current) {
+        prevScrollHeightRef.current = bodyRef.current.scrollHeight;
+      }
+      const time = context.prevMessages[0].sendAt;
+      context.fetchChatRoom(time || "");
+    }
+  }, [inView, context.hasMore, isMounted]);
+
+  useLayoutEffect(() => {
+    if (bodyRef.current && prevScrollHeightRef.current > 0) {
+      bodyRef.current.scrollTop =
+        bodyRef.current.scrollHeight - prevScrollHeightRef.current;
+      prevScrollHeightRef.current = 0;
+    }
+  }, [context.prevMessages]);
+
+  useEffect(() => {
+    if (!context.loading && context.prevMessages.length > 0 && !isMounted) {
+      setIsMounted(true);
+    }
+  }, [context.loading, context.prevMessages]);
 
   if (context.errorStatus === 404)
     return <EmptyPage error="404 NOT FOUND!" item="채팅방을" />;
@@ -96,7 +132,7 @@ export default function ChatPage() {
 
   return (
     <Wrap $issmall={small} $height="100dvh">
-      {context.loading ? (
+      {context.loading && !isMounted ? (
         <Loading>
           <img src={loadingM} alt="" />
           <p>게시글을 불러오고 있어요 '◡'</p>
@@ -126,7 +162,8 @@ export default function ChatPage() {
             </PaddingWrap>
           </FixedWrap>
 
-          <Body onClick={modalHandle}>
+          <Body ref={bodyRef} onClick={modalHandle}>
+            <div ref={ref}></div>
             <Chatconnect
               chatRoomId={Number(chatRoomId)}
               chatRoomStatus={context.chatRoom.status}
@@ -134,9 +171,11 @@ export default function ChatPage() {
               tradeCompleted={context.myParticipant.tradeCompleted}
               address={context.chatRoom.location}
               role={context.myParticipant.role}
-              initialMessages={context.chatRoom.messages}
+              initialMessages={context.prevMessages}
               participantMap={context.participantMap}
               newMessages={context.newMessages}
+              isMounted={isMounted}
+              endRef={endRef}
             />
           </Body>
           <ChatInput
