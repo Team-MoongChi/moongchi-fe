@@ -9,7 +9,7 @@ const Wrapper = styled.div`
   align-items: center;
   gap: 15px;
   margin-top: 20px;
-  margin-bottom: 50px;
+  margin-bottom: 5%;
 `;
 
 interface User {
