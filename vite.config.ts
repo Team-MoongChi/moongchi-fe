@@ -14,7 +14,7 @@ export default defineConfig({
         secure: false,
       },
       "/api/ml": {
-        target: "https://tpho1z0cyzudy3-8080.proxy.runpod.net/api/v1",
+        target: "https://tpho1z0cyzudy3-8080.proxy.runpod.net/api/v2",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api\/ml/, ""),
         secure: false, // HTTPS 인증서 무시 (필요 시)
