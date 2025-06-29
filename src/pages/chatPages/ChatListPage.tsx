@@ -48,7 +48,6 @@ export default function ChatListPage() {
   const normalShutdown = location.state?.normalShutdown;
 
   const fetchChatList = async () => {
-    setLoading(true);
     try {
       const response = await fetchWithAuth("/api/chat/rooms", {
         method: "GET",
@@ -72,13 +71,15 @@ export default function ChatListPage() {
   };
 
   useEffect(() => {
-    fetchChatList();
-  }, []);
+    if (normalShutdown) {
+      fetchChatList();
+    }
+  }, [normalShutdown]);
 
   return (
     <PageWrap $issmall={small} $gap="15px">
       <Header />
-      {loading && !normalShutdown ? (
+      {loading ? (
         <Loading>
           <img src={loadingM} alt="" />
           <p>채팅들을 불러오고 있어요 '◡'</p>
