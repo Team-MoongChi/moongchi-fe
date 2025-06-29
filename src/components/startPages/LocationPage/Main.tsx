@@ -30,7 +30,7 @@ const MapWrapper = styled.div`
   align-items: center;
   gap: 15px;
   width: 100%;
-  height: 80%;
+  height: 100%;
 `;
 const Title = styled.p`
   font-size: 20px;

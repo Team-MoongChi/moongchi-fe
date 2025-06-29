@@ -9,8 +9,6 @@ const Box = styled.button`
   color: white;
   font-family: DunggeunmisoBold;
   font-size: 20px;
-  position: fixed;
-  bottom: 40px;
 
   &:disabled {
     background-color: #e8edff;

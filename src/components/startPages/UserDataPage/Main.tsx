@@ -8,8 +8,8 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 15px;
-  height: 65%;
   margin-top: 20px;
+  margin-bottom: 50px;
 `;
 
 interface User {
