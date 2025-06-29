@@ -9,18 +9,12 @@ import { useEffect, useState } from "react";
 const Wrapper = styled.div<{ $isSmall: boolean }>`
   background-color: white;
   width: ${(props) => (props.$isSmall ? "100%" : "50%")};
-  height: auto;
-  min-height: 100vh;
+  height: 100dvh;
   margin: auto;
   position: relative;
   display: flex;
   align-items: center;
   flex-direction: column;
-  box-sizing: border-box;
-
-  @supports (-webkit-touch-callout: none) {
-    min-height: -webkit-fill-available;
-  }
 `;
 
 interface User {
