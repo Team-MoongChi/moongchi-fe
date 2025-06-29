@@ -46,7 +46,6 @@ const Title = styled(Text)`
 
 interface MainProps {
   title: string | undefined;
-  normalShutdown: boolean;
   $fontSize?: string;
   participantMap: Map<number, { nickname: string; profileUrl: string }>;
   isOpen: boolean;
@@ -63,13 +62,7 @@ export default function ChatHeader(props: MainProps) {
         $marginRight="12px"
         src={back}
         width="16px"
-        onClick={() =>
-          navigate("/chat/list", {
-            state: {
-              normalShutdown: props.normalShutdown,
-            },
-          })
-        }
+        onClick={() => navigate("/chat/list")}
       />
       <Title
         fontSize={small ? "28px" : "3vmin"}
