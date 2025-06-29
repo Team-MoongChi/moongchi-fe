@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useEffect, useRef } from "react"; // useCallback 추가
+import { useEffect, useLayoutEffect, type RefObject } from "react"; // useCallback 추가
 import type { Message } from "../../../types/chatPages/message";
 
 import Recruiting from "./systemMsg/Recruiting";
@@ -32,6 +32,8 @@ interface ChatConnectProps {
   initialMessages: Message[];
   participantMap: Map<number, { nickname: string; profileUrl: string }>;
   newMessages: Message[];
+  endRef: RefObject<HTMLDivElement | null>;
+  isMounted: boolean;
 }
 
 export default function Chatconnect({
@@ -44,19 +46,28 @@ export default function Chatconnect({
   initialMessages,
   participantMap,
   newMessages,
+  endRef,
+  isMounted,
 }: ChatConnectProps) {
   const prevMessages = initialMessages;
-  const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    console.log("prevMessages:", prevMessages);
-  }, [prevMessages]);
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  const scrollToBottom = (behavior: "smooth" | "auto" = "smooth") => {
+    endRef.current?.scrollIntoView({ behavior });
   };
 
-  useEffect(scrollToBottom, [prevMessages, newMessages]);
+  // 최초 마운트 시 스크롤
+  useLayoutEffect(() => {
+    if (isMounted) {
+      scrollToBottom("auto");
+    }
+  }, [isMounted]);
+
+  // 새 메세지 수신 시 스크롤
+  useEffect(() => {
+    if (newMessages.length > 0) {
+      scrollToBottom("smooth");
+    }
+  }, [newMessages]);
 
   const system = (type: string, isLeader: boolean, sendAt: string) => {
     switch (type) {
@@ -142,7 +153,6 @@ export default function Chatconnect({
             }
           }
         }
-        console.log("displayTime", displayTime);
 
         // 프로필 & 닉네임
         let displayProfile = false;
@@ -153,7 +163,6 @@ export default function Chatconnect({
             displayProfile = true;
           }
         }
-        console.log("displayProfile", displayProfile);
 
         return isSystem ? (
           system(m.chatStatus, role === "LEADER", timeFormat(m.sendAt || ""))
@@ -204,7 +213,6 @@ export default function Chatconnect({
                 }
               }
             }
-            console.log("displayTime", displayTime);
 
             // 프로필 & 닉네임
             let displayProfile = false;
@@ -215,7 +223,6 @@ export default function Chatconnect({
                 displayProfile = true;
               }
             }
-            console.log("displayProfile", displayProfile);
 
             return isSystem ? (
               system(
@@ -243,7 +250,7 @@ export default function Chatconnect({
             );
           })
         : null}
-      <div ref={messagesEndRef} />
+      <div ref={endRef} />
     </>
   );
 }
