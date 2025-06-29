@@ -208,6 +208,8 @@ const Profile = () => {
         return "설명일치";
       case "믿을 수 있어요":
         return "신뢰해요";
+      case "가격∙수량이 동일해요":
+        return "물건확실";
       case "가격∙수량이 확실해요":
         return "물건확실";
       case "또 거래하고 싶어요":
