@@ -78,6 +78,7 @@ interface OutletContext {
   isInitial: boolean;
   hasMore: boolean;
   fetchChatRoom: (value: string) => void;
+  normalShutdown: boolean;
 }
 
 export default function ChatPage() {
@@ -143,7 +144,7 @@ export default function ChatPage() {
             <ChatHeader
               title={context.chatRoom.title}
               $fontSize={small ? "5.5vmin" : "3vmin"}
-              route="/chat/list"
+              normalShutdown={context.normalShutdown}
               participantMap={context.participantMap}
               isOpen={isOpen}
               setIsOpen={setIsOpen}

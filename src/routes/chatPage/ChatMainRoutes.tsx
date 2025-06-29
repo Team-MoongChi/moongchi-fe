@@ -15,11 +15,7 @@ export default function ChatMainRoutes() {
       <Route path="/chat/:chatRoomId" element={<SocketConnect />}>
         <Route index element={<ChatPage />}></Route>
         <Route path="pay" element={<ChatPayPage />}></Route>
-        <Route
-          // path="/chat/:chatRoomId/pay/result"
-          path="pay/result"
-          element={<ChatPayResult />}
-        ></Route>
+        <Route path="pay/result" element={<ChatPayResult />}></Route>
         <Route path="review" element={<AllReviewPage />}></Route>
         <Route
           path="review/:targetParticipantId"
