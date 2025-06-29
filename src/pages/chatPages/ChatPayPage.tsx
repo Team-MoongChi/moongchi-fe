@@ -241,10 +241,7 @@ export default function ChatPayPage() {
 
     if (errorStatus === 404) {
       return <EmptyPage error="404 NOT FOUND!" item="결제 페이지를" />;
-    } else if (
-      join() &&
-      (chatRoom?.status === "모집중" || chatRoom?.status === "마감임박")
-    )
+    } else if (join() && chatRoom?.status === "모집중")
       return <EmptyPage error="아직 모집 중입니다." item="결제 페이지를" />;
     else if (!join()) {
       return <EmptyPage error="잘못된 접근입니다." item="결제 페이지를" />;
