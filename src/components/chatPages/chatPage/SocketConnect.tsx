@@ -104,6 +104,7 @@ export default function SocketConnect() {
   }, [chatRoom]);
 
   const [connected, setConnected] = useState<boolean>(false);
+  const [normalShutdown, setNormalShutdown] = useState<boolean>(false);
 
   const stompClientRef = useRef<Client | null>(null);
   const subscriptionRef = useRef<any>(null);
@@ -230,6 +231,9 @@ export default function SocketConnect() {
         onWebSocketClose: (event: CloseEvent) => {
           console.warn("⚡️ WebSocket 연결이 닫혔습니다: ", event);
           setConnected(false);
+          if (event.code === 1000) {
+            setNormalShutdown(true);
+          }
           // 정상 종료 (1000)가 아니면 재연결 시도
           if (event.code !== 1000 && shouldAttemptReconnect.current) {
             scheduleReconnect();
@@ -329,6 +333,7 @@ export default function SocketConnect() {
         hasMore: hasMore,
         isInitial: isInitial,
         fetchChatRoom: fetchChatRoom,
+        normalShutdown: normalShutdown,
       }}
     />
   );
