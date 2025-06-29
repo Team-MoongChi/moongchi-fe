@@ -8,7 +8,12 @@ import { fetchWithAuth } from "../../../utils/FetchWithAuth";
 import type { ChatRoomItem } from "../../../types/chatPages/chatRoomItem";
 import type { Message } from "../../../types/chatPages/message";
 
-export default function SocketConnect() {
+interface SocketConnectProps {
+  setNormalShutdown: (value: boolean) => void;
+  setIsBack: (value: boolean) => void;
+}
+
+export default function SocketConnect(props: SocketConnectProps) {
   const { chatRoomId } = useParams();
   const [chatRoom, setChatRoom] = useState<ChatRoomItem>();
   const [loading, setLoading] = useState<boolean>(true);
@@ -104,7 +109,6 @@ export default function SocketConnect() {
   }, [chatRoom]);
 
   const [connected, setConnected] = useState<boolean>(false);
-  const [normalShutdown, setNormalShutdown] = useState<boolean>(false);
 
   const stompClientRef = useRef<Client | null>(null);
   const subscriptionRef = useRef<any>(null);
@@ -232,7 +236,8 @@ export default function SocketConnect() {
           console.warn("⚡️ WebSocket 연결이 닫혔습니다: ", event);
           setConnected(false);
           if (event.code === 1000) {
-            setNormalShutdown(true);
+            props.setNormalShutdown(true);
+            props.setIsBack(true);
           }
           // 정상 종료 (1000)가 아니면 재연결 시도
           if (event.code !== 1000 && shouldAttemptReconnect.current) {
@@ -333,7 +338,6 @@ export default function SocketConnect() {
         hasMore: hasMore,
         isInitial: isInitial,
         fetchChatRoom: fetchChatRoom,
-        normalShutdown: normalShutdown,
       }}
     />
   );

@@ -144,7 +144,6 @@ export default function ChatPage() {
             <ChatHeader
               title={context.chatRoom.title}
               $fontSize={small ? "5.5vmin" : "3vmin"}
-              normalShutdown={context.normalShutdown}
               participantMap={context.participantMap}
               isOpen={isOpen}
               setIsOpen={setIsOpen}
