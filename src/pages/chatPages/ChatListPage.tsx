@@ -9,7 +9,6 @@ import { Wrap } from "../../components/common/styled-component/Wrap";
 import { fetchWithAuth } from "../../utils/FetchWithAuth";
 import type { ChatRoomList } from "../../types/chatPages/chatRoomList";
 import loadingM from "../../assets/images/moongchies/로딩중.gif";
-import { useLocation } from "react-router-dom";
 
 const PageWrap = styled(Wrap)`
   height: 100dvh;
@@ -38,14 +37,16 @@ const Loading = styled.div`
   }
 `;
 
-export default function ChatListPage() {
+interface ChatListProps {
+  normalShutdown: boolean;
+  isBack: boolean;
+}
+
+export default function ChatListPage(props: ChatListProps) {
   const { small } = useDeviceSize();
 
   const [chatList, setChatList] = useState<ChatRoomList[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-
-  const location = useLocation();
-  const normalShutdown = location.state?.normalShutdown;
 
   const fetchChatList = async () => {
     try {
@@ -71,10 +72,14 @@ export default function ChatListPage() {
   };
 
   useEffect(() => {
-    if (normalShutdown) {
+    if (!props.isBack) {
       fetchChatList();
+    } else {
+      if (props.normalShutdown) {
+        fetchChatList();
+      }
     }
-  }, [normalShutdown]);
+  }, [props.isBack, props.normalShutdown]);
 
   return (
     <PageWrap $issmall={small} $gap="15px">
