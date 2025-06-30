@@ -164,7 +164,6 @@ export default function GongguSearchBar() {
               height="clamp(25px, 2vw, 30px)"
             ></Img>
             <HeaderSearch
-              placeholder={keyword ? keyword : undefined}
               onChange={(e) => setSearchKeyword(e.target.value)}
             ></HeaderSearch>
           </SearchWrap>
