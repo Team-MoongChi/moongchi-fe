@@ -123,10 +123,8 @@ export default function SocketConnect(props: SocketConnectProps) {
   const shouldAttemptReconnect = useRef(true); // 재연결 시도 여부 플래그
 
   const connectSocket = useCallback(() => {
-    if (!chatRoomId || !myParticipant?.participantId || !token) {
-      console.warn(
-        "STOMP 연결 시도 스킵: chatRoomId, participantId 또는 토큰 누락"
-      );
+    if (!chatRoomId || !token) {
+      console.warn("STOMP 연결 시도 스킵: chatRoomId 또는 토큰 누락");
       return;
     }
 
