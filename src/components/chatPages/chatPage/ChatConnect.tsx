@@ -30,7 +30,6 @@ interface ChatConnectProps {
   address: string;
   role: "LEADER" | "MEMBER";
   initialMessages: Message[];
-  participantMap: Map<number, { nickname: string; profileUrl: string }>;
   newMessages: Message[];
   endRef: RefObject<HTMLDivElement | null>;
   isMounted: boolean;
@@ -44,7 +43,6 @@ export default function Chatconnect({
   address,
   role,
   initialMessages,
-  participantMap,
   newMessages,
   endRef,
   isMounted,
@@ -132,14 +130,14 @@ export default function Chatconnect({
         const isMe = m.participantId === participantId;
         const isSystem = m.messageType === "SYSTEM";
         const isEnter = m.messageType === "ENTER";
-        const fallbackInfo = participantMap.get(m.participantId!) || {
-          nickname: "알 수 없음",
-          profileUrl: "/images/default-profile.png",
-        };
-        console.log("이전메세지 사용자 정보", fallbackInfo);
+        console.log(
+          "이전메세지 사용자 정보",
+          m.senderNickname,
+          m.senderProfileUrl
+        );
 
-        const profileUrl = m.senderProfileUrl || fallbackInfo.profileUrl;
-        const nickname = m.senderNickname || fallbackInfo.nickname;
+        const profileUrl = m.senderProfileUrl || "";
+        const nickname = m.senderNickname || "알 수 없음";
 
         // 시간
         let displayTime = true;
@@ -191,14 +189,14 @@ export default function Chatconnect({
             const isMe = m.participantId === participantId;
             const isSystem = m.messageType === "SYSTEM";
             const isEnter = m.messageType === "ENTER";
-            const fallbackInfo = participantMap.get(m.participantId!) || {
-              nickname: "알 수 없음",
-              profileUrl: "/images/default-profile.png",
-            };
-            console.log("새메세지 사용자 정보", fallbackInfo);
+            console.log(
+              "새 메세지 사용자 정보",
+              m.senderNickname,
+              m.senderProfileUrl
+            );
 
-            const profileUrl = m.senderProfileUrl || fallbackInfo.profileUrl;
-            const nickname = m.senderNickname || fallbackInfo.nickname;
+            const profileUrl = m.senderProfileUrl || "";
+            const nickname = m.senderNickname || "알 수 없음";
 
             // 시간
             let displayTime = true;

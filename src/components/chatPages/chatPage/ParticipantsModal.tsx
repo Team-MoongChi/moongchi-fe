@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 import { Img } from "../../common/styled-component/Img";
 import { Text } from "../../common/styled-component/Text";
+import type { Message } from "../../../types/chatPages/message";
 
 const Modal = styled.div<{ isOpen: boolean }>`
   position: absolute;
@@ -43,7 +44,7 @@ const Participants = styled.div`
 
 interface ModalProps {
   isOpen: boolean;
-  participantsMap: Map<number, { nickname: string; profileUrl: string }>;
+  messages: Message[];
 }
 
 export default function ParticipantsModal(props: ModalProps) {
@@ -52,21 +53,18 @@ export default function ParticipantsModal(props: ModalProps) {
       <Title fontSize="22px" fontFamily="DunggeunmisoBold" color="#5849d0">
         참여 인원
       </Title>
-      {Array.from(props.participantsMap).map(([idx, participant]) => {
-        return (
-          <Participants>
-            <Img
-              key={idx}
-              src={participant.profileUrl}
-              width="40px"
-              height="40px"
-              $border="1px solid #5849d0"
-              $borderradious="50%"
-            ></Img>
-            <Text fontSize="20px">{participant.nickname}</Text>
-          </Participants>
-        );
-      })}
+      {props.messages.map((message, idx) => (
+        <Participants key={idx}>
+          <Img
+            src={message.senderProfileUrl || ""}
+            width="40px"
+            height="40px"
+            $border="1px solid #5849d0"
+            $borderradious="50%"
+          ></Img>
+          <Text fontSize="20px">{message.senderNickname}</Text>
+        </Participants>
+      ))}
     </Modal>
   );
 }

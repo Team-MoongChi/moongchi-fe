@@ -7,6 +7,7 @@ import { Text } from "../../common/styled-component/Text";
 import ParticipantsModal from "./ParticipantsModal";
 import back from "../../../assets/images/common/뒤로가기.png";
 import participants from "../../../assets/images/gonggu/participants.png";
+import type { Message } from "../../../types/chatPages/message";
 
 const Wrapper = styled.div`
   display: flex;
@@ -47,7 +48,7 @@ const Title = styled(Text)`
 interface MainProps {
   title: string | undefined;
   $fontSize?: string;
-  participantMap: Map<number, { nickname: string; profileUrl: string }>;
+  newMessages: Message[];
   isOpen: boolean;
   setIsOpen: (value: boolean) => void;
 }
@@ -79,7 +80,7 @@ export default function ChatHeader(props: MainProps) {
       />
       <ParticipantsModal
         isOpen={props.isOpen}
-        participantsMap={props.participantMap}
+        messages={props.newMessages}
       ></ParticipantsModal>
     </Wrapper>
   );

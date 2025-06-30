@@ -144,7 +144,7 @@ export default function ChatPage() {
             <ChatHeader
               title={context.chatRoom.title}
               $fontSize={small ? "5.5vmin" : "3vmin"}
-              participantMap={context.participantMap}
+              newMessages={context.newMessages}
               isOpen={isOpen}
               setIsOpen={setIsOpen}
             />
@@ -172,7 +172,6 @@ export default function ChatPage() {
               address={context.chatRoom.location}
               role={context.myParticipant.role}
               initialMessages={context.prevMessages}
-              participantMap={context.participantMap}
               newMessages={context.newMessages}
               isMounted={isMounted}
               endRef={endRef}
