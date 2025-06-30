@@ -19,13 +19,9 @@ const TypingMarkdown = ({ text, speed, goToBottom }: Props) => {
         const currentChar = text[i]; // i번째 문자를 먼저 저장
         setDisplayed((prev) => prev + currentChar);
         i += 1;
-
-        // goToBottom도 여기서
-        if (i === text.length) {
-          goToBottom();
-        }
       } else {
         clearInterval(interval);
+        goToBottom();
       }
     }, speed);
 
