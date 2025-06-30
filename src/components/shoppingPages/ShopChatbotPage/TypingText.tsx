@@ -21,7 +21,7 @@ const TypingMarkdown = ({ text, speed, goToBottom }: Props) => {
         i += 1;
 
         // goToBottom도 여기서
-        if (i % 5 === 0 || i === text.length) {
+        if (i === text.length) {
           goToBottom();
         }
       } else {
