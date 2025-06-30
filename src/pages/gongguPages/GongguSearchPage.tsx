@@ -25,32 +25,31 @@ export default function GongguSearchPage() {
 
   const [searchParams] = useSearchParams();
   const keyword = searchParams.get("keyword");
-  console.log(keyword);
 
   useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-    console.log(token);
-
-    fetchWithAuth(`/api/group-boards/search?keyword=${keyword}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("서버 응답 실패");
-        }
-        return response.json();
+    if (keyword) {
+      fetchWithAuth(`/api/group-boards/search?keyword=${keyword}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
       })
-      .then((result) => {
-        console.log("result:", result);
-        setResult(result);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("get failed:", error);
-      });
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("서버 응답 실패");
+          }
+          return response.json();
+        })
+        .then((result) => {
+          setResult(result);
+        })
+        .catch((error) => {
+          console.error("get failed:", error);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
   }, [keyword]);
 
   if (loading) return <Loading />;
