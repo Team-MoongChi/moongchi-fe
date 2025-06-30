@@ -18,7 +18,9 @@ export default function SocketConnect(props: SocketConnectProps) {
   const [chatRoom, setChatRoom] = useState<ChatRoomItem>();
   const [loading, setLoading] = useState<boolean>(true);
   const [token, setToken] = useState<string>("");
-
+  const [participantMap, setParticipantMap] = useState(
+    new Map<number, { nickname: string; profileUrl: string }>()
+  );
   const [newMessages, setNewMessages] = useState<Message[]>([]);
   const [errorStatus, setErrorStatus] = useState<number>();
 
@@ -93,6 +95,19 @@ export default function SocketConnect(props: SocketConnectProps) {
     console.log(myParticipant);
   }, [myParticipant]);
 
+  useEffect(() => {
+    if (chatRoom?.participants) {
+      const newMap = new Map();
+      chatRoom.participants.forEach((p) => {
+        newMap.set(p.participantId, {
+          nickname: p.nickname,
+          profileUrl: p.profileUrl || "/images/default-profile.png",
+        });
+      });
+      setParticipantMap(newMap);
+    }
+  }, [chatRoom]);
+
   const [connected, setConnected] = useState<boolean>(false);
 
   const stompClientRef = useRef<Client | null>(null);
@@ -108,12 +123,12 @@ export default function SocketConnect(props: SocketConnectProps) {
   const shouldAttemptReconnect = useRef(true); // 재연결 시도 여부 플래그
 
   const connectSocket = useCallback(() => {
-    if (!chatRoomId || !token) {
+    if (!chatRoomId || !myParticipant?.participantId || !token) {
       console.warn("STOMP 연결 시도 스킵: chatRoomId 또는 토큰 누락");
       return;
     }
 
-    console.log("STOMP 연결 시도 시작:", { chatRoomId, token });
+    console.log("STOMP 연결 시도 시작:", { chatRoomId, myParticipant, token });
 
     // 이미 연결 중이거나 연결 시도 중인 클라이언트가 있다면 정리
     // (activate() 호출 후 즉시 connected 상태가 되지 않을 수 있으므로, ref로 관리)
@@ -160,8 +175,32 @@ export default function SocketConnect(props: SocketConnectProps) {
             (msg: Frame) => {
               try {
                 const newMsg: Message = JSON.parse(msg.body);
+                if (
+                  newMsg.messageType === "ENTER" &&
+                  newMsg.participantId &&
+                  setParticipantMap
+                ) {
+                  setParticipantMap((prev) => {
+                    const updated = new Map(prev);
+                    updated.set(newMsg.participantId!, {
+                      nickname: newMsg.senderNickname || "알 수 없음",
+                      profileUrl:
+                        newMsg.senderProfileUrl ||
+                        "/images/default-profile.png",
+                    });
+                    return updated;
+                  });
+                }
 
                 setNewMessages((prev) => {
+                  if (
+                    newMsg.messageType === "ENTER" ||
+                    newMsg.messageType === "SYSTEM"
+                  )
+                    return [...prev, newMsg];
+                  if (!newMsg.id || prev.some((m) => m.id === newMsg.id)) {
+                    return prev; // 중복 메시지 방지
+                  }
                   return [...prev, newMsg];
                 });
               } catch (parseError) {
@@ -223,7 +262,7 @@ export default function SocketConnect(props: SocketConnectProps) {
         scheduleReconnect();
       }
     }
-  }, [chatRoomId, token]); // useCallback 의존성
+  }, [chatRoomId, myParticipant?.participantId, token]); // useCallback 의존성
 
   // 재연결 시도를 스케줄링하는 함수
   const scheduleReconnect = useCallback(() => {
@@ -287,6 +326,7 @@ export default function SocketConnect(props: SocketConnectProps) {
       context={{
         chatRoom: chatRoom,
         myParticipant: myParticipant,
+        participantMap: participantMap,
         newMessages: newMessages,
         prevMessages: prevMessages,
         stompClientRef: stompClientRef,
