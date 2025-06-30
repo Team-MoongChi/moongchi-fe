@@ -192,7 +192,7 @@ const Nav = ({
     <Wrapper>
       <LikeButton onClick={() => (isLike ? handleUnlike() : handleLike())}>
         <HeartImg src={isLike ? heartOn : heartOff} alt="" />
-        <p style={{ fontFamily: "DunggeunmisoBold" }}>{likeCount}</p>
+        <p style={{ fontFamily: "DunggeunmisoBold" }}>{likeC}</p>
       </LikeButton>
       <DetailButton href={link}>제품 상세</DetailButton>
       <CreateButton onClick={() => handleButton()}>
