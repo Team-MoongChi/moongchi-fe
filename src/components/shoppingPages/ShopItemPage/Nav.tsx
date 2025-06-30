@@ -135,7 +135,6 @@ const Nav = ({
         return response.json();
       })
       .then((result) => {
-        console.log(result);
         setIsLike(result.some((item: LikeItem) => item.id === itemId));
       })
       .catch((error) => {

@@ -238,7 +238,6 @@ const Main = ({ item }: MainProps) => {
       })
 
       .then((result) => {
-        console.log("공구리스트", result);
         setGonggus(result ?? []);
       })
       .catch((error) => {

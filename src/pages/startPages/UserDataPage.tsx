@@ -74,7 +74,6 @@ const UserDataPage = () => {
         return response.json();
       })
       .then((result) => {
-        console.log("POST 성공!");
         const accessToken = result.accessToken; // 토큰 꺼내기
 
         if (accessToken) {

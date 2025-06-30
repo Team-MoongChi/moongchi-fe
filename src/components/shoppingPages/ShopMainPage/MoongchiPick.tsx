@@ -152,8 +152,6 @@ const MoongchiPick = () => {
       });
   }, []);
 
-  console.log(recommendItems);
-
   useEffect(() => {
     fetchWithAuth("/api/products/main", {
       method: "GET",

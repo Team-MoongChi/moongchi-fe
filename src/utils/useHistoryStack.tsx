@@ -12,7 +12,6 @@ export function useHistoryStack() {
 
   const getStack = (): string[] => {
     const raw = sessionStorage.getItem(HISTORY_KEY);
-    // console.log("스택", raw);
     return raw ? JSON.parse(raw) : [];
   };
 

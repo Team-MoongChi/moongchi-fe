@@ -51,7 +51,6 @@ const ShopItemPage = () => {
     })
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
         setItem(result);
       })
       .catch((error) => {

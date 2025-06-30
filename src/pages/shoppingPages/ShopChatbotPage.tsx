@@ -88,7 +88,6 @@ const ShopChatbotPage = () => {
     })
       .then((res) => res.json())
       .then((result) => {
-        console.log(result);
         const products = result.recommended_products || []; // 혹시 없을 수도 있으니 기본값
 
         const imgUrls = products.map((item: Item) => item.img_url);
@@ -166,8 +165,6 @@ const ShopChatbotPage = () => {
         keywordInserted.current = false;
       });
   }, []);
-
-  console.log(chattings);
 
   return (
     <Wrapper $isSmall={small}>

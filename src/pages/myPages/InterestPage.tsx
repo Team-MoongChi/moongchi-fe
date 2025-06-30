@@ -173,7 +173,6 @@ const InterestPage = () => {
         return response.json();
       })
       .then((result) => {
-        console.log(result);
         if (state) {
           setGonggus(result);
         } else {
@@ -187,7 +186,6 @@ const InterestPage = () => {
 
   const ClickButton = (value: boolean) => {
     setState(value);
-    console.log(value);
   };
 
   const itemInfo = (itemId: number) => {
