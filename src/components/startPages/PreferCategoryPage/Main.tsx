@@ -10,7 +10,7 @@ const Wrapper = styled.div`
   justify-content: start;
   align-items: center;
   gap: 20px;
-  margin: 4% 0px 3.5% 0px;
+  margin: 4% 0px 3% 0px;
   height: 55.4%;
 `;
 const WrapperSub = styled.div`

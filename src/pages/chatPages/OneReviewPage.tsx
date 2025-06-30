@@ -13,7 +13,7 @@ const Body = styled.div`
   display: flex;
   flex-direction: column;
   gap: 30px;
-  height: 60dvh;
+  height: auto;
   padding: 20px 5%;
 `;
 const Highlight = styled.span`

@@ -46,7 +46,6 @@ const Title = styled(Text)`
 
 interface MainProps {
   title: string | undefined;
-  route: string | number;
   $fontSize?: string;
   participantMap: Map<number, { nickname: string; profileUrl: string }>;
   isOpen: boolean;

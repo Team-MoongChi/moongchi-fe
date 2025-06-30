@@ -195,6 +195,7 @@ export default function ChatPayPage() {
         buyer_tel: user?.phone, //구매자 전화번호
         buyer_addr: user?.address, //구매자 주소
         buyer_postcode: "00000",
+        m_redirect_url: `https://moong-chi.com/chat/${chatRoomId}/pay/result`,
       },
       async (rsp: any) => {
         if (rsp.success) {
@@ -212,7 +213,7 @@ export default function ChatPayPage() {
             );
 
             if (response.ok) {
-              // 예시: 결제 완료 페이지로 이동
+              alert("결제 성공!");
               window.location.href = `/chat/${chatRoomId}/pay`;
             } else {
               alert("결제 검증 실패");
@@ -240,10 +241,7 @@ export default function ChatPayPage() {
 
     if (errorStatus === 404) {
       return <EmptyPage error="404 NOT FOUND!" item="결제 페이지를" />;
-    } else if (
-      join() &&
-      (chatRoom?.status === "모집중" || chatRoom?.status === "마감임박")
-    )
+    } else if (join() && chatRoom?.status === "모집중")
       return <EmptyPage error="아직 모집 중입니다." item="결제 페이지를" />;
     else if (!join()) {
       return <EmptyPage error="잘못된 접근입니다." item="결제 페이지를" />;

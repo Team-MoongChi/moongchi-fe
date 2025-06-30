@@ -16,6 +16,7 @@ const Wrapper = styled.div<{ $isSmall: boolean }>`
   display: flex;
   align-items: center;
   flex-direction: column;
+  padding-bottom: 20px;
 `;
 
 const LocationPage = () => {

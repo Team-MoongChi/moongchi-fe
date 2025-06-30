@@ -37,14 +37,18 @@ const Loading = styled.div`
   }
 `;
 
-export default function ChatListPage() {
+interface ChatListProps {
+  normalShutdown: boolean;
+  isBack: boolean;
+}
+
+export default function ChatListPage(props: ChatListProps) {
   const { small } = useDeviceSize();
 
   const [chatList, setChatList] = useState<ChatRoomList[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   const fetchChatList = async () => {
-    setLoading(true);
     try {
       const response = await fetchWithAuth("/api/chat/rooms", {
         method: "GET",
@@ -68,8 +72,14 @@ export default function ChatListPage() {
   };
 
   useEffect(() => {
-    fetchChatList();
-  }, []);
+    if (!props.isBack) {
+      fetchChatList();
+    } else {
+      if (props.normalShutdown) {
+        fetchChatList();
+      }
+    }
+  }, [props.isBack, props.normalShutdown]);
 
   return (
     <PageWrap $issmall={small} $gap="15px">
