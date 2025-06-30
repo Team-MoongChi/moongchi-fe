@@ -28,7 +28,7 @@ const SlideItem = styled.img`
   min-width: 100%;
   object-fit: cover;
 `;
-const Steps = styled.div`
+const Steps = styled.button`
   display: flex;
   justify-content: center;
   gap: 11px;
@@ -65,10 +65,10 @@ const SlideInfo = () => {
         ))}
       </Slide>
       <Steps>
-        <Step $num={0} $index={index} />
-        <Step $num={1} $index={index} />
-        <Step $num={2} $index={index} />
-        <Step $num={3} $index={index} />
+        <Step $num={0} $index={index} onClick={() => setIndex(0)} />
+        <Step $num={1} $index={index} onClick={() => setIndex(1)} />
+        <Step $num={2} $index={index} onClick={() => setIndex(2)} />
+        <Step $num={3} $index={index} onClick={() => setIndex(3)} />
       </Steps>
     </SliderWrapper>
   );
