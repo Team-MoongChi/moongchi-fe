@@ -89,7 +89,7 @@ const Nav = ({
 }: Props) => {
   const navigate = useNavigate();
   const [isLike, setIsLike] = useState<boolean>(false);
-  const [likeC, setLikeC] = useState<number | undefined>(likeCount);
+  const [likeC, setLikeC] = useState<number | undefined>(0);
 
   const handleButton = () => {
     let categoryId = 0;
@@ -117,6 +117,7 @@ const Nav = ({
 
   useEffect(() => {
     if (!itemId) return;
+    setLikeC(likeCount);
     const token = localStorage.getItem("accessToken"); // 또는 sessionStorage, context
 
     fetchWithAuth(`/api/products/like`, {
