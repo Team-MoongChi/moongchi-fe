@@ -107,9 +107,7 @@ export default function GongguSearchBar() {
     e.preventDefault();
     if (searchKeyword.trim() !== "") {
       push();
-      if (!isResult) {
-        navigate(`/gonggu/search?keyword=${encodeURIComponent(searchKeyword)}`);
-      }
+      navigate(`/gonggu/search?keyword=${encodeURIComponent(searchKeyword)}`);
     }
   };
 
