@@ -99,11 +99,17 @@ export default function GongguSearchBar() {
   const isResult: boolean = keyword !== null;
   const { push, pop } = useHistoryStack();
 
+  useEffect(() => {
+    setSearchKeyword(keyword || "");
+  }, [keyword]);
+
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (searchKeyword.trim() !== "") {
       push();
-      navigate(`/gonggu/search?keyword=${encodeURIComponent(searchKeyword)}`);
+      if (!isResult) {
+        navigate(`/gonggu/search?keyword=${encodeURIComponent(searchKeyword)}`);
+      }
     }
   };
 
@@ -164,6 +170,7 @@ export default function GongguSearchBar() {
               height="clamp(25px, 2vw, 30px)"
             ></Img>
             <HeaderSearch
+              value={searchKeyword}
               onChange={(e) => setSearchKeyword(e.target.value)}
             ></HeaderSearch>
           </SearchWrap>
@@ -179,6 +186,7 @@ export default function GongguSearchBar() {
             height="clamp(25px, 2vw, 30px)"
           ></Img>
           <HeaderSearch
+            placeholder="검색어를 입력해주세요."
             onChange={(e) => setSearchKeyword(e.target.value)}
           ></HeaderSearch>
         </SearchWrap>
