@@ -24,6 +24,19 @@ const Body = styled.div`
   margin-top: 20px;
   gap: 20px;
 `;
+const ListHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+const Title = styled(Text)`
+  align-self: end;
+`;
+const Button = styled.div<{ $isClicked: boolean }>`
+  background-color: ${(props) => (props.$isClicked ? "#5849d0" : "white")};
+  border: 1px solid #5849d0;
+  border-radius: 20px;
+  padding: 5px 10px;
+`;
 const GongguList = styled.div`
   display: flex;
   padding-bottom: 15vh;
@@ -71,6 +84,7 @@ export default function GongguMainPage() {
 
   const [menuClicked, setMenuClicked] = useState<number>(0);
   const [gongguList, setGongguList] = useState<GongguItem[]>([]);
+  const [isClicked, setIsClicked] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
 
   const fetchAllGongguItem = async () => {
@@ -145,6 +159,13 @@ export default function GongguMainPage() {
     }
   }, [menuClicked]);
 
+  const displayedList = isClicked
+    ? gongguList.filter(
+        (item) =>
+          item.boardStatus === "OPEN" || item.boardStatus === "CLOSING_SOON"
+      )
+    : gongguList;
+
   return (
     <Wrap $issmall={small}>
       <GongguSearchBar />
@@ -153,18 +174,33 @@ export default function GongguMainPage() {
         <GongguRecommend />
 
         <GongguList>
-          <Text fontSize="20px" fontFamily="DunggeunmisoBold" color="#5849d0">
-            근처에서 열린 공구
-          </Text>
+          <ListHeader>
+            <Title
+              fontSize="20px"
+              fontFamily="DunggeunmisoBold"
+              color="#5849d0"
+            >
+              근처에서 열린 공구
+            </Title>
+            <Button
+              $isClicked={isClicked}
+              onClick={() => setIsClicked((prev) => !prev)}
+            >
+              <Text fontSize="11px" color={isClicked ? "white" : "#5849d0"}>
+                모집중
+              </Text>
+            </Button>
+          </ListHeader>
+
           {loading ? (
             <LoadingWrapper>
               <img src={loadingM} alt="" />
               <p>공구들을 불러오고 있어요</p>
             </LoadingWrapper>
-          ) : gongguList.length === 0 ? (
+          ) : displayedList.length === 0 ? (
             <GongguEmpty height="50vh" />
           ) : (
-            gongguList.map((gongguItem, idx) => {
+            displayedList.map((gongguItem, idx) => {
               return (
                 <GongguListItem key={idx} {...gongguItem}></GongguListItem>
               );
