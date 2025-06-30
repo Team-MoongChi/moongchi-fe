@@ -89,7 +89,7 @@ const Nav = ({
 }: Props) => {
   const navigate = useNavigate();
   const [isLike, setIsLike] = useState<boolean>(false);
-  const [likeC, setLikeC] = useState<number | undefined>(likeCount);
+  const [likeC, setLikeC] = useState<number>(likeCount || 0);
 
   const handleButton = () => {
     let categoryId = 0;
@@ -158,7 +158,7 @@ const Nav = ({
           throw new Error(`서버 오류: ${response.status}`);
         }
         setIsLike(true);
-        if (likeC) setLikeC(likeC + 1);
+        setLikeC((prev) => prev + 1);
       })
       .catch((error) => {
         console.error("요청 실패:", error);
@@ -181,7 +181,7 @@ const Nav = ({
           throw new Error(`서버 오류: ${response.status}`);
         }
         setIsLike(false);
-        if (likeC) setLikeC(likeC - 1);
+        setLikeC((prev) => prev - 1);
       })
       .catch((error) => {
         console.error("요청 실패:", error);
