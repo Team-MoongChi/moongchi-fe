@@ -52,7 +52,6 @@ const LocationPage = () => {
       if (!response.ok) {
         throw new Error("서버 응답 실패");
       }
-      console.log("POST 성공!", response);
       navigate("/prefer");
     });
   };

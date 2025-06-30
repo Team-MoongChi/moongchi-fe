@@ -52,7 +52,6 @@ const ShopResultPage = () => {
         return response.json();
       })
       .then((result) => {
-        console.log("POST 성공:", result);
         setResult(result);
       })
       .catch((error) => {

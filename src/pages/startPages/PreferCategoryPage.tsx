@@ -40,7 +40,6 @@ const PreferCategoryPage = () => {
       if (!response.ok) {
         throw new Error("서버 응답 실패");
       }
-      console.log("선호 카테고리 입력 성공!");
       navigate("/");
     });
   };

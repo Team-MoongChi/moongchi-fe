@@ -108,7 +108,6 @@ const Header = () => {
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(aiState);
     if (keyword.trim() !== "") {
       if (aiState === 1) {
         navigate(`/shopping/chatbot?keyword=${encodeURIComponent(keyword)}`);

@@ -83,7 +83,6 @@ const MyGongguPage = () => {
         return response.json();
       })
       .then((result) => {
-        console.log(result);
         setGonggus(result);
       })
       .catch((error) => {

@@ -28,7 +28,6 @@ const LoginCallbackPage = () => {
 
         if (accessToken) {
           localStorage.setItem("accessToken", accessToken);
-          console.log(accessToken);
           navigate("/"); // 홈 또는 원하는 페이지로 이동
         }
       } catch (error) {

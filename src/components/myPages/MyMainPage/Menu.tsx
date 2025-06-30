@@ -46,7 +46,6 @@ const Menu = () => {
       if (!response.ok) {
         throw new Error("서버 응답 실패");
       }
-      console.log("로그아웃 성공!", response);
       alert("로그아웃 되었습니다.");
       localStorage.removeItem("accessToken");
       navigate("/start");
