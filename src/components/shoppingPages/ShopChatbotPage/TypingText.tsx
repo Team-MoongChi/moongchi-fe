@@ -37,7 +37,7 @@ const TypingMarkdown = ({ text, speed, goToBottom }: Props) => {
       style={{
         lineHeight: "1.5",
         textAlign: "start",
-        wordBreak: "keep-all",
+        wordBreak: "break-word",
         whiteSpace: "pre-wrap",
       }}
     >
