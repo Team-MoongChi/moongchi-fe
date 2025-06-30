@@ -156,12 +156,12 @@ export default function Chatconnect({
         }
 
         // 프로필 & 닉네임
-        let displayProfile = false;
+        let displayProfile = true;
         if (idx > 0) {
           const prevSender = prevMessages[idx - 1].participantId;
           const prevSendat = timeFormat(prevMessages[idx - 1].sendAt || "");
-          if (prevSender !== m.participantId || prevSendat !== curSendAt) {
-            displayProfile = true;
+          if (prevSender === m.participantId && prevSendat === curSendAt) {
+            displayProfile = false;
           }
         }
 
@@ -217,12 +217,12 @@ export default function Chatconnect({
             }
 
             // 프로필 & 닉네임
-            let displayProfile = false;
+            let displayProfile = true;
             if (idx > 0) {
               const prevSender = newMessages[idx - 1].participantId;
               const prevSendat = timeFormat(newMessages[idx - 1].sendAt || "");
-              if (prevSender !== m.participantId || prevSendat !== curSendAt) {
-                displayProfile = true;
+              if (prevSender === m.participantId && prevSendat === curSendAt) {
+                displayProfile = false;
               }
             }
 
