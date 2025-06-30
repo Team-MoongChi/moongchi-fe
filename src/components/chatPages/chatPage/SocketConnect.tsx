@@ -123,12 +123,13 @@ export default function SocketConnect(props: SocketConnectProps) {
   const shouldAttemptReconnect = useRef(true); // 재연결 시도 여부 플래그
 
   const connectSocket = useCallback(() => {
-    if (!chatRoomId || !token) {
+    const chatId = chatRoom?.id;
+    if (chatId || !token) {
       console.warn("STOMP 연결 시도 스킵: chatRoomId 또는 토큰 누락");
       return;
     }
 
-    console.log("STOMP 연결 시도 시작:", { chatRoomId, token });
+    console.log("STOMP 연결 시도 시작:", { chatId, token });
 
     // 이미 연결 중이거나 연결 시도 중인 클라이언트가 있다면 정리
     // (activate() 호출 후 즉시 connected 상태가 되지 않을 수 있으므로, ref로 관리)
@@ -262,7 +263,7 @@ export default function SocketConnect(props: SocketConnectProps) {
         scheduleReconnect();
       }
     }
-  }, [chatRoomId, token]); // useCallback 의존성
+  }, [chatRoom?.id, token]); // useCallback 의존성
 
   // 재연결 시도를 스케줄링하는 함수
   const scheduleReconnect = useCallback(() => {
@@ -313,7 +314,7 @@ export default function SocketConnect(props: SocketConnectProps) {
       subscriptionRef.current = null;
       setConnected(false);
     };
-  }, [chatRoomId, token, connectSocket, scheduleReconnect]); // connectSocket, scheduleReconnect도 의존성으로 추가
+  }, [chatRoom?.id, token, connectSocket, scheduleReconnect]); // connectSocket, scheduleReconnect도 의존성으로 추가
 
   return (
     <Outlet
