@@ -82,13 +82,17 @@ export default function GongguMapPage() {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data: GongguMapItem[] = await response.json();
+      const sorted = data.sort(
+        (a, b) =>
+          new Date(b.createAt).getTime() - new Date(a.createAt).getTime()
+      );
       const dataLocation: GongguLocation[] = data.map((item) => ({
         id: item.id,
         latitude: item.latitude,
         longitude: item.longitude,
         categoryId: item.largeCategoryId,
       }));
-      setMapList(data);
+      setMapList(sorted);
       setPositon(dataLocation);
       setLoading(false);
     } catch (error) {
@@ -118,13 +122,17 @@ export default function GongguMapPage() {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data: GongguMapItem[] = await response.json();
+      const sorted = data.sort(
+        (a, b) =>
+          new Date(b.createAt).getTime() - new Date(a.createAt).getTime()
+      );
       const dataLocation: GongguLocation[] = data.map((item) => ({
         id: item.id,
         latitude: item.latitude,
         longitude: item.longitude,
         categoryId: item.largeCategoryId,
       }));
-      setMapList(data);
+      setMapList(sorted);
       setPositon(dataLocation);
       setLoading(false);
     } catch (error) {
