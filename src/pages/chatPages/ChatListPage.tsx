@@ -37,13 +37,7 @@ const Loading = styled.div`
   }
 `;
 
-interface ChatListProps {
-  chatRoomId: number | null;
-  setChatRoomId: (value: number | null) => void;
-}
-
-export default function ChatListPage(props: ChatListProps) {
-  const { chatRoomId, setChatRoomId } = props;
+export default function ChatListPage() {
   const { small } = useDeviceSize();
 
   const [chatList, setChatList] = useState<ChatRoomList[]>([]);
@@ -72,30 +66,12 @@ export default function ChatListPage(props: ChatListProps) {
   };
 
   useEffect(() => {
-    fetchChatList();
+    const timer = setTimeout(() => {
+      fetchChatList();
+    }, 300);
+
+    return () => clearTimeout(timer);
   }, []);
-
-  useEffect(() => {
-    if (chatRoomId !== null && chatRoomId > 0) {
-      const timer = setTimeout(() => {
-        setChatList((prev) =>
-          prev.map((chat) =>
-            chat.id === chatRoomId ? { ...chat, unreadCount: 0 } : chat
-          )
-        );
-        setChatRoomId(null);
-      }, 0);
-
-      return () => clearTimeout(timer);
-    }
-  }, [chatRoomId, setChatRoomId]);
-
-  useEffect(() => {
-    console.log("chatRoomId", chatRoomId);
-  }, [chatRoomId]);
-  useEffect(() => {
-    console.log("chatRoomList", chatList);
-  }, [chatList]);
 
   return (
     <PageWrap $issmall={small} $gap="15px">

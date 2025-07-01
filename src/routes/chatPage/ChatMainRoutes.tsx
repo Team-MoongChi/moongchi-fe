@@ -7,23 +7,12 @@ import OneReviewPage from "../../pages/chatPages/OneReviewPage";
 import ChatPage from "../../pages/chatPages/ChatPage";
 import ChatPayResult from "../../pages/chatPages/ChatPayResult";
 import SocketConnect from "../../components/chatPages/chatPage/SocketConnect";
-import { useState } from "react";
 
 export default function ChatMainRoutes() {
-  const [chatRoomId, setChatRoomId] = useState<number | null>(0);
-
   return (
     <>
-      <Route
-        path="/chat/list"
-        element={
-          <ChatListPage chatRoomId={chatRoomId} setChatRoomId={setChatRoomId} />
-        }
-      ></Route>
-      <Route
-        path="/chat/:chatRoomId"
-        element={<SocketConnect setChatRoomId={setChatRoomId} />}
-      >
+      <Route path="/chat/list" element={<ChatListPage />}></Route>
+      <Route path="/chat/:chatRoomId" element={<SocketConnect />}>
         <Route index element={<ChatPage />}></Route>
         <Route path="pay" element={<ChatPayPage />}></Route>
         <Route path="pay/result" element={<ChatPayResult />}></Route>
