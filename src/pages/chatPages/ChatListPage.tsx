@@ -37,12 +37,7 @@ const Loading = styled.div`
   }
 `;
 
-interface ChatListProps {
-  normalShutdown: boolean;
-  isBack: boolean;
-}
-
-export default function ChatListPage(props: ChatListProps) {
+export default function ChatListPage() {
   const { small } = useDeviceSize();
 
   const [chatList, setChatList] = useState<ChatRoomList[]>([]);
@@ -71,14 +66,12 @@ export default function ChatListPage(props: ChatListProps) {
   };
 
   useEffect(() => {
-    if (!props.isBack) {
+    const timer = setTimeout(() => {
       fetchChatList();
-    } else {
-      if (props.normalShutdown) {
-        fetchChatList();
-      }
-    }
-  }, [props.isBack, props.normalShutdown]);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <PageWrap $issmall={small} $gap="15px">
