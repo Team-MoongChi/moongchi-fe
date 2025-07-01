@@ -77,12 +77,16 @@ export default function ChatListPage(props: ChatListProps) {
 
   useEffect(() => {
     if (chatRoomId !== null && chatRoomId > 0) {
-      setChatList((prev) =>
-        prev.map((chat) =>
-          chat.id === chatRoomId ? { ...chat, unreadCount: 0 } : chat
-        )
-      );
-      setChatRoomId(null);
+      const timer = setTimeout(() => {
+        setChatList((prev) =>
+          prev.map((chat) =>
+            chat.id === chatRoomId ? { ...chat, unreadCount: 0 } : chat
+          )
+        );
+        setChatRoomId(null);
+      }, 0);
+
+      return () => clearTimeout(timer);
     }
   }, [chatRoomId, setChatRoomId]);
 
