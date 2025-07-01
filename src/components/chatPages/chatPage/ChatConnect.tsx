@@ -136,7 +136,6 @@ export default function Chatconnect({
           nickname: "알 수 없음",
           profileUrl: "/images/default-profile.png",
         };
-        console.log("이전메세지 사용자 정보", fallbackInfo);
 
         const profileUrl = m.senderProfileUrl || fallbackInfo.profileUrl;
         const nickname = m.senderNickname || fallbackInfo.nickname;
@@ -195,7 +194,6 @@ export default function Chatconnect({
               nickname: "알 수 없음",
               profileUrl: "/images/default-profile.png",
             };
-            console.log("새메세지 사용자 정보", fallbackInfo);
 
             const profileUrl = m.senderProfileUrl || fallbackInfo.profileUrl;
             const nickname = m.senderNickname || fallbackInfo.nickname;

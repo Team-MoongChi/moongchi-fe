@@ -83,8 +83,6 @@ export default function GongguRecommend() {
 
   const fetchRecommend = async () => {
     setLoading(true);
-    const token = localStorage.getItem("accessToken");
-    console.log("token: ", token);
 
     try {
       const response = await fetchWithAuth("/api/group-boards/recommend", {
@@ -98,7 +96,6 @@ export default function GongguRecommend() {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data: RecommendItem[] = await response.json();
-      console.log(data);
       setRecommend(data);
       setLoading(false);
     } catch (error) {

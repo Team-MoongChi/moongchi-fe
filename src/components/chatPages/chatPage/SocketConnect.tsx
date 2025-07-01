@@ -30,7 +30,6 @@ export default function SocketConnect(props: SocketConnectProps) {
 
   const fetchChatRoom = async (value: string) => {
     const token = localStorage.getItem("accessToken");
-    console.log(token);
     if (token) setToken(token);
 
     try {
@@ -51,7 +50,6 @@ export default function SocketConnect(props: SocketConnectProps) {
       }
 
       const data: ChatRoomItem = await response.json();
-      console.log(data);
       setLoading(false);
 
       if (data.messages.length < 10) {
@@ -77,23 +75,9 @@ export default function SocketConnect(props: SocketConnectProps) {
     }
   }, [isInitial]);
 
-  useEffect(() => {
-    console.log("처음인지?", isInitial);
-  }, [isInitial]);
-  useEffect(() => {
-    console.log("더 있는지?", hasMore);
-  }, [hasMore]);
-  useEffect(() => {
-    console.log("받아온 메세지", prevMessages);
-  }, [prevMessages]);
-
   const myParticipant = useMemo(() => {
     return chatRoom?.participants.find((participant) => participant.me) || null;
   }, [chatRoom]);
-
-  useEffect(() => {
-    console.log(myParticipant);
-  }, [myParticipant]);
 
   useEffect(() => {
     if (chatRoom?.participants) {
@@ -124,18 +108,12 @@ export default function SocketConnect(props: SocketConnectProps) {
 
   const connectSocket = useCallback(() => {
     if (!chatRoomId || !myParticipant?.participantId || !token) {
-      console.warn("STOMP 연결 시도 스킵: chatRoomId 또는 토큰 누락");
       return;
     }
-
-    console.log("STOMP 연결 시도 시작:", { chatRoomId, myParticipant, token });
 
     // 이미 연결 중이거나 연결 시도 중인 클라이언트가 있다면 정리
     // (activate() 호출 후 즉시 connected 상태가 되지 않을 수 있으므로, ref로 관리)
     if (stompClientRef.current && stompClientRef.current.active) {
-      console.log(
-        "이미 STOMP 클라이언트가 활성 상태입니다. 재연결 시도하지 않습니다."
-      );
       return;
     }
     // 이전 클라이언트 인스턴스 정리
@@ -150,21 +128,16 @@ export default function SocketConnect(props: SocketConnectProps) {
           const socket = new SockJS(`https://api.moong-chi.com/ws/chat`, null, {
             transports: ["websocket", "xhr-streaming", "xhr-polling"],
           });
-          console.log("SockJS 인스턴스 생성:", `/ws/chat`);
           return socket;
         },
         connectHeaders: {
           Authorization: `Bearer ${token}`,
           chatRoomId: String(chatRoomId),
         } as StompHeaders,
-        debug: function (str: string) {
-          console.log(new Date(), str);
-        },
         heartbeatIncoming: 10000,
         heartbeatOutgoing: 10000,
 
-        onConnect: (frame: Frame) => {
-          console.log("✅ STOMP 연결 성공: " + frame);
+        onConnect: () => {
           setConnected(true);
           stompClientRef.current = client; // 연결 성공 시 ref에 저장
           reconnectAttemptsRef.current = 0; // 성공 시 시도 횟수 초기화
@@ -209,7 +182,6 @@ export default function SocketConnect(props: SocketConnectProps) {
             }
           );
           subscriptionRef.current = subscription;
-          console.log(`🔥 STOMP 구독 성공 (chatRoomId=${chatRoomId})`);
         },
         onStompError: (frame: Frame) => {
           console.error("❌ STOMP 에러 발생: ", frame);
@@ -242,8 +214,7 @@ export default function SocketConnect(props: SocketConnectProps) {
             scheduleReconnect();
           }
         },
-        onDisconnect: (frame: Frame) => {
-          console.log("🪽 STOMP DISCONNECT 프레임 수신됨: ", frame);
+        onDisconnect: () => {
           setConnected(false);
           // onDisconnect는 명시적인 연결 해제 또는 서버 측에서 연결 끊김 시 발생
           // 여기서도 재연결을 시도할지 결정 (예: 사용자 요청에 의한 disconnect는 재연결 안 함)
@@ -272,11 +243,6 @@ export default function SocketConnect(props: SocketConnectProps) {
       }
       reconnectTimeoutRef.current = setTimeout(() => {
         reconnectAttemptsRef.current++;
-        console.log(
-          `재연결 시도 #${reconnectAttemptsRef.current}... 다음 시도 ${
-            reconnectInterval.current / 1000
-          }초 후`
-        );
         connectSocket(); // 재귀적으로 연결 시도
         // 지수 백오프: 다음 재연결 간격 늘리기
         reconnectInterval.current = Math.min(
@@ -299,7 +265,6 @@ export default function SocketConnect(props: SocketConnectProps) {
     connectSocket();
 
     return () => {
-      console.log("Cleanup function running. Disconnecting STOMP client.");
       shouldAttemptReconnect.current = false; // 컴포넌트 언마운트 시 재연결 중지 플래그
       if (reconnectTimeoutRef.current) {
         clearTimeout(reconnectTimeoutRef.current); // 보류 중인 재연결 타이머 취소
@@ -307,7 +272,6 @@ export default function SocketConnect(props: SocketConnectProps) {
       if (stompClientRef.current) {
         // 1000은 정상 종료 코드. 서버는 이 코드를 받으면 다시 연결 시도하지 않음.
         stompClientRef.current.deactivate();
-        console.log("STOMP client deactivated.");
       }
       stompClientRef.current = null;
       subscriptionRef.current = null;

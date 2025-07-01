@@ -86,9 +86,6 @@ export default function MapItemModal(props: ModalProps) {
   }, [map]);
 
   useEffect(() => {
-    console.log("마커 선택 변경: ", props.markerClicked);
-    console.log("카테고리 선택 변경: ", props.menuClicked);
-
     // 모달창 내려가있을 때
     if (!isOpen) {
       if (!isCategory && props.markerClicked === -1) {
@@ -101,20 +98,6 @@ export default function MapItemModal(props: ModalProps) {
       setTimeout(() => setIsOpen(true), 500);
     }
   }, [props.markerClicked, props.menuClicked]);
-
-  // test
-  useEffect(() => {
-    console.log("마커 선택 변경: ", props.markerClicked);
-  }, [props.markerClicked]);
-  useEffect(() => {
-    console.log("카테고리 선택 변경: ", props.menuClicked);
-  }, [props.menuClicked]);
-  useEffect(() => {
-    console.log("모달 isOpen: ", isOpen);
-  }, [isOpen]);
-  useEffect(() => {
-    console.log("카테고리 모달인가요?", isCategory);
-  });
 
   // 카테고리와 마커 간의 이동은 잘 됨
   // 카테고리-카테고리 & 마커-마커 간의 이동 시 데이터 업데이트..? 500초씩 늦게 하는 거 필요

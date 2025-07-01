@@ -89,8 +89,6 @@ export default function GongguMainPage() {
 
   const fetchAllGongguItem = async () => {
     setLoading(true);
-    const token = localStorage.getItem("accessToken");
-    console.log("token: ", token);
 
     try {
       const response = await fetchWithAuth("/api/group-boards", {
@@ -108,7 +106,6 @@ export default function GongguMainPage() {
         (a, b) =>
           new Date(b.createAt).getTime() - new Date(a.createAt).getTime()
       );
-      console.log(sorted);
       setGongguList(sorted);
       setLoading(false);
     } catch (error) {
@@ -120,8 +117,6 @@ export default function GongguMainPage() {
 
   const fetchCategory = async () => {
     setLoading(true);
-    const token = localStorage.getItem("accessToken");
-    console.log("token: ", token);
 
     try {
       const response = await fetchWithAuth(
@@ -142,7 +137,6 @@ export default function GongguMainPage() {
         (a, b) =>
           new Date(b.createAt).getTime() - new Date(a.createAt).getTime()
       );
-      console.log(sorted);
       setGongguList(sorted);
       setLoading(false);
     } catch (error) {

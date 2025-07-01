@@ -58,7 +58,6 @@ export default function GongguMapPage() {
 
   // 사용자 주소 받아오기
   const userLocation = sessionStorage.getItem("GONGGU_MAP_STATE");
-  console.log(userLocation);
 
   const [loading, setLoading] = useState<boolean>(false);
   const [mapList, setMapList] = useState<GongguMapItem[]>([]);
@@ -67,8 +66,6 @@ export default function GongguMapPage() {
   // 전체 조회
   const fetchAllMapItem = async () => {
     setLoading(true);
-    const token = localStorage.getItem("accessToken");
-    console.log("token: ", token);
 
     try {
       const response = await fetchWithAuth("/api/group-boards", {
@@ -104,8 +101,6 @@ export default function GongguMapPage() {
   // 카테고리별 조회
   const fetchCategory = async () => {
     setLoading(true);
-    const token = localStorage.getItem("accessToken");
-    console.log("token: ", token);
 
     try {
       const response = await fetchWithAuth(
@@ -148,13 +143,6 @@ export default function GongguMapPage() {
       fetchCategory();
     }
   }, [menuClicked]);
-
-  useEffect(() => {
-    console.log("mapList", mapList);
-    console.log("position", position);
-  }, [mapList, position]);
-
-  // if (loading) return <div>loading...</div>;
 
   return (
     <Wrap $issmall={small}>

@@ -61,7 +61,6 @@ export default function ChatListPage(props: ChatListProps) {
       }
 
       const data: ChatRoomList[] = await response.json();
-      console.log(data);
       setChatList(data);
       setLoading(false);
     } catch (error) {

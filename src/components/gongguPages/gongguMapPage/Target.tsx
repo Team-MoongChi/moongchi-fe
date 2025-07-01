@@ -44,7 +44,6 @@ export default function Target(props: TargetProps) {
       })
     );
     setPoints(position);
-    console.log("points", points);
   }, [props.position]);
 
   const bounds = useMemo(() => {
@@ -76,9 +75,6 @@ export default function Target(props: TargetProps) {
   };
 
   useEffect(() => {
-    console.log("allCenter", allCenter);
-    console.log("curCenter", props.curCenter);
-
     if (allCenter !== undefined) {
       if (
         allCenter.lat === props.curCenter.lat &&
@@ -89,8 +85,6 @@ export default function Target(props: TargetProps) {
         setIsEqual(false);
       }
     }
-
-    console.log("isEqual", isEqual);
   }, [allCenter, props.curCenter]);
 
   useEffect(() => {

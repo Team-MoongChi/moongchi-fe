@@ -109,10 +109,6 @@ export default function GongguMap(props: GongguMapProps) {
     });
   };
 
-  useEffect(() => {
-    console.log("mapItem", mapItem);
-  }, [mapItem]);
-
   return (
     <Map
       center={center}

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Client } from "@stomp/stompjs";
 import type { Message } from "../../../../types/chatPages/message";
 import useDeviceSize from "../../../../hooks/useDeviceSize";
@@ -41,7 +41,6 @@ interface ChatSocketProps {
 
 export default function ChatInput({
   chatRoomId,
-  newMessages,
   connected,
   stompClientRef,
 }: ChatSocketProps) {
@@ -65,10 +64,6 @@ export default function ChatInput({
     });
     setInput("");
   };
-
-  useEffect(() => {
-    console.log("newMessage", newMessages);
-  }, [newMessages]);
 
   return (
     <InputWrap $isSmall={small}>

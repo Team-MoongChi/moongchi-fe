@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Img } from "../../common/styled-component/Img";
 import { Text } from "../../common/styled-component/Text";
 
-const Modal = styled.div<{ isOpen: boolean }>`
+const Modal = styled.div<{ $isOpen: boolean }>`
   position: absolute;
   top: 71px;
   right: 0;
@@ -29,8 +29,8 @@ const Modal = styled.div<{ isOpen: boolean }>`
   }
 
   transition: opacity 0.3s ease;
-  opacity: ${(props) => (props.isOpen ? 1 : 0)};
-  pointer-events: ${(props) => (props.isOpen ? "auto" : "none")};
+  opacity: ${(props) => (props.$isOpen ? 1 : 0)};
+  pointer-events: ${(props) => (props.$isOpen ? "auto" : "none")};
 `;
 const Title = styled(Text)`
   align-self: center;
@@ -48,15 +48,14 @@ interface ModalProps {
 
 export default function ParticipantsModal(props: ModalProps) {
   return (
-    <Modal isOpen={props.isOpen}>
+    <Modal $isOpen={props.isOpen}>
       <Title fontSize="22px" fontFamily="DunggeunmisoBold" color="#5849d0">
         참여 인원
       </Title>
       {Array.from(props.participantsMap).map(([idx, participant]) => {
         return (
-          <Participants>
+          <Participants key={idx}>
             <Img
-              key={idx}
               src={participant.profileUrl}
               width="40px"
               height="40px"
