@@ -8,7 +8,11 @@ import { fetchWithAuth } from "../../../utils/FetchWithAuth";
 import type { ChatRoomItem } from "../../../types/chatPages/chatRoomItem";
 import type { Message } from "../../../types/chatPages/message";
 
-export default function SocketConnect() {
+interface SocketConnectProps {
+  setChatRoomId: (value: number | null) => void;
+}
+
+export default function SocketConnect(props: SocketConnectProps) {
   const { chatRoomId } = useParams();
   const [chatRoom, setChatRoom] = useState<ChatRoomItem>();
   const [loading, setLoading] = useState<boolean>(true);
@@ -200,6 +204,9 @@ export default function SocketConnect() {
         onWebSocketClose: (event: CloseEvent) => {
           console.warn("⚡️ WebSocket 연결이 닫혔습니다: ", event);
           setConnected(false);
+          if (event.code === 1000) {
+            props.setChatRoomId(Number(chatRoomId));
+          }
           // 정상 종료 (1000)가 아니면 재연결 시도
           if (event.code !== 1000 && shouldAttemptReconnect.current) {
             scheduleReconnect();
