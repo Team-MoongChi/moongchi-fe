@@ -1,6 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { fetchWithAuth } from "../../utils/FetchWithAuth";
+import Loading from "../../components/common/Loading";
 
 export default function ChatPayResult() {
   const navigate = useNavigate();
@@ -10,10 +11,12 @@ export default function ChatPayResult() {
   const query = new URLSearchParams(location.search);
 
   const imp_uid = query.get("imp_uid");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!imp_uid) {
       alert("결제 정보가 없습니다.");
+      setLoading(false);
       navigate("/");
       return;
     }
@@ -37,9 +40,13 @@ export default function ChatPayResult() {
         }
       } catch (e) {
         alert("서버 오류로 결제를 검증하지 못했습니다.");
+      } finally {
+        setLoading(false);
       }
     };
 
     verifyPayment();
   }, [imp_uid, chatRoomId]);
+
+  if (loading) return <Loading />;
 }
