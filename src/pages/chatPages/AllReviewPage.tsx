@@ -75,9 +75,6 @@ export default function AllReviewPage() {
   const [errorStatus, setErrorStatus] = useState<number>();
 
   const fetchUserInfo = async () => {
-    const token = localStorage.getItem("accessToken");
-    console.log(token);
-
     try {
       const response = await fetchWithAuth(`/api/chat/rooms/${chatRoomId}`, {
         method: "GET",
@@ -93,7 +90,6 @@ export default function AllReviewPage() {
       }
 
       const data: ChatRoomItem = await response.json();
-      console.log(data);
       setChatRoom(data);
       setLoading(false);
     } catch (error) {

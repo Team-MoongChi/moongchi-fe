@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 
 import { Img } from "../../common/styled-component/Img";
 import { Text } from "../../common/styled-component/Text";
@@ -73,7 +73,6 @@ export default function ImageUpload(props: UploadProps) {
       );
       const data = await response.json();
       imgUrlListRef.current.push(data.secure_url);
-      console.log("cloudinary 링크 배열: ", imgUrlListRef);
     }
   };
 
@@ -99,11 +98,6 @@ export default function ImageUpload(props: UploadProps) {
     await uploadCloudinary();
     props.urlPost([...(props.originUrlList ?? []), ...imgUrlListRef.current]);
   };
-
-  useEffect(() => {
-    console.log("imgList: ", imgList);
-    console.log("originList: ", props.originUrlList);
-  }, [imgList]);
 
   // 이미지 업로드 버튼 custom
   const imgInputRef = useRef<HTMLInputElement | null>(null);

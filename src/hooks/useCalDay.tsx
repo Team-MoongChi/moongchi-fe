@@ -16,7 +16,6 @@ export default function useCalDay(timestamp: string): string {
       targetDate.getMonth(),
       targetDate.getDate()
     );
-    console.log(today, target);
 
     const days = Math.floor((target - today) / (1000 * 60 * 60 * 24));
     if (days === 0) {

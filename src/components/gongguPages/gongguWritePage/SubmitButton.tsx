@@ -48,9 +48,6 @@ export default function SubmitButton(props: SubmitButtonProps) {
   const isEdit: boolean = gongguId !== undefined;
 
   const submitHandler = async () => {
-    const token = localStorage.getItem("access_token");
-    console.log(token);
-
     try {
       const response = await fetchWithAuth("/api/group-boards", {
         method: "POST",
@@ -60,8 +57,6 @@ export default function SubmitButton(props: SubmitButtonProps) {
         body: JSON.stringify(props.formData),
       });
       if (response.ok) {
-        alert("작성 완료!");
-        console.log(props.formData);
         navigate("/");
       }
     } catch (error) {
@@ -72,9 +67,6 @@ export default function SubmitButton(props: SubmitButtonProps) {
   };
 
   const editFetch = async () => {
-    const token = localStorage.getItem("access_token");
-    console.log(token);
-
     try {
       const response = await fetchWithAuth(`/api/group-boards/${gongguId}`, {
         method: "PUT",
@@ -84,7 +76,6 @@ export default function SubmitButton(props: SubmitButtonProps) {
         body: JSON.stringify(props.formData),
       });
       if (response.ok) {
-        alert("수정 완료!");
         navigate(`/gonggu/list/${gongguId}`);
       }
     } catch (error) {

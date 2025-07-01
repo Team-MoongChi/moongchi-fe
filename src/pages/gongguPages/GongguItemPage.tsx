@@ -54,10 +54,8 @@ export default function GongguItemPage() {
       }
 
       const data: GongguPost = await response.json();
-      console.log(data);
       setGongguItem(data);
       setLoading(false);
-      console.log("공구 아이템 상세 GET 요청");
     } catch (error) {
       console.error("공구 상세 get failed: ", error);
       setLoading(false);

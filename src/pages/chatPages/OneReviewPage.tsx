@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 
 import useDeviceSize from "../../hooks/useDeviceSize";
@@ -143,14 +143,7 @@ export default function OneReviewPage() {
     });
   };
 
-  useEffect(() => {
-    console.log("review 변경:", review);
-  }, [review]);
-
   const submitReview = async () => {
-    const token = localStorage.getItem("accessToken");
-    console.log(token);
-
     const response = await fetchWithAuth(
       `/api/chat/rooms/${chatRoomId}/reviews/${targetParticipantId}`,
       {
@@ -162,13 +155,9 @@ export default function OneReviewPage() {
       }
     );
     if (response.ok) {
-      alert("리뷰 작성 완료!");
-      console.log(review);
       navigate(`/chat/${chatRoomId}/review`);
     }
   };
-
-  console.log(isClicked);
 
   return (
     <Wrap $issmall={small} $height="100dvh" $gap="20px">

@@ -28,9 +28,6 @@ export default function PurchasedFollower(props: PurchasedFollowerProps) {
   const [completed, setCompleted] = useState<boolean>(false);
 
   const fetchTrade = async () => {
-    const token = localStorage.getItem("accessToken");
-    console.log(token);
-
     try {
       const response = await fetchWithAuth(
         `/api/chat/rooms/${props.chatRoomId}/trade-complete`,

@@ -128,14 +128,10 @@ export default function Footer(props: FooterProp) {
   const [isLike, setIsLike] = useState<boolean>(false);
 
   useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-    console.log(token);
-
     fetchWithAuth(`/api/group-boards/like`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
       },
     })
       .then((response) => {
@@ -153,9 +149,6 @@ export default function Footer(props: FooterProp) {
   }, [gongguId]);
 
   const likeAdd = async () => {
-    const token = localStorage.getItem("access_token");
-    console.log(token);
-
     try {
       const response = await fetchWithAuth(
         `/api/group-boards/${gongguId}/like`,
@@ -169,21 +162,17 @@ export default function Footer(props: FooterProp) {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       } else {
-        console.log("찜 성공");
         setIsLike(true);
         setClickCnt((prev) => prev + 1);
       }
     } catch (error) {
       console.log("post failed: ", error);
-      alert("찜 실패");
+      alert("찜 실패. 다시 시도해주세요.");
       throw error;
     }
   };
 
   const likeDelete = async () => {
-    const token = localStorage.getItem("access_token");
-    console.log(token);
-
     try {
       const response = await fetchWithAuth(
         `/api/group-boards/${gongguId}/like`,
@@ -197,21 +186,17 @@ export default function Footer(props: FooterProp) {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       } else {
-        console.log("찜 취소 완료");
         setIsLike(false);
         setClickCnt((prev) => prev - 1);
       }
     } catch (error) {
       console.log("delete failed: ", error);
-      alert("찜 취소 실패");
+      alert("찜 취소 실패. 다시 시도해주세요.");
       throw error;
     }
   };
 
   const gotoChat = async () => {
-    const token = localStorage.getItem("accessToken");
-    console.log(token);
-
     try {
       const response = await fetchWithAuth(
         `/api/group-boards/${gongguId}/join`,

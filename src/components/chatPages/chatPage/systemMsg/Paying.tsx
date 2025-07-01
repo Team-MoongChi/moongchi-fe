@@ -28,9 +28,6 @@ export default function Paying(props: PayingProps) {
   const [paid, setPaid] = useState<boolean>(false);
 
   const fetchPurchase = async () => {
-    const token = localStorage.getItem("accessToken");
-    console.log(token);
-
     try {
       const response = await fetchWithAuth(
         `/api/chat/rooms/${props.chatRoomId}/purchase-complete`,
@@ -56,7 +53,6 @@ export default function Paying(props: PayingProps) {
     if (props.chatRoomStatus === "구매완료") {
       setPaid(true);
     }
-    console.log("채팅방 상태", props.chatRoomStatus);
   }, [props.chatRoomStatus]);
 
   const paidAlert = () => {

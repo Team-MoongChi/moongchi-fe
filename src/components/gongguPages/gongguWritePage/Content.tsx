@@ -150,9 +150,6 @@ export default function Content() {
   // 수정 시 원래 데이터 가져오기
   useEffect(() => {
     if (isEdit) {
-      const token = localStorage.getItem("accessToken");
-      console.log(token);
-
       fetchWithAuth(`/api/group-boards/${gongguId}/edit`, {
         method: "GET",
         headers: {
@@ -176,9 +173,6 @@ export default function Content() {
 
   // 수정 및 작성 완료 버튼 disabled 조건 검사
   useEffect(() => {
-    console.log("formData 변경:", formData);
-    console.log("contentCnt 변경:", contentCnt);
-
     const initialFormData: FormData = {
       name: isShop ? name : "",
       totalUser: 0,

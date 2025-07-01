@@ -67,12 +67,9 @@ export default function Header(props: HeaderProps) {
     Kakao.cleanup();
     // 자신의 js 키를 넣어준다.
     Kakao.init(import.meta.env.VITE_KAKAOMAP_KEY);
-    // 잘 적용되면 true 를 뱉는다.
-    console.log(Kakao.isInitialized());
   }, []);
 
   const shareKakao = () => {
-    console.log(resultUrl);
     Kakao.Share.sendDefault({
       objectType: "feed",
       content: {
@@ -102,9 +99,6 @@ export default function Header(props: HeaderProps) {
   };
 
   const deleteFetch = async () => {
-    const token = localStorage.getItem("accessToken");
-    console.log(token);
-
     try {
       const response = await fetchWithAuth(`/api/group-boards/${gongguId}`, {
         method: "DELETE",
@@ -115,10 +109,9 @@ export default function Header(props: HeaderProps) {
       if (response.ok) {
         alert("글 삭제 성공!");
         navigate("/");
-        console.log("글 삭제 요청");
       }
     } catch (error) {
-      console.log("post failed: ", error);
+      console.log("delete failed: ", error);
       alert("글 삭제에 실패했습니다. 다시 시도해주세요.");
       throw error;
     }
