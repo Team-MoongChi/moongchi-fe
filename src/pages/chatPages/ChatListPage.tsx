@@ -68,7 +68,7 @@ export default function ChatListPage() {
   useEffect(() => {
     const timer = setTimeout(() => {
       fetchChatList();
-    }, 300);
+    }, 100);
 
     return () => clearTimeout(timer);
   }, []);
