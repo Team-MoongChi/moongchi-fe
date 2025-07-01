@@ -43,6 +43,7 @@ interface ChatListProps {
 }
 
 export default function ChatListPage(props: ChatListProps) {
+  const { chatRoomId, setChatRoomId } = props;
   const { small } = useDeviceSize();
 
   const [chatList, setChatList] = useState<ChatRoomList[]>([]);
@@ -61,18 +62,7 @@ export default function ChatListPage(props: ChatListProps) {
       }
 
       const data: ChatRoomList[] = await response.json();
-      if (props.chatRoomId !== null && props.chatRoomId > 0) {
-        const updateData = data.map((item) => {
-          if (item.id === props.chatRoomId && item.unreadCount !== 0) {
-            return { ...item, unreadCount: 0 };
-          }
-          return item;
-        });
-        setChatList(updateData);
-        props.setChatRoomId(null);
-      } else if (props.chatRoomId === 0) {
-        setChatList(data);
-      }
+      setChatList(data);
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -86,8 +76,19 @@ export default function ChatListPage(props: ChatListProps) {
   }, []);
 
   useEffect(() => {
-    console.log("chatRoomId", props.chatRoomId);
-  }, [props.chatRoomId]);
+    if (chatRoomId !== null && chatRoomId > 0) {
+      setChatList((prev) =>
+        prev.map((chat) =>
+          chat.id === chatRoomId ? { ...chat, unreadCount: 0 } : chat
+        )
+      );
+      setChatRoomId(null);
+    }
+  }, [chatRoomId, setChatRoomId]);
+
+  useEffect(() => {
+    console.log("chatRoomId", chatRoomId);
+  }, [chatRoomId]);
   useEffect(() => {
     console.log("chatRoomList", chatList);
   }, [chatList]);
