@@ -6,7 +6,7 @@
 ### 뭉치면 산다! 뭉치
 
 [<img src="https://img.shields.io/badge/-readme.md-important?style=flat&logo=google-chrome&logoColor=white" />]()
-<br/> [<img src="https://img.shields.io/badge/프로젝트 기간-2022.12.10~2022.12.19-fab2ac?style=flat&logo=&logoColor=white" />]()
+<br/> [<img src="https://img.shields.io/badge/프로젝트 기간-2025.06.16~2025.07.01-fab2ac?style=flat&logo=&logoColor=white" />]()
 
 </div> 
 
